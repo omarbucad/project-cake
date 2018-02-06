@@ -10,9 +10,9 @@ class MY_Controller extends CI_Controller {
 
 
        
-       $this->data['website_title'] = "Accounts Software";
-       $this->data['application_name'] = "Accounts Software";
-       $this->data['company_name'] = "Accounts Software Inc.";
+       $this->data['website_title'] = "Gravybaby";
+       $this->data['application_name'] = "Gravybaby";
+       $this->data['company_name'] = "Trackerteer Web Developer Inc.";
        $this->data['version'] = "1.0";
        $this->data['year'] = date("Y");
        $this->data['csrf_token_name'] = $this->security->get_csrf_token_name();
