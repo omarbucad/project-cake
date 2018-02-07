@@ -17,6 +17,15 @@ class MY_Controller extends CI_Controller {
        $this->data['year'] = date("Y");
        $this->data['csrf_token_name'] = $this->security->get_csrf_token_name();
        $this->data['csrf_hash'] = $this->security->get_csrf_hash();
+
+
+       if($this->uri->segment(1) == "app" AND !$this->session->userdata("user")){
+            redirect("/" , "refresh");
+       }else if($this->session->userdata("user")){
+
+            $this->data['session_data'] = $this->session->userdata("user");
+       }
+
        
 
        $config["per_page"] =  ($this->input->get("limit")) ? $this->input->get("limit") : 10;

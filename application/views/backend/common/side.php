@@ -12,11 +12,44 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="<?php echo site_url('app/welcome'); ?>">
-                        <span class="icon fa fa-home"></span><span class="title">Home</span>
+                    <a href="<?php echo site_url('app/dashboard'); ?>">
+                        <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
                     </a>
                 </li>
-
+                <li class="panel panel-default dropdown">
+                    <a data-toggle="collapse" href="#dropdown-element">
+                        <span class="icon fa fa-clipboard"></span><span class="title">Invoice</span>
+                    </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-element" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a href="<?php echo site_url('app/invoice/billing'); ?>">Billing Statement</a></li>
+                                <li><a href="<?php echo site_url('app/invoice/order'); ?>">Order List</a></li>                               
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+               <li>
+                    <a href="<?php echo site_url('app/products'); ?>">
+                        <span class="icon fa fa-tags"></span><span class="title">Products</span>
+                    </a>
+                </li>
+                <li class="panel panel-default dropdown">
+                    <a data-toggle="collapse" href="#dropdown-form">
+                        <span class="icon fa fa-users"></span><span class="title">Accounts</span>
+                    </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-form" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a href="<?php echo site_url('app/users'); ?>">Users</a></li>
+                                <li><a href="<?php echo site_url('app/users/customer'); ?>">Customers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            
             </ul>
         </div>
         <!-- /.navbar-collapse -->
