@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="col-xs-6 col-lg-8 no-margin-bottom">
                                         <a href="1"><?php echo $row->product_name; ?></a><br>
-                                        <small><strong> RM <?php echo $row->price; ?></strong> </small>
+                                        <small><strong><?php echo $row->price; ?></strong> </small>
                                     </div>
                                 </div>
                             </td>

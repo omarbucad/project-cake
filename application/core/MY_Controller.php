@@ -19,8 +19,10 @@ class MY_Controller extends CI_Controller {
        $this->data['csrf_hash'] = $this->security->get_csrf_hash();
 
 
-       if($this->uri->segment(1) == "app" AND !$this->session->userdata("user")){
-            redirect("/" , "refresh");
+       if(!$this->session->userdata("user")){
+            if($this->uri->segment(1) == "app" AND !$this->uri->segment(2) == "login"){
+                 redirect("/app/login" , "refresh");
+            }
        }else if($this->session->userdata("user")){
 
             $this->data['session_data'] = $this->session->userdata("user");

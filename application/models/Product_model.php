@@ -83,9 +83,10 @@ class Product_model extends CI_Model {
         $result = $this->db->order_by("product_position" , "ASC")->get("products p")->result();
 
         foreach($result as $key => $row){
-            $result[$key]->images = $this->db->where("product_id" , $row->product_id)->where("primary_image" , 1)->get("products_images")->row();
+            $result[$key]->images     = $this->db->where("product_id" , $row->product_id)->where("primary_image" , 1)->get("products_images")->row();
             $result[$key]->product_id = $this->hash->encrypt($row->product_id);
-            $result[$key]->price      = round($row->price , 2);
+            $result[$key]->price      = custom_money_format($row->price);
+            $result[$key]->status     = convert_status($row->status);
         }
 
         return $result;
