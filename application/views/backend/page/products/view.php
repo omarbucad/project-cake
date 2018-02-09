@@ -54,8 +54,9 @@
                         <th width="25%">Name</th>
                         <th width="40%">Description</th>
                         <th width="10%">Position</th>
+                        <th width="10%">Category</th>
                         <th width="10%">Status</th>
-                        <th width="15%"></th>
+                        <th width="5%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,6 +75,7 @@
                             </td>
                             <td ><span ><?php echo $row->product_description; ?></span></td>
                             <td ><span ><?php echo $row->product_position; ?></span></td>
+                            <td ><span ><?php echo $row->category_name; ?></span></td>
                             <td ><span ><?php echo $row->status; ?></span></td>
                             <td class="text-right"><span><a href="#">Edit</a></span></td>
                         </tr>
