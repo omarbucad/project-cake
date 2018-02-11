@@ -10,32 +10,30 @@
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img class="first-slide" src="http://via.placeholder.com/1400x500" alt="First slide">
+          <img class="first-slide" src="http://ninetydegrees.in/wp-content/uploads/2016/02/cake-wallpaper-background-1179-1257-hd-wallpapers.jpg" alt="First slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+              <h1>Welcome to Gravybaby Cake</h1>
+              <p>Pick a cake — any cake. You can't go wrong. Trust us; We've tried 'em all.</p>
+              <p><a class="btn btn-lg btn-primary" href="<?php echo site_url("welcome/?shop_list=all"); ?>" role="button">View Menu</a></p>
             </div>
           </div>
         </div>
         <div class="item">
-          <img class="second-slide" src="http://via.placeholder.com/1400x500" alt="Second slide">
+          <img class="second-slide" src="http://delayvkusno.ru/wp-content/uploads/2016/08/chocolate-tort-delayvkusno.jpg" alt="Second slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              <p>the cakes at Gravybaby are evanescent on the tongue and thick with decoration of remarkable artistry.</p>
+              <p><a class="btn btn-lg btn-primary" href="<?php echo site_url("welcome/?shop_list=all"); ?>" role="button">View Menu</a></p>
             </div>
           </div>
         </div>
         <div class="item">
-          <img class="third-slide" src="http://via.placeholder.com/1400x500" alt="Third slide">
+          <img class="third-slide" src="http://www.hdnicewallpapers.com/Walls/Big/Food%20and%20Drinks/Chocolate_Cake_Truffle_Over_White_Royalty_Wallpaper.jpg" alt="Third slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+              <p>Creating beautifully delicious cakes is what Gravybaby does best.</p>
+              <p><a class="btn btn-lg btn-primary" href="<?php echo site_url("welcome/?shop_list=all"); ?>" role="button">View Menu</a></p>
             </div>
           </div>
         </div>
@@ -60,22 +58,19 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
-          <img class="img-circle" src="http://via.placeholder.com/140x140" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <img class="img-circle" src="http://surprisian.com/vendor/images/live-delivery-banner.jpg" alt="Generic placeholder image" width="140" height="140">
+          <h2>Delivery</h2>
+          <p>We deliver throughout the tri-state area. (Free delivery to Manhattan for cake purchases over $750. Some restrictions apply.)</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <img class="img-circle" src="http://via.placeholder.com/140x140" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <img class="img-circle" src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/fancy_cake.png" alt="Generic placeholder image" width="140" height="140">
+          <h2>Tasting Kits</h2>
+          <p>Pressed for time? Order up a tasting kit and we'll deliver it right to your front door.</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <img class="img-circle" src="http://via.placeholder.com/140x140" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <img class="img-circle" src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/shopping_cart.png" alt="Generic placeholder image" width="140" height="140">
+          <h2>Ordering</h2>
+          <p>Breeze through our virtual guide to order the perfect cake in no time.</p>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 
@@ -86,11 +81,11 @@
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">THE PETITE TIERS COLLECTION </h2>
+          <p class="lead">Our Standard Cakes include any one of the following embellishments. Generally, the color scheme will be left to our baker's discretion, and, in most instances, will correspond with gender. You can also request a specific color scheme or a combination of more than one embellishment for a slight fee.</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" src="http://via.placeholder.com/500x500" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="http://www.lazeezpakwan.com/img/SubCatePics/Cake%20Collection.jpg" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -98,11 +93,11 @@
 
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">CAKE TASTING. </h2>
+          <p class="lead">We offer complimentary cake tastings and design consultations for all orders over $350 (by appointment only, please). Tastings for smaller orders can also be scheduled for a $50 fee. </p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block" src="http://via.placeholder.com/500x500" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="https://i.ytimg.com/vi/VZCIRyJA3mQ/maxresdefault.jpg" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -110,11 +105,11 @@
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">THE SIMPLICITY COLLECTION. </h2>
+          <p class="lead">Our Standard Cakes include any one of the following embellishments. Generally, the color scheme will be left to our baker's discretion, and, in most instances, will correspond with gender. You can also request a specific color scheme or a combination of more than one embellishment for a slight fee.</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" src="http://via.placeholder.com/500x500" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="http://www.mavi.com.hk/images/collection/cake-collection-main-ribbon.png" alt="Generic placeholder image">
         </div>
       </div>
 

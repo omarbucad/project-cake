@@ -52,7 +52,8 @@
                 <thead>
                     <tr>
                         <th width="25%">Name</th>
-                        <th width="40%">Description</th>
+                        <th width="20%">Short Description</th>
+                        <th width="20%">Description</th>
                         <th width="10%">Position</th>
                         <th width="10%">Category</th>
                         <th width="10%">Status</th>
@@ -73,6 +74,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <td ><span ><?php echo $row->short_description; ?></span></td>
                             <td ><span ><?php echo $row->product_description; ?></span></td>
                             <td ><span ><?php echo $row->product_position; ?></span></td>
                             <td ><span ><?php echo $row->category_name; ?></span></td>

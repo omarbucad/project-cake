@@ -23,17 +23,37 @@
 		</div>
 		<div class="col-lg-8">
 			<h2 class="page-header">MY ORDERS</h2>
-			<table class="table table-border">
-				<thead>
-					<tr>
-						<th>Order #</th>
-						<th>Items</th>
-						<th>Total Price</th>
-						<th>Date</th>
-						<th></th>
-					</tr>
-				</thead>
-			</table>
+
+			<?php if($order_list) : ?>
+				<table class="table table-border">
+					<thead>
+						<tr>
+							<th>Order #</th>
+							<th>Items</th>
+							<th>Total Price</th>
+							<th>Date</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($order_list as $row) : ?>
+							<tr>
+								<td><a href="<?php echo site_url("order/view/$row->order_number"); ?>"><?php echo $row->order_number; ?></a></td>
+								<td><?php echo $row->items; ?></td>
+								<td><?php echo $row->total_price; ?></td>
+								<td><?php echo $row->created; ?></td>
+								<td><?php echo $row->status; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php else : ?>
+				<div class="text-center">
+					<h4>There is no Order</h4>
+					<a href="<?php echo site_url("welcome/?shop_list=all"); ?>" class="btn btn-success">Continue Buying</a>
+				</div>
+			<?php endif; ?>
+			
 
 			
 		</div>

@@ -53,6 +53,58 @@ if( ! function_exists('convert_status')){
     }
 }
 
+if( ! function_exists('convert_customer_status')){
+    
+    function convert_customer_status($status) {
+        if($status){
+            if($status == 1){
+                return "<span class='label label-success'>Activated</span>";
+            }else if($status == 2){
+                return "<span class='label label-info'>Unactivated</span>";
+            }else{
+                return "<span class='label label-danger'>Inactive</span>";
+            }
+        }
+
+        return false;
+    }
+}
+
+if( ! function_exists('convert_order_status')){
+    
+    function convert_order_status($status) {
+        /*
+            0 - cancelled Order
+            1 - Placed an order
+            2 - Admin Confirm
+            3 - On Delivery
+            4 - Delivered
+        */
+
+
+         switch ($status) {
+            case 0:
+                return "<span class='label label-danger'>Cancelled</span>";
+                break;
+            case 1:
+                return "<span class='label label-success'>Processing</span>";
+                break;
+            case 2:
+                return "<span class='label label-success'>Confirmed Ordered</span>";
+                break;
+            case 3:
+                return "<span class='label label-success'>On Delivery</span>";
+                break;
+            case 4:
+                return "<span class='label label-success'>Delivered</span>";
+                break;
+            default:
+                return "<span class='label label-danger'>Cancelled</span>";
+                break;
+        }
+    }
+}
+
 if( ! function_exists('date_of_birth')){
     
     function date_of_birth($d , $m , $y) {
@@ -76,7 +128,7 @@ if ( ! function_exists('convert_timezone'))
 
         if($with_timezone){
             //$timezone = get_timezone();
-            $timezone = "Europe/London";
+            $timezone = "Asia/Kuala_Lumpur";
 
             if($with_hours){
                 $date_format = $custom_format_date_with_hour;
@@ -140,7 +192,7 @@ if ( ! function_exists('custom_money_format'))
             $money = "0.00";
         }
    
-        $formatted = "RM";
+        $formatted = "RM ";
 
         $formatted .= number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $money)), 2);
         return $money < 0 ? "({$formatted})" : "{$formatted}";

@@ -39,10 +39,22 @@ class Login extends MY_Controller {
 					"password"	=> $this->input->post("password")
 				])->get("customer")->row();
 
-
-				$this->session->set_userdata("customer" , $result);
 				
-				redirect("/welcome" , "refresh");
+
+				if($result){
+					if($result->status == 2){
+
+						redirect("/welcome?status=unactivate" , "refresh");
+						
+					}else{
+						$this->session->set_userdata("customer" , $result);
+					
+						redirect("/welcome" , "refresh");
+					}
+				}else{
+					redirect("/login/?error=wrong_password" , "refresh");
+				}
+				
 
 			}else if($this->input->get("action") == "register"){
 
@@ -93,7 +105,14 @@ class Login extends MY_Controller {
 
 		if($code){
 			$result = $this->db->where("activation_code" , $code)->get("customer")->row();
+
+			if($result->status == 2){
+				$this->db->where("customer_id" , $result->customer_id)->update("customer" , ["status" => 1]);
+				$result->status = 1;
+			}
+
 			$this->session->set_userdata("customer" , $result);
+
 			$this->data['result'] = $result;
 		}
 

@@ -28,6 +28,14 @@ class MY_Controller extends CI_Controller {
             $this->data['session_data'] = $this->session->userdata("user");
        }
 
+
+       if(!$this->session->userdata("cart")){
+            $this->session->set_userdata("cart" , [
+                "items" => 0 ,
+                "price" => 0 ,
+                "list"  => array()
+            ]);
+        }
        
 
        $config["per_page"] =  ($this->input->get("limit")) ? $this->input->get("limit") : 10;

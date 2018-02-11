@@ -16,7 +16,7 @@
         <div id="navbar" class="navbar-collapse collapse ">
           <ul class="nav navbar-nav navbar-left">
             <li class="dropdown">
-              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
+              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo site_url("welcome/?shop_list=all"); ?>">All</a></li>
                 <?php foreach($shop_list as $key => $row) : ?>
@@ -42,7 +42,7 @@
             <?php else : ?>
                 <li><a href="<?php echo site_url("login"); ?>">Login</a></li>
             <?php endif; ?>
-            <li><a href="<?php echo site_url("cart"); ?>">Cart / RM 0.00 <span class="badge">0</span></a></li>
+            <li><a href="<?php echo site_url("cart"); ?>">Cart / <?php echo custom_money_format($this->session->userdata("cart")["price"]); ?> <span class="badge"><?php echo $this->session->userdata("cart")["items"]; ?></span></a></li>
           </ul>
         </div>
       </div>

@@ -50,6 +50,21 @@
     <script type="text/javascript" src="<?php echo site_url('public/js/notify.min.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/js/jquery.multi-select.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/js/app.js?version='.$version) ?>"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCGmuzaf5Kk2a_-CZSGk7nQKpuZ5j5-d44",
+        authDomain: "project-cake-8735c.firebaseapp.com",
+        databaseURL: "https://project-cake-8735c.firebaseio.com",
+        projectId: "project-cake-8735c",
+        storageBucket: "project-cake-8735c.appspot.com",
+        messagingSenderId: "14154700266"
+      };
+      firebase.initializeApp(config);
+    </script>
+    
 </head>
 
 <body class="flat-green">

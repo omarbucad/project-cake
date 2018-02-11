@@ -12,6 +12,15 @@ class Order extends MY_Controller {
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
 		$this->data['main_page'] = "frontend/pages/order";
 		$this->data['shop_list'] = $this->product->get_category();
+		$this->data['order_list'] = $this->product->get_orders();
+		$this->load->view('frontend/master' , $this->data);
+	}
+
+	public function view($order_number){
+		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
+		$this->data['main_page'] = "frontend/pages/order_view";
+		$this->data['shop_list'] = $this->product->get_category();
+		$this->data['order_data'] = $this->product->get_order_by_id($order_number);
 		$this->load->view('frontend/master' , $this->data);
 	}
 }

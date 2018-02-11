@@ -67,4 +67,15 @@ class Users_model extends CI_Model {
             ]);
         }
     }
+
+    public function view_customer(){
+        $this->db->join("address a ", "a.address_id = c.physical_address_id");
+        $result = $this->db->get("customer c")->result();
+
+        foreach($result as $key => $row){
+            $result[$key]->status = convert_customer_status($row->status);
+        }
+
+        return $result;
+    }
 }

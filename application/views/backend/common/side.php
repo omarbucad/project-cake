@@ -24,7 +24,7 @@
                     <div id="dropdown-element" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a href="<?php echo site_url('app/invoice/billing'); ?>">Billing Statement</a></li>
+                                <li><a href="<?php echo site_url('app/invoice/'); ?>">Billing Statement</a></li>
                                 <li><a href="<?php echo site_url('app/invoice/order'); ?>">Order List</a></li>                               
                             </ul>
                         </div>

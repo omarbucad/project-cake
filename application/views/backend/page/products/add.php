@@ -91,6 +91,12 @@
 							    </div><!-- /input-group -->
 	    					</div>
 	    				</dd>
+	    				<dt>Short Description</dt>
+	    				<dd>
+	    					<div class="form-group">
+	    						<input type="text" name="short_description" class="form-control">
+	    					</div>
+	    				</dd>
 	    				<dt>Description</dt>
 	    				<dd>
 	    					<div class="form-group">

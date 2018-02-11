@@ -44,4 +44,11 @@ class Users extends MY_Controller {
 		}
 		
 	}
+
+	public function customer(){
+		$this->data['page_name'] = "Customer";
+		$this->data['main_page'] = "backend/page/users/customer";
+		$this->data['result']	 = $this->users->view_customer();
+		$this->load->view('backend/master' , $this->data);
+	}
 }

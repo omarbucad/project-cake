@@ -16,6 +16,9 @@ class Welcome extends MY_Controller {
 		if($this->input->get("shop_list")){
 			$this->data['main_page'] = "frontend/pages/shop";
 			$this->data['result']	 = $this->product->get_shop_list($this->input->get("shop_list"));
+		}else if($this->input->get("s")){
+			$this->data['main_page'] = "frontend/pages/shop";
+			$this->data['result']	 = $this->product->get_shop_list($this->input->get("s") , true);
 		}else{
 			$this->data['main_page'] = "frontend/pages/main";
 		}
