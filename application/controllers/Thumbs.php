@@ -23,6 +23,7 @@ class Thumbs extends CI_Controller {
             $config['new_image'] = 'public/upload/'.$type.'/'.$path.'/thumbnail/'.$width.'x'.$height.'_'.$img;
             $config['width'] = $width;
             $config['height'] = $height;
+
             
             $this->image_lib->clear(); 
             $this->image_lib->initialize($config);

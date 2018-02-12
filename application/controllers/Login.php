@@ -86,12 +86,13 @@ class Login extends MY_Controller {
 		        }else{
 
 		            $this->send_activation_email([
-		            	"email_address"		=> $this->input->post("email") ,
-		            	"activation_code"	=> $this->input->post("activation_code") ,
+		            	"email_address"		=> $this->input->post("username") ,
+		            	"activation_code"	=> $activation_code ,
 		            	"name"				=> $this->input->post("name") ,
 		            ]);
 
 		            redirect("/welcome?status=unactivate" , "refresh");
+		            //redirect("/login/code/".$activation_code);
 		        }
 			}
 
@@ -132,6 +133,7 @@ class Login extends MY_Controller {
 
 		$this->email->subject('Gravybaby Cake Ordering account activation');
 		$this->email->message($this->load->view('frontend/pages/email' , $data , TRUE));
+		$this->email->set_mailtype('html');
 
 		$this->email->send();
 	}
