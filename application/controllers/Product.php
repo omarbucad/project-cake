@@ -46,4 +46,31 @@ class Product extends MY_Controller {
 		}
 		
 	}
+
+	#add wish 
+	public function add_wish () {
+		$product_id = $this->input->post("product_id");
+		$data = $this->session->userdata("wish");
+
+		$data['items'] += 1;
+
+			$result = $this->product->get_product_by_id($product_id);
+
+			$data['price'] += $result->price_raw;
+
+			$data['list'][$product_id] = $result;
+
+			$this->session->set_userdata("wish" , $data);
+			
+			$data['price'] = custom_money_format($data['price']);
+
+			echo json_encode(["status" => true , "message" => "Successfully added to cart" , "data" => $data]);
+
+			$arr = array(
+				"product_id" => $product_id , 
+				"customer_id" => $this->session->userdata('customer')->customer_id
+			);
+
+			$this->db->insert('customer_wish_product' , $arr);
+	}
 }
