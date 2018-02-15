@@ -22,8 +22,8 @@ class Login extends CI_Controller {
 		$this->post = file_get_contents("php://input");
 	}
 	
-	public function login () {
-
+	public function index () {
+		
 		if($this->post) {
 			$result = $this->db->select("*")->from('users')->get()->result();
 
