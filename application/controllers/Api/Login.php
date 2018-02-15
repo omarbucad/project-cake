@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
 * 
 */
-class Login extends API_Controller {
+class Login extends CI_Controller {
 
 	private $post;
 
