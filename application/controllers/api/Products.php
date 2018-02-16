@@ -4,37 +4,81 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
 * 
 */
-class Products extends CI_Controller
-{
-	private $post;	
-	function __construct() {
+class Products extends CI_Controller{
+
+	public function __construct() {
 		parent::__construct();
+	}
+
+	#get all active category list
+	public function get_category(){
+		
+		$this->db->select(" (SELECT MIN(product_id) FROM products WHERE products.category_id = c.category_id ) as p_id , c.* ");
+		$result = $this->db->where("c.status" , 1)->where("c.deleted IS NULL")->get("category c")->result();
+
+		foreach($result as $key => $row){
+			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->p_id)->get("products_images")->row();
+
+			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/150/150/".$image->image_name);
+		}
+
+		if($result){
+			echo json_encode(["status" => true , "data" => $result]);
+		}else{
+			echo json_encode(["status" => false , "message" => "No Results..."]);
+		}
 	}
 	
 	#get all products
-	public function get_products () {
-		if($this->post) {
-			$result = $this->db->select("p.product_id ,p.product_name , pi.* ")->from("products p ")
-			->join("products_images pi " , "pi.product_id = p.product_id")
-			->where("pi.primary_image " , 1)->get()->result();
+	public function get_products($category_id) {
 
-			echo json_encode($result);
+		$category_id = $this->security->xss_clean($category_id);
+
+		$this->db->select("product_id , product_name , price , category_id , short_description");
+
+		if($category_id != "all" AND is_numeric($category_id)){
+			$this->db->where("category_id" , $category_id);
+		}
+
+		$result = $this->db->where("status" , 1)->order_by("product_position" , "ASC")->get("products p")->result();
+
+		foreach($result as $key => $row){
+			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
+
+			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/150/150/".$image->image_name);
+			$result[$key]->short_description = htmlentities($row->short_description);
+			$result[$key]->price = custom_money_format($row->price);
+		}
+
+		if($result){
+			echo json_encode(["status" => true , "data" => $result]);
+		}else{
+			echo json_encode(["status" => false , "message" => "No Results..."]);
 		}
 	}
 
 	#get product by id
-	public function get_product_id() {
-		$tmp = array();
-		if($this->post){
-			$result = $this->db->select("p.product_id ,p.product_name , pi.* ")->from("products p ")
-			->join("products_images pi " , "pi.product_id = p.product_id")
-			->where("p.product_id " , 5)->get()->result();
-			foreach ($result as $key => $value) {
-				$tmp[$value->product_id][] = $value;
-			}
-			echo json_encode($tmp);
-		}
+	public function get_product_by_id($product_id) {
+		
+		$product_id = $this->security->xss_clean($product_id);
 
+		$this->db->select("product_id , product_name , product_description , price");
+		$result = $this->db->where("product_id" , $product_id)->where("status" , 1)->get("products p")->row();
+
+		if($result){
+			$images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
+
+			foreach($images as $key => $row){
+				$result->images[] = site_url("thumbs/images/product/".$row->image_path."/150/150/".$row->image_name);
+			}
+
+			$result->product_description = urlencode($result->product_description);
+			$result->price = custom_money_format($result->price);
+
+			echo json_encode(["status" => true , "data" => $result]);
+		}else{
+			echo json_encode(["status" => false , "message" => "No Results..."]);
+		}
 	}
 
 }

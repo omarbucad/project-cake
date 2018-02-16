@@ -25,19 +25,29 @@ class Login extends CI_Controller {
 	public function index () {
 		
 		if($this->post) {
-			$result = $this->db->select("*")->from('users')->get()->result();
+			$username = $this->security->xss_clean( $this->post->username );
+			$password = $this->security->xss_clean( $this->post->password );
 
-			foreach ($result as $key => $value) {
-				$result[$key]->image = site_url("thumbs/images/user/".$value->image_path."/50/50/".$value->image_name);
+			$result = $this->db->where("email" , $this->post->username)->where("password" => $password)->get('customer')->row();
+
+			if($result){
+				echo json_encode(["status" => true , "message" => "Login Successfully"  , "data" => $result]);
+			}else{
+				echo json_encode(["status" => false , "message" => "Incorrect username / Password"]);
 			}
-			
-			echo json_encode($result);
-
+		}else{
+			echo json_encode(["status" => false , "message" => "Incorrect username / Password"]);
 		}
 	}
 
 
-
+	public function register(){
+		if($this->post){
+			//TODO: Customer Register Logic Here
+		}else{
+			echo json_encode(["status" => false , "message" => "Please Complete the form"]);
+		}
+	}
 }
 
 
