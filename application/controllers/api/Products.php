@@ -8,6 +8,12 @@ class Products extends CI_Controller{
 
 	public function __construct() {
 		parent::__construct();
+
+		if (isset($_SERVER['HTTP_ORIGIN'])) {
+            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Max-Age: 86400');    // cache for 1 day
+        }
 	}
 
 	#get all active category list
@@ -19,7 +25,7 @@ class Products extends CI_Controller{
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->p_id)->get("products_images")->row();
 
-			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/150/150/".$image->image_name);
+			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name);
 		}
 
 		if($result){
@@ -45,7 +51,7 @@ class Products extends CI_Controller{
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
 
-			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/150/150/".$image->image_name);
+			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name);
 			$result[$key]->short_description = htmlentities($row->short_description);
 			$result[$key]->price = custom_money_format($row->price);
 		}
@@ -69,7 +75,7 @@ class Products extends CI_Controller{
 			$images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
 
 			foreach($images as $key => $row){
-				$result->images[] = site_url("thumbs/images/product/".$row->image_path."/150/150/".$row->image_name);
+				$result->images[] = site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name);
 			}
 
 			$result->product_description = urlencode($result->product_description);
