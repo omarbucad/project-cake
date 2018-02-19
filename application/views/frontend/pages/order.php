@@ -16,8 +16,8 @@
 				  <a href="<?php echo site_url("profile"); ?>" class="list-group-item ">
 				    My Account
 				  </a>
-				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item disabled">My Order</a>
-				  <a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item">Wishlist</a>
+				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item active">My Order</a>
+				  <a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item ">Wishlist</a>
 				</div>
 			</section>
 		</div>
