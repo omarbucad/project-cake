@@ -51,8 +51,12 @@ class Products extends CI_Controller{
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
 
-			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name);
+			$result[$key]->image = array(
+				"thumbnail"	=> site_url("thumbs/images/product/".$image->image_path."/500/500/".$image->image_name) ,
+				"large_image" => site_url("thumbs/images/product/".$image->image_path."/700/700/".$image->image_name)
+			);
 			$result[$key]->short_description = htmlentities($row->short_description);
+			$result[$key]->price_raw = $row->price;
 			$result[$key]->price = custom_money_format($row->price);
 		}
 
@@ -75,10 +79,14 @@ class Products extends CI_Controller{
 			$images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
 
 			foreach($images as $key => $row){
-				$result->images[] = site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name);
+				$result->images[] = array(
+					"thumbnail" => site_url("thumbs/images/product/".$row->image_path."/350/350/".$row->image_name) ,
+					"large_image" =>site_url("thumbs/images/product/".$row->image_path."/550/550/".$row->image_name)
+				);
 			}
 
-			$result->product_description = urlencode($result->product_description);
+			$result->product_description = $result->product_description;
+			$result->price_raw = $result->price;
 			$result->price = custom_money_format($result->price);
 
 			echo json_encode(["status" => true , "data" => $result]);
