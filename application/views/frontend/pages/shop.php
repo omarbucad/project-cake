@@ -22,16 +22,32 @@
     });
     
   });
+
+  /*function for adding wish */
+  $(document).on('click' ,'.add-wish' , function () {
+    var product_id = $(this).data('id');
+    var url = "<?php echo site_url("product/add_wish"); ?>";
+
+    $.ajax({
+      url  : url ,
+      data : {product_id : product_id } ,
+      method : "POST" ,
+      success : function (response) {
+        var json = jQuery.parseJSON(response);
+        alert(json.message);
+      }
+    });
+  });
 </script>
 <style type="text/css">
   .cropper{
-      width: 250px;
-      height: 250px;
-      overflow: hidden;
-      position: relative;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
   }
   .cropper > img{
-      position: absolute;
+    position: absolute;
     left: -1000%;
     right: -1000%;
     top: -1000%;
@@ -66,11 +82,9 @@
 
     </div>
     <!-- /.col-lg-3 -->
-
     <div class="col-lg-9">
-
-
       <?php foreach($result as $key => $val) : ?>
+        
         <div class="row" style="margin-bottom: 20px;">
           <?php foreach($val as $row) : ?>
             <div class="col-lg-4 col-md-6 mb-4 ">
@@ -88,21 +102,25 @@
                   <p class="card-text"><?php echo $row->short_description; ?></p>
                 </div>
                 <div class="card-footer text-right">
-                  <a href="javascript:void(0);" class="btn btn-success btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
+                  <div style="display: flex;">
+                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-success btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
+                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-warning btn-xs add-wish" data-id="<?php echo $row->product_id; ?>"><i class="fa fa-star"></i > Add to Wish Lists</a>
+                  </div>
                 </div>
+
               </div>
             </div>
-          <?php endforeach; ?>
+          <?php endforeach; ?> 
         </div>
       <?php endforeach; ?>
 
-    </div>
+    </div> 
     <!-- /.col-lg-9 -->
 
   </div>
-  <!-- /.row -->
+  <!-- /.row -->  
 
-</div>
+</div>  
 
 
 <!-- Modal -->

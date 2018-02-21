@@ -34,7 +34,7 @@
                   <ul class="dropdown-menu">
                     <li><a href="<?php echo site_url("profile"); ?>">My Account</a></li>
                     <li><a href="<?php echo site_url("order/"); ?>">My Orders</a></li>
-                    <li><a href="<?php echo site_url("order/wishlist"); ?>">Wishlist</a></li>
+                    <li><a href="<?php echo site_url("order/wishlist"); ?>">My Wishlists</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?php echo site_url("login/logout"); ?>">Logout</a></li>
                   </ul>

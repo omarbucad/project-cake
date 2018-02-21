@@ -23,4 +23,18 @@ class Order extends MY_Controller {
 		$this->data['order_data'] = $this->product->get_order_by_id($order_number);
 		$this->load->view('frontend/master' , $this->data);
 	}
+
+	public function wishlist(){
+		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
+		$this->data['shop_list'] = $this->product->get_category();
+		$this->data['main_page'] = "frontend/pages/wishlist";
+		$this->data['wishlist'] = $this->product->get_wishlist();
+		$this->load->view('frontend/master' , $this->data);
+	}
+
+	public function remove_wish(){
+		if($this->input->post()){
+			$this->product->remove_wish($_POST['product_id']);
+		}
+	}
 }

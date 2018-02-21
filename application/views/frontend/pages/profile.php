@@ -19,7 +19,7 @@
 			</section>
 			<section>
 				<div class="list-group">
-				  <a href="javascript:void(0);" class="list-group-item disabled">
+				  <a href="javascript:void(0);" class="list-group-item active">
 				    My Account
 				  </a>
 				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item">My Order</a>
