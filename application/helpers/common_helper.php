@@ -72,7 +72,7 @@ if( ! function_exists('convert_customer_status')){
 
 if( ! function_exists('convert_order_status')){
     
-    function convert_order_status($status) {
+    function convert_order_status($status , $raw = false) {
         /*
             0 - cancelled Order
             1 - Placed an order
@@ -82,26 +82,49 @@ if( ! function_exists('convert_order_status')){
         */
 
 
-         switch ($status) {
-            case 0:
-                return "<span class='label label-danger'>Cancelled</span>";
-                break;
-            case 1:
-                return "<span class='label label-success'>Processing</span>";
-                break;
-            case 2:
-                return "<span class='label label-success'>Confirmed Ordered</span>";
-                break;
-            case 3:
-                return "<span class='label label-success'>On Delivery</span>";
-                break;
-            case 4:
-                return "<span class='label label-success'>Delivered</span>";
-                break;
-            default:
-                return "<span class='label label-danger'>Cancelled</span>";
-                break;
-        }
+         if($raw){
+            switch ($status) {
+                case 0:
+                    return "Cancelled";
+                    break;
+                case 1:
+                    return "Processing";
+                    break;
+                case 2:
+                    return "Confirmed Ordered";
+                    break;
+                case 3:
+                    return "On Delivery";
+                    break;
+                case 4:
+                    return "Delivered";
+                    break;
+                default:
+                    return "Cancelled";
+                    break;
+            }
+         }else{
+            switch ($status) {
+                case 0:
+                    return "<span class='label label-danger'>Cancelled</span>";
+                    break;
+                case 1:
+                    return "<span class='label label-success'>Processing</span>";
+                    break;
+                case 2:
+                    return "<span class='label label-success'>Confirmed Ordered</span>";
+                    break;
+                case 3:
+                    return "<span class='label label-success'>On Delivery</span>";
+                    break;
+                case 4:
+                    return "<span class='label label-success'>Delivered</span>";
+                    break;
+                default:
+                    return "<span class='label label-danger'>Cancelled</span>";
+                    break;
+            }
+         }
     }
 }
 

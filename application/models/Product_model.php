@@ -231,14 +231,14 @@ class Product_model extends CI_Model {
 
         foreach($result as $key => $row){
             $result[$key]->total_price = custom_money_format($row->total_price);
-            $result[$key]->created = convert_timezone($row->created , true);
-            $result[$key]->status = convert_order_status($row->status);
+            $result[$key]->created = convert_timezone($row->created );
+            $result[$key]->status = convert_order_status($row->status , true);
         }
 
         return $result;
     }
 
-    public function get_order_by_id($order_number){
+    public function get_order_by_id($order_number , $raw = false){
         $result = $this->db->where("order_number" , $order_number)->get("customer_order")->row();
 
         if($result){
@@ -255,7 +255,7 @@ class Product_model extends CI_Model {
             $result->created = convert_timezone($result->created , true);
             $result->total_price = custom_money_format($result->total_price );
             $result->status_raw = $result->status;
-            $result->status = convert_order_status($result->status);
+            $result->status = convert_order_status($result->status , $raw);
         }
 
         return $result;
