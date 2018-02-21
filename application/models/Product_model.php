@@ -83,6 +83,7 @@ class Product_model extends CI_Model {
 
     public function get_products(){
         $this->db->join("category c" ,"c.category_id = p.category_id");
+       
         $result = $this->db->order_by("product_position" , "ASC")->get("products p")->result();
 
         foreach($result as $key => $row){
@@ -98,7 +99,7 @@ class Product_model extends CI_Model {
 
     public function get_category(){
         $result = $this->db->order_by("category_name" , "ASC")->where("status" , 1)->get("category")->result();
-
+      
         foreach($result as $key => $row){
             $result[$key]->category_id = $this->hash->encrypt($row->category_id);
         }
@@ -110,7 +111,7 @@ class Product_model extends CI_Model {
 
         
         $this->db->join("category c" , "c.category_id = p.category_id");
-
+       
         if($search){
             if($category_id){
                 $this->db->like("p.product_name" , $category_id);
@@ -123,6 +124,7 @@ class Product_model extends CI_Model {
         }
 
         $result = $this->db->order_by("p.product_position" , "ASC")->get("products p")->result();
+       
         $tmp = array();
         $tmp2 = array();
         foreach($result as $key => $row){
@@ -144,7 +146,7 @@ class Product_model extends CI_Model {
         if(count($tmp) != 0){
             $tmp2[] = $tmp;
         }
-        
+
         return $tmp2;
     }
 
@@ -270,7 +272,14 @@ class Product_model extends CI_Model {
         ->where('w.customer_id' , $this->session->userdata("customer")->customer_id)
         ->group_by('product_id')
         ->get("customer_wish_product")->result();
-       
+        
         return $result;
+    }
+
+    public function remove_wish ($id) {
+
+        $this->db->where('product_id' , $id);
+        $this->db->delete('customer_wish_product'); 
+
     }
 }

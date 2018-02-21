@@ -34,7 +34,7 @@
       method : "POST" ,
       success : function (response) {
         var json = jQuery.parseJSON(response);
-            alert(json.message);
+        alert(json.message);
       }
     });
   });
@@ -82,11 +82,9 @@
 
     </div>
     <!-- /.col-lg-3 -->
-    <?php  print_r_die($this->session->userdata("wish")['list'][2])?>
     <div class="col-lg-9">
-
-
       <?php foreach($result as $key => $val) : ?>
+        
         <div class="row" style="margin-bottom: 20px;">
           <?php foreach($val as $row) : ?>
             <div class="col-lg-4 col-md-6 mb-4 ">
@@ -106,7 +104,7 @@
                 <div class="card-footer text-right">
                   <div style="display: flex;">
                     <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-success btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
-                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-warning btn-xs add-wish" data-id="<?php echo $row->product_id; ?>"><i class="fa fa-star"></i> <?php echo $this->session->userdata("wish")['list'][] ?> Add to Wish Lists</a>
+                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-warning btn-xs add-wish" data-id="<?php echo $row->product_id; ?>"><i class="fa fa-star"></i > Add to Wish Lists</a>
                   </div>
                 </div>
 

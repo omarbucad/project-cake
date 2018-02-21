@@ -18,7 +18,7 @@
 				    My Account
 				  </a>
 				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item disabled">My Order</a>
-				  <a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item">Wishlist</a>
+				  <a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item">My Wishlist</a>
 				</div>
 			</section>
 		</div>

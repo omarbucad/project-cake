@@ -1,3 +1,72 @@
+<script type="text/javascript">
+	$(document).on('click' , '.remove_wish' , function(){
+		var url = "<?php echo site_url("Order/remove_wish"); ?>";
+		var me = $(this);
+		swal({
+			title: "Are you sure?",
+			text: "You will remove this product to you wishlists",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Yes, delete it!",
+			confirmButtonColor: "#ff7f7f",
+			closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: {
+					product_id : me.data('product_id') 
+				},
+				dataType: "html",
+				success: function (response) {
+					swal("Done!", "It was succesfully deleted!", "success");
+					console.log(response);
+					me.closest('tr').remove();
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					swal("Error deleting!", "Please try again", "error");
+				}
+			});
+		});
+	});
+
+	$(document).on('click' , '.add_wish_to_cart' , function () {
+		var url = "<?php echo site_url("Order/add_wish_to_cart"); ?>";
+		var me = $(this);
+		swal({
+			title: "Are you sure?",
+			text: "You will add this product to your cart ",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Yes, delete it!",
+			confirmButtonColor: "#ff7f7f",
+			closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: {
+					product_id : me.data('product_id') 
+				},
+				dataType: "html",
+				success: function (response) {
+					swal("Done!", "It was succesfully deleted!", "success");
+					console.log(response);
+					me.closest('tr').remove();
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					swal("Error deleting!", "Please try again", "error");
+				}
+			});
+		});
+
+	});
+</script>
+
 <style type="text/css">
 	section{
 		margin-top: 20px;
@@ -16,22 +85,22 @@
 					<a href="<?php echo site_url("profile"); ?>" class="list-group-item ">
 						My Account
 					</a>
-					<a href="<?php echo site_url("order/"); ?>" class="list-group-item ">My Order</a>
-					<a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item active">Wishlist</a>
+					<a href="<?php echo site_url("order/"); ?>" class=list-group-item ">My Order</a>
+					<a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item active">My Wishlist</a>
 				</div>
 			</section>
 		</div>
 		
 		<div class="col-lg-8">
 			<h2 class="page-header">MY ORDERS</h2>
-					<?php if($wishlist) : ?>
-				<form action="<?php echo site_url("cart/checkout"); ?>" method="POST">
+			<?php if($wishlist) : ?>
+				<form action="#" method="POST">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th width="35%">Name</th>
-								<th width="30%">Price</th>
-								<th width="15%"></th>
+								<th width="20%">Price</th>
+								<th width="25%"></th>
 								
 							</tr>
 						</thead>
@@ -47,7 +116,7 @@
 											</a>
 										</div>
 										<div style="float:left;width: 75%;">
-											<span><?php echo $row->name; ?></span>
+											<span><?php echo $row->product_name; ?></span>
 										</div>
 									</td>
 									<td data-price="<?php echo $row->price; ?>">
@@ -55,16 +124,17 @@
 									</td>
 									
 									<td>
-										<a href="<?php echo site_url("cart/remove_items/$row->product_id"); ?>" class="btn btn-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+										<a href="javascript:void(0);" class="btn btn-link remove_wish" data-product_id="<?php echo $row->product_id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+
+										<a href="javascript:void(0);" class="btn btn-link add_wish_to_cart" data-product_id="<?php echo $row->product_id ?>"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Add to Cart</a>
+						
 									</td>
 								</tr>
 							<?php endforeach; ?>
 
 						</tbody>
 					</table>
-					<div class="text-right">
-						<input type="submit" class="btn btn-primary" value="Check Out">
-					</div>
+				
 				</form>
 			<?php else : ?>
 				<div class="text-center">
