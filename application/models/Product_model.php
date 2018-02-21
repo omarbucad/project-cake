@@ -81,9 +81,9 @@ class Product_model extends CI_Model {
 
     }
 
-    public function get_products(){
+    public function get_products($search = false){
         $this->db->join("category c" ,"c.category_id = p.category_id");
-       
+
         $result = $this->db->order_by("product_position" , "ASC")->get("products p")->result();
 
         foreach($result as $key => $row){
@@ -93,6 +93,7 @@ class Product_model extends CI_Model {
             $result[$key]->status     = convert_status($row->status);
             $result[$key]->product_description = strlen($row->product_description) > 100 ? substr($row->product_description,0,100)."..." : $row->product_description;
         }
+
 
         return $result;
     }
@@ -280,6 +281,38 @@ class Product_model extends CI_Model {
 
         $this->db->where('product_id' , $id);
         $this->db->delete('customer_wish_product'); 
+
+    }
+
+    public function view_productsbyid ($id) {
+        $result = $this->db->select("*")->from('products')->where('product_id' , $id)->get()->row();     
+        return $result;
+    }
+
+    public function update_product ($data) {
+        $this->db->trans_start();
+        $arr = array(
+            "product_name"      => $data['product_name'] ,
+            "price"     => $data['product_price'] ,
+            "product_position"  => $data['product_position'] ,
+            "category_id"          => $this->hash->decrypt($data['category']) ,
+            "short_description" => $data['short_description'] ,
+            "product_description" => $data['description']
+            );
+
+        $this->db->where("product_id" , $data['product_id']);
+        $this->db->update("products" , $arr);
+
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            $this->session->set_flashdata('message_name', 'This is my message');
+           redirect("app/products");
+
+        }
 
     }
 }

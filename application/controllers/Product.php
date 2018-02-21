@@ -13,9 +13,10 @@ class Product extends MY_Controller {
 		$product_id = $this->input->get("id");
 
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
-		$this->data['shop_list'] = $this->product->get_category();
-		$this->data['result'] = $this->product->get_product_by_id($product_id);
-		$this->data['main_page'] = "frontend/pages/single_product";
+		$this->data['shop_list']  = $this->product->get_category();
+		$this->data['result'] 	  = $this->product->get_product_by_id($product_id);
+		$this->data['main_page']  = "frontend/pages/single_product";
+
 		$this->load->view('frontend/master' , $this->data);
 
 	}

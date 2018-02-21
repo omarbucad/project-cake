@@ -6,15 +6,24 @@ class Products extends MY_Controller {
 	public function __construct() {
        parent::__construct();
 
+
        $this->load->model("Product_model" , "product");
+       
     }
 
 	public function index(){
-
+		#searching
+		$search = "";
+		if(isset( $_GET['product_name'] ) && !empty( $_GET['product_name']) ){
+			$search =  $this->db->where('product_name' , $_GET['product_name']); 
+		}
+		if(isset($_GET['category_id']) && !empty($_GET['category_id'] ) ){
+			$search =  $this->db->where('product_category' , $_GET['product_category']); 
+		}
 		$this->data['page_name'] = "Products";
 		$this->data['main_page'] = "backend/page/products/view";
-		$this->data['result']	 = $this->product->get_products();
-
+		$this->data['result']	 = $this->product->get_products($search);
+		$this->data['category_list'] = $this->product->get_category();
 		$this->load->view('backend/master' , $this->data);
 	}
 
@@ -59,6 +68,21 @@ class Products extends MY_Controller {
 			$id = $this->db->insert_id();
 
 			echo json_encode(['id' => $this->hash->encrypt($id) , "name" => $this->input->post("product_category")]);
+		}
+	}
+
+	public function view_productsbyid ($id) {
+		$product_id = $this->hash->decrypt($id);
+		$this->data['main_page'] = "backend/page/products/updateproducts";
+		$this->data['page_name'] = "Update Product";
+		$this->data['result']	 = $this->product->view_productsbyid($product_id);
+		$this->data['category_list'] = $this->product->get_category();
+		$this->load->view('backend/master' , $this->data);
+	}
+
+	public function update_product () {
+		if($this->input->post()){
+			$this->product->update_product($_POST);
 		}
 	}
 }

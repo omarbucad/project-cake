@@ -230,7 +230,5 @@ $star_rating.on('click', function() {
 });
 
 SetRatingStar();
-$(document).ready(function() {
 
-});
 </script>
