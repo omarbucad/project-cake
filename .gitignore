@@ -35,3 +35,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.png
 *.png
 *.jpg
+application/config/config.php
