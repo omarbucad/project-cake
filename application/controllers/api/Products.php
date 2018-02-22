@@ -72,6 +72,29 @@ class Products extends CI_Controller{
 		}
 	}
 
+	#get all products
+	public function get_products_by_name($product_name) {
+		$result = $this->db->like("product_name" , $product_name)->where("status" , 1)->order_by("product_name" , "ASC")->get("products")->result();
+
+		foreach($result as $key => $row){
+			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
+
+			$result[$key]->image = array(
+				"thumbnail"	=> site_url("thumbs/images/product/".$image->image_path."/500/500/".$image->image_name) ,
+				"large_image" => site_url("thumbs/images/product/".$image->image_path."/700/700/".$image->image_name)
+			);
+			$result[$key]->short_description = htmlentities($row->short_description);
+			$result[$key]->price_raw = $row->price;
+			$result[$key]->price = custom_money_format($row->price);
+		}
+
+		if($result){
+			echo json_encode(["status" => true , "data" => $result]);
+		}else{
+			echo json_encode(["status" => false , "message" => "No Results..."]);
+		}
+	}
+
 	#get product by id
 	public function get_product_by_id($product_id) {
 		
@@ -194,6 +217,23 @@ class Products extends CI_Controller{
 			echo json_encode(["status" => false , "message" => "No Results..."]);	
 		}
 		
+	}
+
+	#currently processing order
+	public function currently_order($customer_id){
+		$result = $this->db->where("customer_id" , $customer_id)->where_in("status" , [1,2,3])->order_by("order_id" , "DESC")->get("customer_order")->result();
+
+        foreach($result as $key => $row){
+            $result[$key]->total_price = custom_money_format($row->total_price);
+            $result[$key]->created = convert_timezone($row->created , true);
+            $result[$key]->status = convert_order_status($row->status , true);
+        }
+
+        if($result){
+        	echo json_encode(["status" => true , "data" => $result]);
+        }else{
+        	echo json_encode(["status" => false , "message" => "No Results..."]);
+        }
 	}
 
 	#cancel customer order
