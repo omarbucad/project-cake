@@ -38,13 +38,22 @@
         });
     });
 </script>
+<style type="text/css">
+    img {
+       
+    }
+</style>
 <div class="container margin-bottom">
+
     <div class="side-body padding-top">
         <ol class="breadcrumb">
             <li><a href="<?php echo site_url('app/products'); ?>">Product</a></li>
             <li class="active">New Product</li>
         </ol>   
         <h3>Update Product</h3>
+        <div class="pull-right">
+            <img src="<?php echo site_url("thumbs/images/product/".$result->image_path."/250/250/".$result->image_name); ?>" >
+        </div>
         <form class="form-horizontal" action="<?php echo site_url("app/products/update_product"); ?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="product_id" value="<?php echo $result->product_id ?>">
             <!-- STORE SETTINGS -->
@@ -80,43 +89,42 @@
                             <div class="form-group">
                                 <div class="input-group">
                                   <select class="form-control" name="category" id="category_select">
-                                        <option value="">Select Category</option>
-                                        <?php foreach($category_list as $row) : ?>
-                                            <option value="<?php echo $row->category_id; ?>" <?php echo ($this->hash->decrypt($row->category_id) == $result->category_id ) ? ' selected="selected"' : '';?> ><?php echo $row->category_name; ?></option>
-                                        <?php endforeach; ?>
-                                  </select>
-                                  <span class="input-group-btn">
+                                    <option value="">Select Category</option>
+                                    <?php foreach($category_list as $row) : ?>
+                                        <option value="<?php echo $row->category_id; ?>" <?php echo ($this->hash->decrypt($row->category_id) == $result->category_id ) ? ' selected="selected"' : '';?> ><?php echo $row->category_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <span class="input-group-btn">
                                     <button class="btn btn-default" style="margin:0px;" type="button" data-toggle="modal" data-target="#myModal">+</button>
-                                  </span>
-                                </div><!-- /input-group -->
-                            </div>
-                        </dd>
-                        <dt>Short Description</dt>
-                        <dd>
-                            <div class="form-group">
-                                <input type="text" name="short_description" class="form-control" value="<?php echo $result->short_description ?>">
-                            </div>
-                        </dd>
-                        <dt>Description</dt>
-                        <dd>
-                            <div class="form-group">
-                                <textarea class="textarea" name="description"> <?php echo $result->product_description ?></textarea>
-                            </div>
-                        </dd>
-                       
-                    </dl>
-    
-                </div>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div>
+                    </dd>
+                    <dt>Short Description</dt>
+                    <dd>
+                        <div class="form-group">
+                            <input type="text" name="short_description" class="form-control" value="<?php echo $result->short_description ?>">
+                        </div>
+                    </dd>
+                    <dt>Description</dt>
+                    <dd>
+                        <div class="form-group">
+                            <textarea class="textarea" name="description"> <?php echo $result->product_description ?></textarea>
+                        </div>
+                    </dd>
+
+                </dl>
+
             </div>
-
-
-
             <div class="text-right margin-bottom">
                 <a href="javascript:void(0);" class="btn btn-default">Cancel</a>
                 <input type="submit" name="submit" value="Update" class="btn btn-success">
             </div>
-        </form>
-    </div>
+        </div>
+
+
+    </form>
+</div>
 </div>
 
 
@@ -127,19 +135,19 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Add Category</h4>
-      </div>
-      <div class="modal-body">
-            <form action="<?php echo site_url("app/products/add_category"); ?>" method="POST">
-                <div class="form-group">
-                    <label for="category">Product Category</label>
-                    <input type="text" class="form-control" name="product_category">
-                </div>
-            </form>
-      </div>
-      <div class="modal-footer">
+    </div>
+    <div class="modal-body">
+        <form action="<?php echo site_url("app/products/add_category"); ?>" method="POST">
+            <div class="form-group">
+                <label for="category">Product Category</label>
+                <input type="text" class="form-control" name="product_category">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="save">Save</button>
-      </div>
     </div>
-  </div>
+</div>
+</div>
 </div>

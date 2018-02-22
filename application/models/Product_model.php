@@ -285,7 +285,13 @@ class Product_model extends CI_Model {
     }
 
     public function view_productsbyid ($id) {
-        $result = $this->db->select("*")->from('products')->where('product_id' , $id)->get()->row();     
+        $result = $this->db->select("*")
+        ->from('products p')
+        ->join('products_images pi' , 'p.product_id = pi.product_id' )
+        ->where('pi.primary_image' , 1)
+        ->where('p.product_id' , $id)
+        ->get()->row(); 
+      
         return $result;
     }
 
