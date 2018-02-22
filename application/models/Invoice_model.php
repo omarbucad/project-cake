@@ -73,7 +73,7 @@ class Invoice_model extends CI_Model {
         $this->db->select("i.* , co.* , c.display_name , c.email , u.name");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
-        $this->db->join("users u" , "u.user_id = co.driver_id");
+        $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
 
         /*
             TODO :: SEARCHING LOGIC HERE

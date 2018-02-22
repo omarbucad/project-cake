@@ -31,9 +31,15 @@ class Login extends CI_Controller {
 			$result = $this->db->where("email" , $this->post->username)->where("password" , md5($password))->get('customer')->row();
 
 			if($result){
-				echo json_encode(["status" => true , "message" => "Login Successfully"  , "data" => $result]);
+				echo json_encode(["status" => true , "message" => "Login Successfully"  , "account_type" => "CUSTOMER" , "data" => $result]);
 			}else{
-				echo json_encode(["status" => false , "message" => "Incorrect username / Password"]);
+				$result = $this->db->where("username" , $username)->where("password" , md5($password))->get("users")->row();
+				
+				if($result){
+					echo json_encode(["status" => true , "message" => "Login Successfully" , "account_type" => "DRIVER" , "data" => $result]);
+				}else{
+					echo json_encode(["status" => false , "message" => "Incorrect username / Password"]);
+				}
 			}
 		}else{
 			echo json_encode(["status" => false , "message" => "Incorrect username / Password"]);
