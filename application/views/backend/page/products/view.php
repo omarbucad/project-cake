@@ -50,7 +50,7 @@
                                     <select name="category_id" class="form-control">
                                         <option value="">--</option>
                                         <?php foreach($category_list as $row) : ?>
-                                            <option value="<?php echo $row->category_id;?>" <?php echo (!empty($_GET['product_category']) ) ? ' selected="selected"' : '';?> ><?php echo $row->category_name;?></option>
+                                            <option value="<?php echo $this->hash->decrypt($row->category_id);?>" <?php echo (!empty($_GET['product_category']) ) ? ' selected="selected"' : '';?> ><?php echo $row->category_name;?></option>
                                         <?php endforeach; ?>    
                                     </select>
                                 </div>
