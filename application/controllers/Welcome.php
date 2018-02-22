@@ -14,15 +14,35 @@ class Welcome extends MY_Controller {
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
 		$this->data['shop_list'] = $this->product->get_category();
 
-	if($this->input->get("shop_list")){
+		if($this->input->get("shop_list")){
 			$this->data['main_page'] = "frontend/pages/shop";
-			$this->data['result']	 = $this->product->get_shop_list($this->input->get("shop_list"));
-		 }else if($this->input->get("s")){
+
+			//PAGINATION
+			$this->data['config']["base_url"] = base_url("welcome/?shop_list=".$this->input->get("shop_list")) ;
+			$this->data['config']["total_rows"] = $this->product->get_shop_list($this->input->get("shop_list") , false , true);
+			$this->pagination->initialize($this->data['config']);
+			$this->data["links"] = $this->pagination->create_links();
+
+			$this->data['result'] = $this->product->get_shop_list($this->input->get("shop_list"));
+
+			
+
+		}else if($this->input->get("s")){
 			$this->data['main_page'] = "frontend/pages/shop";
-	 	$this->data['result']	 = $this->product->get_shop_list($this->input->get("s") , true);
-	 }else{
+
+			//PAGINATION
+			$this->data['config']["base_url"] = base_url("welcome/?s=".$this->input->get("s")) ;
+			$this->data['config']["total_rows"] = $this->product->get_shop_list($this->input->get("s") , true , true);
+			$this->pagination->initialize($this->data['config']);
+			$this->data["links"] = $this->pagination->create_links();
+
+		 	$this->data['result'] = $this->product->get_shop_list($this->input->get("s") , true);
+		}else{
 			$this->data['main_page'] = "frontend/pages/main";
 		}
+
+
+
 
 		$this->load->view('frontend/master' , $this->data);
 	}

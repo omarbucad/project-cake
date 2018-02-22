@@ -112,8 +112,13 @@
             </div>
           <?php endforeach; ?> 
         </div>
+       
       <?php endforeach; ?>
-
+       <div class="text-center">
+          <nav aria-label="Page navigation">
+            <?php echo $links; ?>
+          </nav>
+        </div>
     </div> 
     <!-- /.col-lg-9 -->
 

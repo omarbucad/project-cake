@@ -33,7 +33,8 @@
 						   						</td>
 						   						<td>
 						   							<span>
-						   								<a href="javascript:void(0);" class="btn btn-primary btn-xs">Go to Order</a>
+						   								<a href="javascript:void(0);" class="btn btn-primary btn-xs">Go to Order</a><br>
+						   								<small><?php echo $row->created; ?></small>
 						   							</span>
 						   						</td>
 						   					</tr>

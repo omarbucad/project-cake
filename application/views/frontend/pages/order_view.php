@@ -17,7 +17,7 @@
 				  <a href="javascript:void(0);" class="list-group-item ">
 				    My Account
 				  </a>
-				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item disabled">My Order</a>
+				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item active">My Order</a>
 				  <a href="<?php echo site_url("order/wishlist"); ?>" class="list-group-item">My Wishlist</a>
 				</div>
 			</section>
@@ -83,6 +83,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<a href="javascript:history.back()" class="btn btn-primary">Back</a>
 		</div>
 	</div>
 </div>

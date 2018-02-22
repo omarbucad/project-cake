@@ -13,6 +13,13 @@ class Users extends MY_Controller {
 	public function index(){
 		$this->data['page_name'] = "Users";
 		$this->data['main_page'] = "backend/page/users/view";
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("app/users/") ;
+		$this->data['config']["total_rows"] = $this->users->view_users(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
+
 		$this->data['result']	 = $this->users->view_users();
 
 		$this->load->view('backend/master' , $this->data);
@@ -48,6 +55,12 @@ class Users extends MY_Controller {
 	public function customer(){
 		$this->data['page_name'] = "Customer";
 		$this->data['main_page'] = "backend/page/users/customer";
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("app/users/customer") ;
+		$this->data['config']["total_rows"] = $this->users->view_customer(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
 		$this->data['result']	 = $this->users->view_customer();
 		$this->load->view('backend/master' , $this->data);
 	}

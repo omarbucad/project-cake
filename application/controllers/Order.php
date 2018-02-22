@@ -12,6 +12,14 @@ class Order extends MY_Controller {
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
 		$this->data['main_page'] = "frontend/pages/order";
 		$this->data['shop_list'] = $this->product->get_category();
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("order/") ;
+		$this->data['config']["total_rows"] = $this->product->get_orders(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
+
+
 		$this->data['order_list'] = $this->product->get_orders();
 		$this->load->view('frontend/master' , $this->data);
 	}

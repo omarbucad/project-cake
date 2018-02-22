@@ -28,8 +28,20 @@ class Users_model extends CI_Model {
         }
 	}
 
-	public function view_users(){
-		$result = $this->db->get("users")->result();
+	public function view_users($count = false){
+		
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
+        /*
+            TODO :: SEARCHING LOGIN HERE
+        */
+
+        if($count){
+            return $result = $this->db->get("users")->num_rows();
+        }else{
+            $result = $this->db->limit($limit , $skip)->order_by("name" , "ASC")->get("users")->result();
+        }
 		
 		foreach($result as $key => $row){
 			$result[$key]->user_id = $this->hash->encrypt($row->user_id);
@@ -68,9 +80,19 @@ class Users_model extends CI_Model {
         }
     }
 
-    public function view_customer(){
+    public function view_customer($count = false){
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
         $this->db->join("address a ", "a.address_id = c.physical_address_id");
-        $result = $this->db->get("customer c")->result();
+        /*
+            TODO :: SEARCHING LOGIN HERE
+        */
+        if($count){
+            return $this->db->get("customer c")->num_rows();
+        }else{
+            $result = $this->db->order_by("display_name" , "ASC")->limit($limit , $skip)->get("customer c")->result();
+        }
 
         foreach($result as $key => $row){
             $result[$key]->status = convert_customer_status($row->status);

@@ -2,10 +2,20 @@
 
 class Invoice_model extends CI_Model {
 
-	public function get_order(){
+	public function get_order($count = false){
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
         $this->db->select("co.* , c.display_name , c.email");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
-        $result = $this->db->order_by("order_id" , "DESC")->get("customer_order co")->result();
+
+
+
+        if($count){
+            return $this->db->get("customer_order co")->num_rows();
+        }else{
+            $result = $this->db->limit($limit , $skip)->order_by("order_id" , "DESC")->get("customer_order co")->result();
+        }
 
         foreach($result as $k => $r){
             $this->db->select("op.product_name , op.product_price , op.quantity , op.total_price , op.product_id" );
@@ -31,7 +41,6 @@ class Invoice_model extends CI_Model {
     public function create_invoice($order_id){
         $user_id = $this->session->userdata("user")->user_id;
 
-
         $order_info = $this->db->where("order_id" , $order_id)->get("customer_order")->row();
 
         $this->db->insert("invoice" , [
@@ -39,18 +48,13 @@ class Invoice_model extends CI_Model {
             "price"         => $order_info->total_price ,
             "created_by"    => $user_id ,
             "payment_type"  => "UNPAID" ,
-            "invoice_date"  => time()
+            "invoice_date"  => time() ,
+            "invoice_no"    => $order_info->order_number
         ]);
 
         $last_id = $this->db->insert_id();
 
-        $this->db->where("invoice_id" , $last_id)->update("invoice" , [
-            "invoice_no"    => date("mdY").'-'.sprintf('%05d', $last_id)
-        ]);
-
-
         return $last_id;
-        
     }
 
     public function get_driver_list(){
@@ -62,13 +66,25 @@ class Invoice_model extends CI_Model {
         return $result;
     }
 
-    public function get_invoice(){
+    public function get_invoice($count = false){
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        
         $this->db->select("i.* , co.* , c.display_name , c.email , u.name");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id");
-        $result = $this->db->order_by("invoice_date" , "DESC")->get("invoice i")->result();
 
+        /*
+            TODO :: SEARCHING LOGIC HERE
+        */
+
+        if($count){
+            return $this->db->get("invoice i")->num_rows();
+        }else{
+            $result = $this->db->limit($limit , $skip)->order_by("invoice_date" , "DESC")->get("invoice i")->result();
+        }
+        
         foreach($result as $key => $row){
             $result[$key]->invoice_date = convert_timezone($row->invoice_date);
             $result[$key]->paid_date = convert_timezone($row->paid_date);

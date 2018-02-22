@@ -13,6 +13,13 @@ class Invoice extends MY_Controller {
 
 		$this->data['page_name'] = "Invoice";
 		$this->data['main_page'] = "backend/page/invoice/invoice";
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("app/invoice") ;
+		$this->data['config']["total_rows"] = $this->invoice->get_invoice(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
+
 		$this->data['result'] = $this->invoice->get_invoice();
 		$this->load->view('backend/master' , $this->data);
 	}
@@ -20,6 +27,13 @@ class Invoice extends MY_Controller {
 	public function order(){
 		$this->data['page_name'] = "Order's";
 		$this->data['main_page'] = "backend/page/invoice/order";
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("app/invoice/order") ;
+		$this->data['config']["total_rows"] = $this->invoice->get_order(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
+
 		$this->data['result']	 = $this->invoice->get_order();
 		$this->data['driver_list'] = $this->invoice->get_driver_list();
 		$this->load->view('backend/master' , $this->data);

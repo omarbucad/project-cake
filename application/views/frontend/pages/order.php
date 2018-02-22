@@ -47,15 +47,17 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<div class="pull-right">
+                    <nav aria-label="Page navigation">
+                      <?php echo $links; ?>
+                    </nav>
+                </div>
 			<?php else : ?>
 				<div class="text-center">
 					<h4>There is no Order</h4>
 					<a href="<?php echo site_url("welcome/?shop_list=all"); ?>" class="btn btn-success">Continue Buying</a>
 				</div>
-			<?php endif; ?>
-			
-
-			
+			<?php endif; ?>	
 		</div>
 	</div>
 </div>

@@ -12,17 +12,17 @@ class Products extends MY_Controller {
     }
 
 	public function index(){
-		#searching
-		$search = "";
-		if(isset( $_GET['product_name'] ) && !empty( $_GET['product_name']) ){
-			$search =  $this->db->where('product_name' , $_GET['product_name']); 
-		}
-		if(isset($_GET['category_id']) && !empty($_GET['category_id'] ) ){
-			$search =  $this->db->where('product_category' , $_GET['product_category']); 
-		}
+
 		$this->data['page_name'] = "Products";
 		$this->data['main_page'] = "backend/page/products/view";
-		$this->data['result']	 = $this->product->get_products($search);
+
+		//PAGINATION
+		$this->data['config']["base_url"] = base_url("app/products/") ;
+		$this->data['config']["total_rows"] = $this->product->get_products(true);
+		$this->pagination->initialize($this->data['config']);
+		$this->data["links"] = $this->pagination->create_links();
+
+		$this->data['result']	 = $this->product->get_products();
 		$this->data['category_list'] = $this->product->get_category();
 		$this->load->view('backend/master' , $this->data);
 	}

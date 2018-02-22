@@ -192,6 +192,11 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <div class="pull-right">
+                <nav aria-label="Page navigation">
+                  <?php echo $links; ?>
+              </nav>
+          </div>
         </div>
     </div>
 </div>

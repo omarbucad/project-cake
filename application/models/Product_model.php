@@ -81,10 +81,21 @@ class Product_model extends CI_Model {
 
     }
 
-    public function get_products($search = false){
+    public function get_products($count = false){
         $this->db->join("category c" ,"c.category_id = p.category_id");
 
-        $result = $this->db->order_by("product_position" , "ASC")->get("products p")->result();
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        
+        /*
+            TODO :: SEARCHING LOGIN HERE
+        */
+
+        if($count){
+            return $this->db->order_by("product_position" , "ASC")->get("products p")->num_rows();
+        }else{
+            $result = $this->db->limit($limit , $skip)->order_by("product_position" , "ASC")->get("products p")->result();
+        }
 
         foreach($result as $key => $row){
             $result[$key]->images     = $this->db->where("product_id" , $row->product_id)->where("primary_image" , 1)->get("products_images")->row();
@@ -93,7 +104,6 @@ class Product_model extends CI_Model {
             $result[$key]->status     = convert_status($row->status);
             $result[$key]->product_description = strlen($row->product_description) > 100 ? substr($row->product_description,0,100)."..." : $row->product_description;
         }
-
 
         return $result;
     }
@@ -108,11 +118,13 @@ class Product_model extends CI_Model {
         return $result;
     }
 
-    public function get_shop_list($category_id , $search = false){
+    public function get_shop_list($category_id , $search = false , $count = false){
 
-        
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
         $this->db->join("category c" , "c.category_id = p.category_id");
-       
+
         if($search){
             if($category_id){
                 $this->db->like("p.product_name" , $category_id);
@@ -124,8 +136,12 @@ class Product_model extends CI_Model {
             }
         }
 
-        $result = $this->db->order_by("p.product_position" , "ASC")->get("products p")->result();
-       
+        if($count){
+            return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
+        }else{
+            $result = $this->db->limit($limit , $skip)->order_by("p.product_position" , "ASC")->get("products p")->result();
+        }
+
         $tmp = array();
         $tmp2 = array();
         foreach($result as $key => $row){
@@ -227,10 +243,21 @@ class Product_model extends CI_Model {
         }
     }
 
-    public function get_orders(){
+    public function get_orders($count = false){
         $customer_id = $this->session->userdata("customer")->customer_id;
 
-        $result = $this->db->where("customer_id" , $customer_id)->order_by("order_id" , "DESC")->get("customer_order")->result();
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
+        /*
+            TODO :: SEARCHING LOGIN HERE
+        */
+
+        if($count){
+           return $this->db->where("customer_id" , $customer_id)->order_by("order_id" , "DESC")->get("customer_order")->num_rows();
+        }else{
+            $result = $this->db->where("customer_id" , $customer_id)->limit($limit , $skip)->order_by("order_id" , "DESC")->get("customer_order")->result();
+        }
 
         foreach($result as $key => $row){
             $result[$key]->total_price = custom_money_format($row->total_price);
@@ -298,12 +325,12 @@ class Product_model extends CI_Model {
     public function update_product ($data) {
         $this->db->trans_start();
         $arr = array(
-            "product_name"      => $data['product_name'] ,
-            "price"     => $data['product_price'] ,
-            "product_position"  => $data['product_position'] ,
-            "category_id"          => $this->hash->decrypt($data['category']) ,
-            "short_description" => $data['short_description'] ,
-            "product_description" => $data['description']
+            "product_name"          => $data['product_name'] ,
+            "price"                 => $data['product_price'] ,
+            "product_position"      => $data['product_position'] ,
+            "category_id"           => $this->hash->decrypt($data['category']) ,
+            "short_description"     => $data['short_description'] ,
+            "product_description"   => $data['description']
             );
 
         $this->db->where("product_id" , $data['product_id']);
