@@ -31,8 +31,8 @@ class Products extends MY_Controller {
 		
 		$this->form_validation->set_rules('product_name'		, 'Product Name'	, 'trim|required');
 		$this->form_validation->set_rules('product_price'		, 'Product Price'	, 'trim|required');
-		$this->form_validation->set_rules('product_position'	, 'Position'	, 'trim|required');
-		$this->form_validation->set_rules('category'			, 'Category'	, 'trim|required');
+		$this->form_validation->set_rules('product_position'	, 'Position'		, 'trim|required');
+		$this->form_validation->set_rules('category'			, 'Category'		, 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){ 
 

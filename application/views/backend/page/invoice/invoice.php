@@ -106,7 +106,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th width="20%;">Name</th>
+                                            <th width="20%;">Customer Name</th>
                                             <td width="30%;">
                                                 <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
                                                 <small class="help-block"><?php echo $row->email; ?></small>
@@ -118,7 +118,17 @@
                                             <th>Driver</th>
                                             <td><?php echo $row->name; ?> </td>
                                             <th>Customer Signature</th>
-                                            <td></td>
+                                            <td>
+                                                <?php if($row->image) : ?>
+                                                    <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Reciever Name</th>
+                                            <td><?php echo $row->customer_name; ?></td>
+                                            <th>Notes</th>
+                                            <td><?php echo $row->notes; ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
