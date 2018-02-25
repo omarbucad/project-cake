@@ -32,25 +32,31 @@
         <div class="card margin-bottom">
             <div class="container">
                 <div class="card-body no-padding-left no-padding-right">
-                    <form action="#" method="POST">
+                    <form action="<?php echo site_url("app/invoice"); ?>" method="GET">
                         <div class="row">
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_name">Name</label>
-                                    <input type="text" name="name" class="form-control" id="s_name" placeholder="Search by username or name">
+                                    <label for="s_name">Invoice #</label>
+                                    <input type="text" name="invoice_no" value="<?php echo $this->input->get("invoice_no"); ?>" class="form-control" id="s_name" placeholder="Search by Invoice #">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_roles">Status</label>
                                     <select class="form-control" id="s_roles">
-                                        <option>All Roles</option>
-                                        <option>Cashier</option>
-                                        <option>Manager</option>
+                                        <option value="">- Select Status -</option>
+                                        <option value="UNPAID" <?php echo ($this->input->get("status") == "UNPAID") ? "selected" : "" ;?> >Unpaid</option>
+                                        <option value="PAID" <?php echo ($this->input->get("status") == "PAID") ? "selected" : "" ;?>>Paid</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-3 col-lg-offset-3 text-right">
+                            <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_name">Date period</label>
+                                    <input type="text" name="date" class="form-control daterange" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-3 text-right">
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>

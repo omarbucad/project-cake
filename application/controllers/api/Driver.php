@@ -89,6 +89,58 @@ class Driver extends CI_Controller{
 		}
 	}
 
+	public function change_password(){
+		if($this->post){
+			$user_id = $this->post->driver_id;
+			$password = md5($this->post->password);
+
+			$this->db->where("user_id" , $user_id)->update("users" , [
+				"password"	=> $password
+			]);
+
+			echo json_encode(["status" => true]);
+		}
+	}
+
+	public function save_token(){
+		if($this->post){
+
+			$check = $this->db->where([
+				"device_id"	=> $this->post->device_id
+			])->get("push_token")->row();
+
+			if(!$check){
+				$this->db->insert("push_token" , [
+					"user_id"	=> $this->post->user_id ,
+					"token"		=> $this->post->token ,
+					"device_id" => $this->post->device_id ,
+					"updated"	=> time()
+				]);
+			}else{
+				$this->db->where("id" , $check->id)->update("push_token" , [
+					"updated" => time() ,
+					"user_id" => $this->post->user_id
+				]);
+			}
+
+			
+
+			echo json_encode(["status"=> true]);
+		}
+	}
+
+	public function driver_logout(){
+		if($this->post){
+
+			$this->db->where([
+				"user_id"	=> $this->post->user_id ,
+				"device_id"	=> $this->post->device_id
+			])->delete("push_token");
+
+			echo json_encode(["status" => true]);
+		}
+	}
+
 	private function save_image($order_number){
 		$image = $this->post->image;
 

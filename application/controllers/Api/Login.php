@@ -33,7 +33,7 @@ class Login extends CI_Controller {
 			if($result){
 				echo json_encode(["status" => true , "message" => "Login Successfully"  , "account_type" => "CUSTOMER" , "data" => $result]);
 			}else{
-				$result = $this->db->where("username" , $username)->where("password" , md5($password))->get("users")->row();
+				$result = $this->db->where("username" , $username)->where("account_type" , "DRIVER")->where("password" , md5($password))->get("users")->row();
 				
 				if($result){
 					echo json_encode(["status" => true , "message" => "Login Successfully" , "account_type" => "DRIVER" , "data" => $result]);
@@ -56,7 +56,7 @@ class Login extends CI_Controller {
 
 			$this->db->trans_start();
 
-			$this->db->insert("address" , ["street1" => ""]);
+			$this->db->insert("address" , $this->post->physical);
 			$address_id = $this->db->insert_id();
 
 			$activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));

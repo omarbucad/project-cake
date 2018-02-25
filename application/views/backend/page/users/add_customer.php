@@ -1,8 +1,3 @@
-<script type="text/javascript">
-    $(document).on('change' , '#profile_image' , function(){
-        readURL(this , ".image-preview" , 'background');
-    });
-</script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
@@ -23,7 +18,7 @@
         </div>
 
         <div class="container ">
-            <form action="<?php echo site_url("app/users/add");?>" method="post" enctype="multipart/form-data" id="form_users">
+            <form action="<?php echo site_url("app/users/add_customer");?>" method="post" enctype="multipart/form-data" id="form_users">
                 <input type="hidden" name="<?php echo $csrf_token_name; ?>" value="<?php echo $csrf_hash; ?>">
                 <section class="sec_border_bottom">
                     <h3>Profile</h3>
@@ -33,44 +28,47 @@
                         </div>
                         <div class="col-xs-12 col-lg-4">
                             <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" name="username" id="username" value="<?php echo set_value("username"); ?>"  class="form-control" placeholder="Username">
-                            </div>
-                            <div class="form-group">
                                 <label for="display_name">Display Name</label>
-                                <input type="text" name="display_name" id="display_name" value="<?php echo set_value("display_name"); ?>"  class="form-control" placeholder="Display Name">
+                                <input type="text" name="display_name" id="display_name" value="<?php echo set_value("display_name"); ?>" class="form-control" placeholder="Display Name">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email"  value="<?php echo set_value("email"); ?>"  class="form-control" placeholder="name@email.com">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="">Profile Image</label>
-                                <div class="image-preview">
-                                    
-                                </div>
-                                <input type="file" name="file" id="profile_image" class="btn btn-default">
+                                <input type="email" name="email" id="email" value="<?php echo set_value("email"); ?>" class="form-control" placeholder="name@email.com">
                             </div>
                         </div>
                     </div>
                 </section>
                 <section class="sec_border_bottom">
-                    <h3>Role</h3>
+                    <h3>Address</h3>
                     <div class="row">
                         <div class="col-xs-12 col-lg-4">
-                            <p>A role defines what this user can see and do.</p>
+                            <p>A customer address defines where we will deliver goods.</p>
                         </div>
                         <div class="col-xs-12 col-lg-4">
                             <div class="form-group">
-                                <label for="role">Role</label>
-                                <select class="form-control" name="role">
-                                    <option value="DRIVER">Driver</option>
-                                    <option value="ADMIN">Admin</option>
-                                </select>
+                                <label>Street 1</label>
+                                <input type="text" name="physical[street1]" value="<?php echo set_value("physical[street1]"); ?>" class="form-control">
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Street 2</label>
+                                <input type="text" name="physical[street2]" value="<?php echo set_value("physical[street2]"); ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Suburb</label>
+                                <input type="text" name="physical[suburb]" value="<?php echo set_value("physical[suburb]"); ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" name="physical[city]" value="<?php echo set_value("physical[city]"); ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Post Code</label>
+                                <input type="text" name="physical[postcode]" value="<?php echo set_value("physical[postcode]"); ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" name="physical[state]" value="<?php echo set_value("physical[state]"); ?>" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </section>

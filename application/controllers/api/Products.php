@@ -232,7 +232,7 @@ class Products extends CI_Controller{
         if($result){
         	echo json_encode(["status" => true , "data" => $result]);
         }else{
-        	echo json_encode(["status" => false , "message" => "No Results..."]);
+        	echo json_encode(["status" => false , "message" => "No Results..." , "data" => []]);
         }
 	}
 

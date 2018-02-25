@@ -1,4 +1,11 @@
-
+<script type="text/javascript">
+	$(document).on("click" , ".cancel-order" , function(){
+		var c = confirm("Are you sure you want to cancel your order?");
+		if(c == true){
+			window.location.href = $(this).data("href");
+		}
+	});
+</script>
 <style type="text/css">
 	section{
 		margin-top: 20px;
@@ -34,7 +41,7 @@
 				<tr>
 					<td colspan="4" class="text-right">
 						<?php if($order_data->status_raw == 1) : ?>
-							<a href="<?php echo site_url("cart/cancel_order/".$order_data->order_number); ?>" class="btn btn-danger btn-xs">Cancel Order</a>
+							<a href="javascript:void(0);" data-href="<?php echo site_url("cart/cancel_order/".$order_data->order_number); ?>" class="btn btn-danger btn-xs cancel-order">Cancel Order</a>
 						<?php endif; ?>
 					</td>
 				</tr>
@@ -61,7 +68,8 @@
 									</a>
 								</div>
 								<div style="float:left;width: 75%;">
-									<span><?php echo $row->product_name; ?></span>
+									<div style="padding:0px 5px;"><span ><?php echo $row->product_name; ?></span></div>
+									
 								</div>
 							</td>
 							<td >

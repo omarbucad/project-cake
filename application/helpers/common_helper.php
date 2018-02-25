@@ -222,3 +222,33 @@ if ( ! function_exists('custom_money_format'))
     }   
 }
 
+if ( ! function_exists('calcAverageRating'))
+{
+    function calcAverageRating($ratings) {
+
+        /*
+            $ratings = array(
+                5 => 252,
+                4 => 124,
+                3 => 40,
+                2 => 29,
+                1 => 33
+            );
+        */
+
+        $totalWeight = 0;
+        $totalReviews = 0;
+
+        foreach ($ratings as $weight => $numberofReviews) {
+            $WeightMultipliedByNumber = $weight * $numberofReviews;
+            $totalWeight += $WeightMultipliedByNumber;
+            $totalReviews += $numberofReviews;
+        }
+
+        //divide the total weight by total number of reviews
+        $averageRating = $totalWeight / $totalReviews;
+
+        return $averageRating;
+    }
+}
+

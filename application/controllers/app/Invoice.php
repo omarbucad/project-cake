@@ -11,7 +11,7 @@ class Invoice extends MY_Controller {
 
 	public function index(){
 
-		$this->data['page_name'] = "Invoice";
+		$this->data['page_name'] = "Invoice Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/invoice";
 
 		//PAGINATION
@@ -25,7 +25,7 @@ class Invoice extends MY_Controller {
 	}
 
 	public function order(){
-		$this->data['page_name'] = "Order's";
+		$this->data['page_name'] = "Product Order Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/order";
 
 		//PAGINATION
@@ -75,7 +75,7 @@ class Invoice extends MY_Controller {
 					"driver_note"		=> $this->input->post("note")
 				]);
 
-				$this->push_notify_driver($this->input->post("selected_driver") , $order_id);
+				$this->send_push_notification($this->input->post("selected_driver"));
 
 				echo json_encode(["status" => true , "message" => "<span class='label label-success'>On Delivery</span>"]);
 
@@ -97,7 +97,4 @@ class Invoice extends MY_Controller {
 		
 	}
 
-	private function push_notify_driver($driver_id , $order_id){
-
-	}
 }

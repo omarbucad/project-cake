@@ -6,60 +6,56 @@ class MY_Controller extends CI_Controller {
 	public $data = array();
 
     public function __construct() {
-       parent::__construct();
-
+        parent::__construct();
+           
+        $this->data['website_title'] = "Gravybaby";
+        $this->data['application_name'] = "Gravybaby";
+        $this->data['company_name'] = "Trackerteer Web Developer Inc.";
+        $this->data['version'] = "1.0";
+        $this->data['year'] = date("Y");
+        $this->data['csrf_token_name'] = $this->security->get_csrf_token_name();
+        $this->data['csrf_hash'] = $this->security->get_csrf_hash();
 
        
-       $this->data['website_title'] = "Gravybaby";
-       $this->data['application_name'] = "Gravybaby";
-       $this->data['company_name'] = "Trackerteer Web Developer Inc.";
-       $this->data['version'] = "1.0";
-       $this->data['year'] = date("Y");
-       $this->data['csrf_token_name'] = $this->security->get_csrf_token_name();
-       $this->data['csrf_hash'] = $this->security->get_csrf_hash();
-
-
-       if(!$this->session->userdata("user")){
-            if($this->uri->segment(1) == "app" AND !$this->uri->segment(2) == "login"){
-                 redirect("/app/login" , "refresh");
+        if($this->uri->segment(1) == "app" AND $this->uri->segment(2) != "login"){
+            if(!$this->session->userdata("user")){
+                redirect("/app/login" , "refresh");
+            }else if($this->session->userdata("user")){
+                $this->data['session_data'] = $this->session->userdata("user");
             }
-       }else if($this->session->userdata("user")){
+        }
 
-            $this->data['session_data'] = $this->session->userdata("user");
-       }
-
-
-       if(!$this->session->userdata("cart")){
+        
+        if(!$this->session->userdata("cart")){
             $this->session->set_userdata("cart" , [
                 "items" => 0 ,
                 "price" => 0 ,
                 "list"  => array()
             ]);
         }
-       
 
-       $config["per_page"] =  ($this->input->get("limit")) ? $this->input->get("limit") : 10;
-       $config['reuse_query_string'] = true;
-       $config["page_query_string"] = true;
-       $config['full_tag_open'] = "<ul class='pagination'>";
-       $config['full_tag_close'] ="</ul>";
-       $config['num_tag_open'] = '<li>';
-       $config['num_tag_close'] = '</li>';
-       $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
-       $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
-       $config['next_tag_open'] = "<li>";
-       $config['next_tagl_close'] = "</li>";
-       $config['prev_tag_open'] = "<li>";
-       $config['prev_tagl_close'] = "</li>";
-       $config['first_tag_open'] = "<li>";
-       $config['first_tagl_close'] = "</li>";
-       $config['last_tag_open'] = "<li>";
-       $config['last_tagl_close'] = "</li>";
-       $config['num_links'] = 3;
-       $config['prev_link'] = "Previous";
-       $config['next_link'] = "Next";
+        $config["per_page"] =  ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $config['reuse_query_string'] = true;
+        $config["page_query_string"] = true;
+        $config['full_tag_open'] = "<ul class='pagination'>";
+        $config['full_tag_close'] ="</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tagl_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+        $config['num_links'] = 3;
+        $config['prev_link'] = "Previous";
+        $config['next_link'] = "Next";
 
-       $this->data['config'] = $config;
+        $this->data['config'] = $config;
     }
 
     public function world_currency(){
@@ -654,4 +650,36 @@ class MY_Controller extends CI_Controller {
         $this->data['main_page'] = "backend/common/error/404";
 
     }
+
+    public function send_push_notification($driver_id){
+        $list = $this->db->where("user_id" , $driver_id)->get("push_token")->result();
+
+        if($list){
+            $data['title'] = "You have got a new order for Delivery";
+            $data['body'] = "Click to view the job";
+
+            $headers = array(
+                "Authorization:key=" . FIREBASE_SERVER_ID ,
+                "Content-Type:application/json" 
+            );
+
+            foreach($list as $row){
+                $fields = array("to" => $row->token , "notification" => $data);
+                $payload = json_encode($fields);
+
+                $curl_session = curl_init();
+                curl_setopt($curl_session, CURLOPT_URL, FCM_PATH );
+                curl_setopt($curl_session, CURLOPT_POST, true );
+                curl_setopt($curl_session, CURLOPT_HTTPHEADER, $headers );
+                curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, true );
+                curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, false );
+                curl_setopt($curl_session, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+                curl_setopt($curl_session, CURLOPT_POSTFIELDS, $payload );
+
+                $result = curl_exec($curl_session);
+                curl_close($curl_session);
+            }
+        }
+
+    }   
 }

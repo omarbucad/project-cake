@@ -6,10 +6,6 @@ class Dashboard extends MY_Controller {
 	public function __construct() {
        parent::__construct();
 
-	 if(!$this->session->userdata("user")) {
-					redirect('/login', 'refresh');
-				}
-
        $this->load->model("Invoice_model" , "invoice");
     }
 

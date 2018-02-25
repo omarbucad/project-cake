@@ -91,6 +91,29 @@ class Product_model extends CI_Model {
             TODO :: SEARCHING LOGIN HERE
         */
 
+        if($name = $this->input->get("name")){
+            $this->db->like("product_name" , $name);
+        }
+
+        if($category = $this->input->get("category_id")){
+            $this->db->where("p.category_id" , $this->hash->decrypt($category));
+        }
+
+        if($status = $this->input->get("status")){
+            switch ($status) {
+                case 'ACTIVE':
+                    $this->db->where("p.status" , 1);
+                    break;
+                 case 'INACTIVE':
+                    $this->db->where("p.status" , 0);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+
         if($count){
             return $this->db->order_by("product_position" , "ASC")->get("products p")->num_rows();
         }else{

@@ -19,25 +19,35 @@
         <div class="card margin-bottom">
             <div class="container">
                 <div class="card-body no-padding-left no-padding-right">
-                    <form action="#" method="POST">
+                    <form action="<?php echo site_url("app/users/"); ?>" method="GET">
                         <div class="row">
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_name">Name</label>
-                                    <input type="text" name="name" class="form-control" id="s_name" placeholder="Search by username or name">
+                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get("name")?>" id="s_name" placeholder="Search by username or name">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_roles">Roles</label>
-                                    <select class="form-control" id="s_roles">
-                                        <option>All Roles</option>
-                                        <option>Cashier</option>
-                                        <option>Manager</option>
+                                    <select class="form-control" id="s_roles" name="roles">
+                                        <option value="">All Roles</option>
+                                        <option value="DRIVER" <?php echo ($this->input->get("roles") == "DRIVER") ? "selected" : ""; ?>>Driver</option>
+                                        <option value="ADMIN" <?php echo ($this->input->get("roles") == "ADMIN") ? "selected" : ""; ?>>Admin</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-3 col-lg-offset-3 text-right">
+                             <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_roles">Status</label>
+                                    <select class="form-control" id="s_roles" name="status">
+                                        <option value="">- Select Status-</option>
+                                        <option value="ACTIVE" <?php echo ($this->input->get("status") == "ACTIVE") ? "selected" : ""; ?>>Active</option>
+                                        <option value="INACTIVE" <?php echo ($this->input->get("status") == "INACTIVE") ? "selected" : ""; ?>>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-3 text-right">
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>
@@ -53,27 +63,35 @@
                     <tr>
                         <th width="25%">Name</th>
                         <th width="10%">Role</th>
-                        <th width="65%"></th>
+                        <th width="10%">Status</th>
+                        <th width="55%"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($result as $key => $row) : ?>
+                    <?php if($result) : ?>
+                        <?php foreach($result as $key => $row) : ?>
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-lg-4 no-margin-bottom">
+                                            <img src="<?php echo site_url("thumbs/images/user/$row->image_path/80/80/$row->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
+                                        </div>
+                                        <div class="col-xs-6 col-lg-8 no-margin-bottom">
+                                            <a href="1"><?php echo $row->username; ?> ( <?php echo $row->name; ?> )</a><br>
+                                            <small class="help-block"><?php echo $row->email; ?></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td ><span ><?php echo $row->account_type; ?></span></td>
+                                <td ><span ><?php echo $row->status; ?></span></td>
+                                <td class="text-right"><span><a href="#">Edit</a></span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
                         <tr>
-                            <td>
-                                <div class="row">
-                                    <div class="col-xs-6 col-lg-4 no-margin-bottom">
-                                        <img src="<?php echo site_url("thumbs/images/user/$row->image_path/80/80/$row->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
-                                    </div>
-                                    <div class="col-xs-6 col-lg-8 no-margin-bottom">
-                                        <a href="1"><?php echo $row->username; ?> ( <?php echo $row->name; ?> )</a><br>
-                                        <small class="help-block"><?php echo $row->email; ?></small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td ><span ><?php echo $row->account_type; ?></span></td>
-                            <td class="text-right"><span><a href="#">Edit</a></span></td>
+                            <td colspan="4" class="text-center"> No Result </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
             <div class="pull-right">

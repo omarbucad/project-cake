@@ -40,7 +40,6 @@ class Login extends MY_Controller {
 				])->get("customer")->row();
 
 				
-
 				if($result){
 					if($result->status == 2){
 

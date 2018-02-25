@@ -19,16 +19,25 @@
         <div class="card margin-bottom">
             <div class="container">
                 <div class="card-body no-padding-left no-padding-right">
-                    <form action="#" method="POST">
+                    <form action="<?php echo site_url("app/users/customer"); ?>" method="GET">
                         <div class="row">
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_name">Name</label>
-                                    <input type="text" name="name" class="form-control" id="s_name" placeholder="Search by username or name">
+                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get("name"); ?>" id="s_name" placeholder="Search by email or name">
                                 </div>
                             </div>
-
-                            <div class="col-xs-12 col-lg-3 col-lg-offset-6 text-right">
+                            <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_roles">Status</label>
+                                    <select class="form-control" id="s_roles" name="status">
+                                        <option value="">- Select Status-</option>
+                                        <option value="ACTIVE" <?php echo ($this->input->get("status") == "ACTIVE") ? "selected" : ""; ?>>Activated</option>
+                                        <option value="INACTIVE" <?php echo ($this->input->get("status") == "INACTIVE") ? "selected" : ""; ?>>Inactived</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-3 col-lg-offset-3 text-right">
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>
@@ -50,15 +59,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($result as $key => $row) : ?>
+                    <?php if($result) : ?>
+                        <?php foreach($result as $key => $row) : ?>
+                            <tr>
+                                <td><span><?php echo $row->display_name; ?></span></td>
+                                <td><span><?php echo $row->email; ?></span></td>
+                                <td><span><?php echo $row->street1; ?></span></td>
+                                <td><span><?php echo $row->status; ?></span></td>
+                                <td><span><a href="#">Edit</a></span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
                         <tr>
-                            <td><span><?php echo $row->display_name; ?></span></td>
-                            <td><span><?php echo $row->email; ?></span></td>
-                            <td><span><?php echo $row->street1; ?></span></td>
-                            <td><span><?php echo $row->status; ?></span></td>
-                            <td><span><a href="#">Edit</a></span></td>
+                            <td colspan="5" class="text-center">No Result</td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
             <div class="pull-right">

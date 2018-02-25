@@ -9,7 +9,33 @@ class Invoice_model extends CI_Model {
         $this->db->select("co.* , c.display_name , c.email");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
 
+        if($name = $this->input->get("name")){
+            $this->db->like("c.display_name" , $name);
+            $this->db->or_like("c.email" , $name);
+            $this->db->or_where("co.order_number" , $name);
+        }
 
+
+        if($status = $this->input->get("status")){
+            
+            if($status == "C"){
+                $status = 0;
+            }
+            $this->db->where("co.status" , $status);
+
+        }else{
+            $this->db->where_in("co.status" , [ 1 , 2 , 3 ]);
+        }
+
+        if($date = $this->input->get("date")){
+            $date  = explode("-", $date);
+            $start = strtotime(trim($date[0].' 00:00'));
+            $end   = strtotime(trim($date[1].' 23:59'));
+
+
+            $this->db->where("co.created >= " , $start);
+            $this->db->where("co.created <= " , $end);
+        }
 
         if($count){
             return $this->db->get("customer_order co")->num_rows();
@@ -78,6 +104,24 @@ class Invoice_model extends CI_Model {
         /*
             TODO :: SEARCHING LOGIC HERE
         */
+
+        if($invoice_no = $this->input->get("invoice_no")){
+            $this->db->where("invoice_no" , $invoice_no);
+        }
+
+        if($status = $this->input->get("status")){
+            $this->db->where("payment_type" , $status);
+        }
+
+        if($date = $this->input->get("date")){
+            $date  = explode("-", $date);
+            $start = strtotime(trim($date[0].' 00:00'));
+            $end   = strtotime(trim($date[1].' 23:59'));
+
+
+            $this->db->where("i.invoice_date >= " , $start);
+            $this->db->where("i.invoice_date <= " , $end);
+        }   
 
         if($count){
             return $this->db->get("invoice i")->num_rows();
