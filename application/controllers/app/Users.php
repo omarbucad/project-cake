@@ -96,5 +96,64 @@ class Users extends MY_Controller {
 			}
 		}
 	}
+
+	public function edit_customer($customer_id){
+
+		$this->form_validation->set_rules('email'			, 'Email'   , 'trim|required');
+		$this->form_validation->set_rules('display_name'	, 'Name'   , 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){ 
+			$this->data['page_name'] = "Edit Customer";
+			$this->data['main_page'] = "backend/page/users/edit_customer";
+			$this->data['customer_info'] = $this->users->get_customer_information($customer_id);
+			$this->data['customer_address'] = $this->users->get_customer_address($this->data['customer_info']->physical_address_id);
+
+			//print_r_die($this->data['customer_address']);
+
+			$this->load->view('backend/master' , $this->data);
+		}else{
+			if($last_id = $this->users->update_customer($customer_id)){
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Updated Customer');	
+
+				redirect("app/users/customer/?user_id=".$this->hash->encrypt($last_id).'?submit=submit' , 'refresh');
+				
+			}else{
+				$this->session->set_flashdata('status' , 'error');
+				$this->session->set_flashdata('message' , 'Something went wrong');	
+
+				redirect("app/users/add_customer" , 'refresh');
+			}
+
+		}
+	}
+
+	public function edit_user($user_id){
+
+		$this->form_validation->set_rules('display_name'		, 'Name'			        , 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){ 
+
+			$this->data['page_name'] = "Edit User";
+			$this->data['main_page'] = "backend/page/users/update";
+
+			$this->data['user_info'] = $this->users->get_user_information($user_id);
+			
+			$this->load->view('backend/master' , $this->data);
+		}else{
+			if($last_id = $this->users->update($user_id)){
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Updated User');	
+
+				redirect("app/users/?user_id=".$this->hash->encrypt($last_id).'?submit=submit' , 'refresh');
+				
+			}else{
+				$this->session->set_flashdata('status' , 'error');
+				$this->session->set_flashdata('message' , 'Something went wrong');	
+
+				redirect("app/users/add" , 'refresh');
+			}
+		}
+	}
 }
 

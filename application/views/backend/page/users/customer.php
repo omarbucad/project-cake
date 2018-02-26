@@ -66,7 +66,7 @@
                                 <td><span><?php echo $row->email; ?></span></td>
                                 <td><span><?php echo $row->street1; ?></span></td>
                                 <td><span><?php echo $row->status; ?></span></td>
-                                <td><span><a href="#">Edit</a></span></td>
+                                <td><span><a href="<?php echo site_url("app/users/edit/customer/$row->customer_id"); ?>">Edit</a></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else : ?>

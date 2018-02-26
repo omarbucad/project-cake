@@ -71,7 +71,7 @@ class Products extends MY_Controller {
 		}
 	}
 
-	public function view_productsbyid ($id) {
+	public function edit_product ($id) {
 		$product_id = $this->hash->decrypt($id);
 		$this->data['main_page'] = "backend/page/products/updateproducts";
 		$this->data['page_name'] = "Update Product";
@@ -83,6 +83,30 @@ class Products extends MY_Controller {
 	public function update_product () {
 		if($this->input->post()){
 			$this->product->update_product($_POST);
+		}
+	}
+
+	public function delete_product_image ($image_id) {
+		$delete = $this->product->delete_productimage($image_id);
+		if($delete){
+			echo json_encode(['status' => $delete]);
+		}
+	}
+
+	public function set_primary_image ($image_id) {
+		$set = $this->product->set_product_primary_image($image_id);
+		if($set){
+			echo json_encode(['status' => $set]);
+
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Added a Product');	
+		}
+	}
+
+	public function update_product_position($product_id, $position){
+		$update_position = $this->product->update_product_position($product_id,$position);
+		if($update_position){
+			echo json_encode(['status' => $update_position]);
 		}
 	}
 }

@@ -56,14 +56,12 @@ if( ! function_exists('convert_status')){
 if( ! function_exists('convert_customer_status')){
     
     function convert_customer_status($status) {
-        if($status){
-            if($status == 1){
+        if($status == 1){
                 return "<span class='label label-success'>Activated</span>";
-            }else if($status == 2){
+        }else if($status == 2){
                 return "<span class='label label-info'>Unactivated</span>";
-            }else{
+        }else{
                 return "<span class='label label-danger'>Inactive</span>";
-            }
         }
 
         return false;

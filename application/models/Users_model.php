@@ -178,4 +178,76 @@ class Users_model extends CI_Model {
             return $last_id;
         }
     }
+
+    public function get_customer_information($customer_id){
+        $result = $this->db->where("customer_id" , $customer_id)->get("customer")->row();
+        return $result;
+    }
+
+    public function get_customer_address($address_id){
+        $result = $this->db->where("address_id" , $address_id)->get("address")->row();
+        return $result;
+    }
+
+    public function update_customer($customer_id){
+        $this->db->trans_start();
+
+        $post = $this->input->post();
+
+        $this->db->where('address_id', $post['physical_address_id']);
+        $this->db->update("address" , $this->input->post("physical"));
+
+        $this->db->where('customer_id' , $customer_id);
+        $this->db->update("customer" , [
+            "display_name"          => $post["display_name"],
+            "status"                => $post['status']
+        ]);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $customer_id;
+        }
+    }
+
+    public function get_user_information($user_id){
+        $user_id = $this->hash->decrypt($user_id);
+
+        $result = $this->db->where("user_id" , $user_id)->get("users")->row();
+        return $result;
+    }
+
+    public function update($user_id){
+        $this->db->trans_start();
+
+        $post = $this->input->post();
+
+
+        $this->db->where('user_id' , $user_id);
+        $this->db->update("users" , [
+            "name"          => $post["display_name"],
+            "account_type"  => $post['role']
+        ]);
+
+        if($_FILES['file']){
+
+            $this->db->select('image_path, image_name');
+            $imageinfo = $this->db->where('user_id', $user_id)->get("users")->row();
+                       
+
+            unlink("./public/upload/user/".$imageinfo->image_path."/".$imageinfo->image_name);
+
+            $this->do_upload($user_id);
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $user_id;
+        }
+    }
 }

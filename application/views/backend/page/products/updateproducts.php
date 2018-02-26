@@ -6,14 +6,69 @@
         $(this).parent().prev().find("input").trigger("click");
     });
 
-    $(document).on("click" , ".btn-remove-image" , function(){
-        var count = $(this).closest("dd").find(".form-group").length;
+    $(document).ready(function(){
+        var c = $(".thumbnail-list-item").length;
 
-        if(count != 1){
-            $(this).closest(".form-group").remove();
-        }else{
-            $(this).closest(".form-group").find("input").val("");
+        if(c == 1){
+            $('div.thumbnail-list-item').find(".btn-remove-image").remove();
         }
+
+
+    });
+    $(document).on("click" , ".btn-remove-image" , function(){
+        var image_id = $(this).data("id");
+        var url = '<?php echo site_url('app/products/delete_product_image/');?>'+image_id;
+        
+        var $me = $(this);
+        var c= confirm("Are you sure?");
+        if(c == true){
+            $.ajax({
+                url : url ,
+                method : "GET" ,
+                success : function(response){
+                    var json = jQuery.parseJSON(response);
+                    if(json.status){
+                        $me.closest("div.thumbnail-list-item").remove();
+                        $.notify("Successfully deleted image" , { className:  "success" , position : "top center"});
+                        var c = $(".thumbnail-list-item").length;
+                       
+                        if(c == 1){
+                            $('div.thumbnail-list-item').find(".btn-remove-image").remove();
+                        }
+
+                    }
+
+                }
+            });
+        }
+        
+    });
+
+    $(document).on("click" , ".btn-set-primary" , function(){
+        var image_id = $(this).data("id");
+        var url = '<?php echo site_url('app/products/set_primary_image/');?>'+image_id;
+        
+        var $me = $(this);
+        var c= confirm("Are you sure?");
+        if(c == true){
+            $.ajax({
+                url : url ,
+                method : "GET" ,
+                success : function(response){
+                    var json = jQuery.parseJSON(response);
+                    if(json.status){
+                        var c = $(".thumbnail-list-item").length;
+                       
+                        if(c == 1){
+                            $('div.thumbnail-list-item').find(".btn-set-primary").remove();
+                        }
+                        location.reload();
+                    }
+
+                }
+            });
+        }
+        
     });
 
     $(document).on("click" , "#save" , function(){
@@ -37,6 +92,8 @@
             }
         });
     });
+
+
 </script>
 <style type="text/css">
     img {
@@ -51,9 +108,7 @@
             <li class="active">New Product</li>
         </ol>   
         <h3>Update Product</h3>
-        <div class="pull-right">
-            <img src="<?php echo site_url("thumbs/images/product/".$result->image_path."/250/250/".$result->image_name); ?>" >
-        </div>
+        
         <form class="form-horizontal" action="<?php echo site_url("app/products/update_product"); ?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="product_id" value="<?php echo $result->product_id ?>">
             <!-- STORE SETTINGS -->
@@ -110,6 +165,33 @@
                     <dd>
                         <div class="form-group">
                             <textarea class="textarea" name="description"> <?php echo $result->product_description ?></textarea>
+                        </div>
+                    </dd>
+                    <dt>Images</dt>
+                    <dd>
+                        <div class="form-group">
+                            <div class="input-group">
+                              <input type="file" name="other_file[]" class="form-control">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default btn-remove-image" type="button" style="margin:0px;">x</button>
+                              </span>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <a href="javascript:void(0);" class="btn btn-primary btn-add-more">Add More</a>
+                        </div>
+                        
+                        <div class="row text-center">
+                            <?php foreach($result->images as $key => $value):?>
+                            <div class="col-lg-3 thumbnail-list-item" style="background-image: url('<?php echo site_url("thumbs/images/product/".$value->image_path."/80/80/".$value->image_name); ?>'); background-repeat: no-repeat; background-position: center; position: relative; background-size: contain; height: 100%;    width: auto; min-height: 200px; min-width: 200px; margin-right: 20px;">
+                                
+                                <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-remove-image" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Delete</a>
+                                <?php if($value->primary_image != 1):?>
+                                <a href="javascript:void(0);" class="btn btn-success btn-sm btn-set-primary" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Make Primary</a>
+                                <?php endif;?>
+                            
+                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </dd>
 

@@ -2,6 +2,27 @@
     $(document).on('click' , '#search' , function(){
         $('#search_form').submit();
     });
+
+    $(document).on('blur' , '.position-value' , function(){
+        var product_id = $(this).data("id");
+        var pos_value = $(this).val();
+        console.log(pos_value);
+        var url = '<?php echo site_url('app/products/update_product_position/');?>'+product_id+'/'+pos_value;
+        
+        var $me = $(this);
+        $.ajax({
+                url : url ,
+                method : "GET" ,
+                success : function(response){
+                    var json = jQuery.parseJSON(response);
+                    if(json.status){
+                        console.log(json.status);
+                    }
+
+                }
+            });
+    });
+
     $(document).ready(function(){
        setTimeout(function(){ $('.alert-success').fadeOut() }, 1000);
     });
@@ -110,10 +131,10 @@
                                 </td>
                                 <td ><span ><?php echo $row->short_description; ?></span></td>
                                 <td ><span ><?php echo $row->product_description; ?></span></td>
-                                <td ><span ><?php echo $row->product_position; ?></span></td>
+                                <td ><span ><input type="text" name="product_position" class="form-control position-value" value="<?php echo $row->product_position; ?>" data-id="<?php echo $row->product_id;?>" style="width: 45px;"/></td>
                                 <td ><span ><?php echo $row->category_name; ?></span></td>
                                 <td ><span ><?php echo $row->status; ?></span></td>
-                                <td ><span><a href="<?php echo site_url("app/products/view_productsbyid/".$row->product_id); ?>" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</a></span></td>
+                                <td ><span><a href="<?php echo site_url("app/products/edit_product/".$row->product_id); ?>" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</a></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else : ?>

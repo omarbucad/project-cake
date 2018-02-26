@@ -341,6 +341,10 @@ class Product_model extends CI_Model {
         ->where('pi.primary_image' , 1)
         ->where('p.product_id' , $id)
         ->get()->row(); 
+
+        if($result){
+            $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();
+        }
       
         return $result;
     }
@@ -366,9 +370,83 @@ class Product_model extends CI_Model {
             return false;
         }else{
             $this->session->set_flashdata('message_name', 'This is my message');
-           redirect("app/products");
+            redirect("app/products");
 
         }
 
+    }
+
+    public function delete_productimage($image_id){
+        $this->db->trans_start();
+        
+        $this->db->select('image_path, image_name, primary_image, product_id');
+        $imageinfo = $this->db->where('image_id', $image_id)->get("products_images")->row();
+        
+        unlink("./public/upload/product/".$imageinfo->image_path."/".$imageinfo->image_name);
+
+        $this->db->where('image_id',$image_id);
+        $this->db->delete("products_images");
+
+        if($imageinfo->primary_image == 1){
+            
+            $result = $this->db->where("product_id" , $imageinfo->product_id)->order_by("primary_image" , "DESC")->get("products_images")->row();
+            $this->db->where('image_id', $result->image_id);
+            $this->db->update("products_images" , [
+                "primary_image" => 1
+            ]);
+
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function set_product_primary_image($image_id){
+        $this->db->trans_start();
+
+        $this->db->select('product_id');
+        $product = $this->db->where('image_id', $image_id)->get("products_images")->row();
+
+        $this->db->where('product_id', $product->product_id);
+        $this->db->where('primary_image', 1);
+        $this->db->update("products_images" , [
+            "primary_image" => 0
+        ]);
+
+        $this->db->where("image_id", $image_id);
+        $this->db->update("products_images" , [
+            "primary_image" => 1
+        ]);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }        
+    }
+
+    public function update_product_position($product_id, $position_value){
+        $product = $this->hash->decrypt($product_id);
+        $this->db->trans_start();
+
+        $this->db->where('product_id', $product);
+        $this->db->update("products" , [
+            "product_position" => $position_value
+        ]);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }      
     }
 }
