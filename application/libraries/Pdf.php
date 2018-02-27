@@ -35,10 +35,10 @@ class Pdf {
 		
 		try{
 
-			$filename = time().'.pdf';
+			$filename = "INVOICE_".$data->invoice_no.'_'.time().'.pdf';
 			$path = FCPATH.$this->folder.'/'.$filename;
 
-			$this->html2pdf->writeHTML("Hello");
+			$this->html2pdf->writeHTML($this->CI->load->view("backend/pdf/tax_invoice" , $data , TRUE));
 			$this->html2pdf->Output($path , 'F');
 
 			return [
@@ -53,13 +53,13 @@ class Pdf {
 
 	}
 
-	public function create_do(){
+	public function create_do($data = array()){
 		try{
 
-			$filename = time().'.pdf';
+			$filename = "DO_".$data->invoice_no.'_'.time().'.pdf';
 			$path = FCPATH.$this->folder.'/'.$filename;
 
-			$this->html2pdf->writeHTML("Hello");
+			$this->html2pdf->writeHTML($this->CI->load->view("backend/pdf/delivery_order" , $data , TRUE));
 			$this->html2pdf->Output($path , 'F');
 
 			return [

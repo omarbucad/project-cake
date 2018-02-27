@@ -206,7 +206,7 @@ if(!function_exists("fromNow")){
 
 if ( ! function_exists('custom_money_format'))
 {
-    function custom_money_format($money)
+    function custom_money_format($money , $no_format = false)
     {
 
         if(!$money){
@@ -216,7 +216,13 @@ if ( ! function_exists('custom_money_format'))
         $formatted = "RM ";
 
         $formatted .= number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $money)), 2);
-        return $money < 0 ? "({$formatted})" : "{$formatted}";
+
+        if($no_format){
+            return number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $money)), 2);
+        }else{
+            return $money < 0 ? "({$formatted})" : "{$formatted}";
+        }
+        
     }   
 }
 

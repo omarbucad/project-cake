@@ -11,12 +11,12 @@
                 </button>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li class="<?php echo ($this->uri->segment(2) == "dashboard") ? "active" : ""; ?>">
                     <a href="<?php echo site_url('app/dashboard'); ?>">
                         <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
                     </a>
                 </li>
-                <li class="panel panel-default dropdown">
+                <li class="panel panel-default dropdown <?php echo ($this->uri->segment(2) == "invoice") ? "active" : ""; ?>">
                     <a data-toggle="collapse" href="#dropdown-element">
                         <span class="icon fa fa-clipboard"></span><span class="title">Invoice</span>
                     </a>
@@ -30,12 +30,17 @@
                         </div>
                     </div>
                 </li>
-                <li>
+                <li class="<?php echo ($this->uri->segment(2) == "products") ? "active" : ""; ?>">
                     <a href="<?php echo site_url('app/products'); ?>">
                         <span class="icon fa fa-tags"></span><span class="title">Products</span>
                     </a>
                 </li>
-                <li class="panel panel-default dropdown">
+                <li class="<?php echo ($this->uri->segment(2) == "categories") ? "active" : ""; ?>">
+                    <a href="<?php echo site_url('app/categories'); ?>">
+                        <span class="icon fa fa-list"></span><span class="title">Categories</span>
+                    </a>
+                </li>
+                <li class="panel panel-default dropdown <?php echo ($this->uri->segment(2) == "users") ? "active" : ""; ?>">
                     <a data-toggle="collapse" href="#dropdown-form">
                         <span class="icon fa fa-users"></span><span class="title">Accounts</span>
                     </a>
@@ -49,11 +54,7 @@
                         </div>
                     </div>
                 </li>
-                <li>
-                    <a href="<?php echo site_url('app/categories'); ?>">
-                        <span class="icon fa fa-list"></span><span class="title">Categories</span>
-                    </a>
-                </li>
+                
             
             </ul>
         </div>

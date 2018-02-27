@@ -258,7 +258,7 @@ class Product_model extends CI_Model {
         $this->db->insert_batch("customer_order_product" , $product_array);
 
         $this->db->where("order_id" , $order_id)->update("customer_order" , [
-            "order_number"      => date("mdY").'-'.sprintf('%05d', $order_id) ,
+            "order_number"      => date("dmY").'-'.sprintf('%05d', $order_id) ,
             "total_price"       => $total_price ,
             "items"             => $items
         ]);
@@ -268,7 +268,7 @@ class Product_model extends CI_Model {
         if ($this->db->trans_status() === FALSE){
             return false;
         }else{
-            return date("mdY").'-'.sprintf('%05d', $order_id);
+            return date("dmY").'-'.sprintf('%05d', $order_id);
         }
     }
 

@@ -75,6 +75,8 @@ class Invoice_model extends CI_Model {
             "created_by"    => $user_id ,
             "payment_type"  => "UNPAID" ,
             "invoice_date"  => time() ,
+            "gst"           => 6 ,
+            "total_price"   => ($order_info->total_price * 0.06) + $order_info->total_price,
             "invoice_no"    => $order_info->order_number
         ]);
 
@@ -181,5 +183,34 @@ class Invoice_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    public function get_invoice_by_id($invoice_id){
+        $this->db->select("i.invoice_no , i.invoice_date , i.price , i.gst , i.total_price , i.payment_method");
+        $this->db->select("c.display_name , c.email , a.street1 , a.street2 , a.suburb , a.state , a.postcode , a.city");
+        $this->db->select("co.items , co.order_id");
+        $this->db->join("customer_order co" , "co.order_id = i.order_id");
+        $this->db->join("customer c" , "c.customer_id = co.customer_id");
+        $this->db->join("address a" , "a.address_id = c.physical_address_id");
+        $invoice_information = $this->db->where("invoice_id" , $invoice_id)->get("invoice i")->row();
+
+        if($invoice_information){
+            $invoice_information->price = custom_money_format($invoice_information->price , true);
+            $invoice_information->gst = round($invoice_information->gst).'%';
+            $invoice_information->gst_price = round($invoice_information->gst).'%';
+            $invoice_information->total_price = custom_money_format($invoice_information->total_price , true);
+
+            $order_list = $this->db->where("order_id" , $invoice_information->order_id)->get("customer_order_product")->result();
+
+            foreach($order_list as $key => $row){
+                $order_list[$key]->product_price = custom_money_format($row->product_price , true );
+                $order_list[$key]->total_price = custom_money_format($row->total_price , true);
+            }
+
+            $invoice_information->items_list = $order_list;
+
+        }
+
+        return $invoice_information;
     }
 }

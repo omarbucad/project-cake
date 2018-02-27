@@ -31,9 +31,9 @@ class Category_model extends CI_Model {
 
 
         if($count){
-            return $result = $this->db->get("category")->num_rows();
+            return $result = $this->db->where("deleted IS NULL")->get("category")->num_rows();
         }else{
-            $result = $this->db->limit($limit , $skip)->order_by("category_name" , "ASC")->get("category")->result();
+            $result = $this->db->where("deleted IS NULL")->limit($limit , $skip)->order_by("category_name" , "ASC")->get("category")->result();
         }
 
         foreach($result as $r => $value){
@@ -44,8 +44,8 @@ class Category_model extends CI_Model {
     }
 
     public function get_category($category_id){
-        $this->db->where("category_id", $category_id);
-        $result = $this->db->get("category")->row();
+
+        $result = $this->db->where("category_id", $category_id)->get("category")->row();
 
         return $result;
     }
@@ -75,10 +75,10 @@ class Category_model extends CI_Model {
         $this->db->trans_start();
 
         $post = $this->input->post();
-        $this->db->where("category_id", $category_id);
-        $this->db->update("category" , [
+
+        $this->db->where("category_id", $category_id)->update("category" , [
             "category_name"        => $post["category_name"] ,
-            "status"     => $post["category_status"]
+            "status"               => $post["category_status"]
         ]);
 
 

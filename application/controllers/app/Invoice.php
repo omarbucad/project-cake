@@ -11,6 +11,8 @@ class Invoice extends MY_Controller {
 
 	public function index(){
 
+
+		print_r_die($this->create_invoice_pdf(1));
 		$this->data['page_name'] = "Invoice Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/invoice";
 
@@ -56,7 +58,11 @@ class Invoice extends MY_Controller {
 
 				if($invoice_id = $this->invoice->create_invoice($order_id)){
 					
+					//CREATING INVOICE PDF
 					$this->create_invoice_pdf($invoice_id);
+
+					//CREATING DELIVERY ORDER PDF
+					$this->create_do_pdf($invoice_id);
 
 					$this->db->where("order_id" , $order_id)->update("customer_order" , ["status" => 2]);
 
@@ -94,7 +100,47 @@ class Invoice extends MY_Controller {
 	}
 
 	private function create_invoice_pdf($invoice_id){
-		
+
+		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
+
+
+		if($pdf = $this->pdf->create_invoice($invoice_information)){
+
+			$this->db->where("invoice_id" , $invoice_id)->update("invoice" , [
+				"invoice_pdf" => $pdf['file']
+			]);
+
+			$this->send_email_invoice($invoice_information , $pdf['attachment']);
+
+		}
+
+	}
+
+	private function send_email_invoice($invoice_information , $pdf_file){
+
+		$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
+		$this->email->to($invoice_information->email);
+
+		$this->email->subject('Gravybaby Bill Statement');
+		$this->email->message($this->load->view('backend/email/send_invoice' , $invoice_information , TRUE));
+		$this->email->attach($pdf_file);
+		$this->email->set_mailtype('html');
+
+		$this->email->send();
+	}
+
+
+	private function create_do_pdf($invoice_id){
+		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
+
+		if($pdf = $this->pdf->create_do($invoice_information)){
+
+			$this->db->where("invoice_id" , $invoice_id)->update("invoice" , [
+				"delivery_order_pdf" => $pdf['file']
+			]);
+
+		}
+
 	}
 
 }
