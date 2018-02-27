@@ -648,7 +648,6 @@ class MY_Controller extends CI_Controller {
         $this->data['website_title'] = "No Page Found | Accounts Package";
         $this->data['page_name'] = "ERROR 404";
         $this->data['main_page'] = "backend/common/error/404";
-
     }
 
     public function send_push_notification($driver_id){
@@ -680,6 +679,5 @@ class MY_Controller extends CI_Controller {
                 curl_close($curl_session);
             }
         }
-
     }   
 }

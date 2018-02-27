@@ -115,7 +115,7 @@
 			<div class="card">
 
 				<?php if(count($result->images) == 1) : ?>
-					<div class="cropper">
+					<div class="text-center">
 						<img class="card-img-top img-fluid" src="<?php echo site_url("thumbs/images/product/".$result->images[0]->image_path."/500/500/".$result->images[0]->image_name); ?>" alt="">
 					</div>
 				<?php else: ?>
