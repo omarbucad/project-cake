@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </li>
-               <li>
+                <li>
                     <a href="<?php echo site_url('app/products'); ?>">
                         <span class="icon fa fa-tags"></span><span class="title">Products</span>
                     </a>
@@ -48,6 +48,11 @@
                             </ul>
                         </div>
                     </div>
+                </li>
+                <li>
+                    <a href="<?php echo site_url('app/categories'); ?>">
+                        <span class="icon fa fa-list"></span><span class="title">Categories</span>
+                    </a>
                 </li>
             
             </ul>

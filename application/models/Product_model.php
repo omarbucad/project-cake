@@ -82,6 +82,12 @@ class Product_model extends CI_Model {
     }
 
     public function get_products($count = false){
+
+        $this->db->select("p.status, p.product_name, p.product_id, p.short_description, 
+            p.product_description, p.product_position, p.price, p.category_id, c.category_name"
+        );
+        $this->db->where('p.deleted IS NULL');
+
         $this->db->join("category c" ,"c.category_id = p.category_id");
 
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
@@ -119,6 +125,7 @@ class Product_model extends CI_Model {
         }else{
             $result = $this->db->limit($limit , $skip)->order_by("product_position" , "ASC")->get("products p")->result();
         }
+       //print_r_die($result);
 
         foreach($result as $key => $row){
             $result[$key]->images     = $this->db->where("product_id" , $row->product_id)->where("primary_image" , 1)->get("products_images")->row();
@@ -127,7 +134,6 @@ class Product_model extends CI_Model {
             $result[$key]->status     = convert_status($row->status);
             $result[$key]->product_description = strlen($row->product_description) > 100 ? substr($row->product_description,0,100)."..." : $row->product_description;
         }
-
         return $result;
     }
 
@@ -351,18 +357,30 @@ class Product_model extends CI_Model {
 
     public function update_product ($data) {
         $this->db->trans_start();
+
+        if($data['productstatus'] == 'ACTIVE'){
+            $data['productstatus'] = 1;
+        }
+        else{
+            $data['productstatus'] = 0;
+        }
         $arr = array(
             "product_name"          => $data['product_name'] ,
             "price"                 => $data['product_price'] ,
             "product_position"      => $data['product_position'] ,
             "category_id"           => $this->hash->decrypt($data['category']) ,
             "short_description"     => $data['short_description'] ,
-            "product_description"   => $data['description']
+            "product_description"   => $data['description'],
+            "status"                => $data['productstatus']
             );
 
         $this->db->where("product_id" , $data['product_id']);
-        $this->db->update("products" , $arr);
+        $asd = $this->db->update("products" , $arr);
 
+
+        if($_FILES['other_file']){
+             $this->multiple_upload($data['product_id'] , false);
+        }
 
         $this->db->trans_complete();
 
@@ -449,4 +467,20 @@ class Product_model extends CI_Model {
             return true;
         }      
     }
+     public function delete_product($product_id){
+        $this->db->trans_start();
+
+        $this->db->where('product_id', $product_id);
+        $this->db->update("products" , [
+            "deleted" => time()
+        ]);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }      
+     }
 }

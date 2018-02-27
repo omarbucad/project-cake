@@ -5,6 +5,15 @@
         $(this).parent().before(clone);
         $(this).parent().prev().find("input").trigger("click");
     });
+    $(document).on("click" , ".btn-remove-attachment" , function(){
+        var count = $(this).closest("dd").find(".form-group").length;
+
+        if(count != 1){
+            $(this).closest(".form-group").remove();
+        }else{
+            $(this).closest(".form-group").find("input").val("");
+        }
+    });
 
     $(document).ready(function(){
         var c = $(".thumbnail-list-item").length;
@@ -12,7 +21,6 @@
         if(c == 1){
             $('div.thumbnail-list-item').find(".btn-remove-image").remove();
         }
-
 
     });
     $(document).on("click" , ".btn-remove-image" , function(){
@@ -35,14 +43,12 @@
                         if(c == 1){
                             $('div.thumbnail-list-item').find(".btn-remove-image").remove();
                         }
-
                     }
-
                 }
             });
         }
-        
     });
+
 
     $(document).on("click" , ".btn-set-primary" , function(){
         var image_id = $(this).data("id");
@@ -64,11 +70,18 @@
                         }
                         location.reload();
                     }
-
                 }
             });
         }
-        
+    });
+
+    $(document).on("click" , ".btn-delete-product" , function(){
+
+        var c = confirm("Are you sure?");
+
+        if(c == true){
+            window.location.href = $(this).data("href");
+        }
     });
 
     $(document).on("click" , "#save" , function(){
@@ -117,6 +130,7 @@
                     <div class="card-title">
                         <div class="title">Details</div>
                     </div>
+                    <a href="javascript:void(0);" data-href="<?php echo site_url('app/products/delete_product/'.$result->product_id);?>" class="btn btn-danger btn-sm btn-delete-product pull-right">Delete Product</a>
                 </div>
                 <div class="card-body">
                     <dl class="dl-horizontal text-left">
@@ -154,46 +168,56 @@
                                 </span>
                             </div><!-- /input-group -->
                         </div>
-                    </dd>
-                    <dt>Short Description</dt>
-                    <dd>
-                        <div class="form-group">
-                            <input type="text" name="short_description" class="form-control" value="<?php echo $result->short_description ?>">
-                        </div>
-                    </dd>
-                    <dt>Description</dt>
-                    <dd>
-                        <div class="form-group">
-                            <textarea class="textarea" name="description"> <?php echo $result->product_description ?></textarea>
-                        </div>
-                    </dd>
-                    <dt>Images</dt>
-                    <dd>
-                        <div class="form-group">
-                            <div class="input-group">
-                              <input type="file" name="other_file[]" class="form-control">
-                              <span class="input-group-btn">
-                                <button class="btn btn-default btn-remove-image" type="button" style="margin:0px;">x</button>
-                              </span>
+                        </dd>
+                        <dt>Status</dt>
+                        <dd>
+                            <div class="form-group">
+                                <select class="form-control" name="productstatus">
+                                    <option  <?php echo ($result->status == 1) ? "selected" : "" ; ?> value="ACTIVE">Active</option>
+                                    <option <?php echo ($result->status == 0) ? "selected" : "" ; ?> value="INACTIVE">Inactive</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="row text-right">
-                            <a href="javascript:void(0);" class="btn btn-primary btn-add-more">Add More</a>
-                        </div>
-                        
-                        <div class="row text-center">
-                            <?php foreach($result->images as $key => $value):?>
-                            <div class="col-lg-3 thumbnail-list-item" style="background-image: url('<?php echo site_url("thumbs/images/product/".$value->image_path."/80/80/".$value->image_name); ?>'); background-repeat: no-repeat; background-position: center; position: relative; background-size: contain; height: 100%;    width: auto; min-height: 200px; min-width: 200px; margin-right: 20px;">
+                        </dd>
+                        <dt>Short Description</dt>
+                        <dd>
+                            <div class="form-group">
+                                <input type="text" name="short_description" class="form-control" value="<?php echo $result->short_description ?>">
+                            </div>
+                        </dd>
+                        <dt>Description</dt>
+                        <dd>
+                            <div class="form-group">
+                                <textarea class="textarea" name="description"> <?php echo $result->product_description ?></textarea>
+                            </div>
+                        </dd>
+                        <dt>Images</dt>
+                        <dd>
+                            <div class="row text-center">
+                                <?php foreach($result->images as $key => $value):?>
+                                <div class="col-lg-3 thumbnail-list-item" style="background-image: url('<?php echo site_url("thumbs/images/product/".$value->image_path."/80/80/".$value->image_name); ?>'); background-repeat: no-repeat; background-position: center; position: relative; background-size: contain; height: 100%;    width: auto; min-height: 200px; min-width: 200px; margin-right: 20px;">
+                                    
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-remove-image" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Delete</a>
+                                    <?php if($value->primary_image != 1):?>
+                                    <a href="javascript:void(0);" class="btn btn-success btn-sm btn-set-primary" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Make Primary</a>
+                                    <?php endif;?>
                                 
-                                <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-remove-image" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Delete</a>
-                                <?php if($value->primary_image != 1):?>
-                                <a href="javascript:void(0);" class="btn btn-success btn-sm btn-set-primary" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Make Primary</a>
-                                <?php endif;?>
-                            
+                                </div>
+                                <?php endforeach; ?>
                             </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </dd>
+                        </dd>
+                        <dd>
+                            <div class="form-group">
+                                <div class="input-group">
+                                  <input type="file" name="other_file[]" class="form-control">
+                                  <span class="input-group-btn">
+                                    <button class="btn btn-default btn-remove-attachment" type="button" style="margin:0px;">x</button>
+                                  </span>
+                                </div>
+                            </div>
+                            <div class="row text-right">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-add-more">Add More</a>
+                            </div>
+                        </dd>
 
                 </dl>
 

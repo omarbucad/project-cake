@@ -109,4 +109,17 @@ class Products extends MY_Controller {
 			echo json_encode(['status' => $update_position]);
 		}
 	}
+
+	public function delete_product($product_id){
+
+		$delete_product = $this->product->delete_product($product_id);
+		if($delete_product){
+
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Deleted Product');
+
+			redirect("app/products" , 'refresh');
+
+		}
+	}
 }

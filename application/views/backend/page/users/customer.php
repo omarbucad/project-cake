@@ -33,7 +33,7 @@
                                     <select class="form-control" id="s_roles" name="status">
                                         <option value="">- Select Status-</option>
                                         <option value="ACTIVE" <?php echo ($this->input->get("status") == "ACTIVE") ? "selected" : ""; ?>>Activated</option>
-                                        <option value="INACTIVE" <?php echo ($this->input->get("status") == "INACTIVE") ? "selected" : ""; ?>>Inactived</option>
+                                        <option value="INACTIVE" <?php echo ($this->input->get("status") == "INACTIVE") ? "selected" : ""; ?>>Inactive</option>
                                     </select>
                                 </div>
                             </div>
