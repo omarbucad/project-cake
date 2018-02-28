@@ -1,11 +1,37 @@
+<script type="text/javascript">
+    $(document).on("click" , ".btn-delete-category" , function(){
 
-<div class="container margin-bottom">
+        var c = confirm("Are you sure?");
+
+        if(c == true){
+            window.location.href = $(this).data("href");
+        }
+    });
+</script>
+<div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
-        <ol class="breadcrumb">
-            <li><a href="<?php echo site_url('app/categories'); ?>">Category</a></li>
-            <li class="active">Update Category</li>
-        </ol>   
-        <h3>Update Category</h3>
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo site_url('app/categories'); ?>">Category</a></li>
+                <li class="active">Update Category</li>
+            </ol>   
+            <h3>Update Category</h3>
+        </div>
+        <div class="grey-bg ">
+            <div class="container ">
+                <div class="row no-margin-bottom">
+                    <div class="col-xs-12 col-lg-8 no-margin-bottom text-left">
+                        <a href="javascript:void(0);" data-href="<?php echo site_url('app/categories/delete_category/'.$result->category_id);?>" class="btn btn-danger btn-sm btn-delete-category">Delete Category</a>
+                    </div>
+                    <div class="col-xs-12 col-lg-4 text-right no-margin-bottom">
+                        <a href="<?php echo site_url("app/categories"); ?>" class="btn btn-primary">Cancel</a>
+                        <input type="submit" name="submit" value="Update" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="container">
         <form class="form-horizontal" action="<?php echo site_url("app/categories/update_category/".$result->category_id); ?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="<?php echo $csrf_token_name; ?>" value="<?php echo $csrf_hash; ?>">
             <!-- STORE SETTINGS -->
@@ -40,9 +66,10 @@
 
 
             <div class="text-right margin-bottom">
-                <a href="javascript:void(0);" class="btn btn-default">Cancel</a>
+                <a href="<?php echo site_url('app/categories');?>" class="btn btn-default">Cancel</a>
                 <input type="submit" name="submit" value="Save" class="btn btn-success">
             </div>
         </form>
+        </section>
     </div>
 </div>

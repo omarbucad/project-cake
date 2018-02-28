@@ -62,7 +62,7 @@ $(document).on("click" , "#save" , function(){
 
 
             <div class="text-right margin-bottom">
-                <a href="javascript:void(0);" class="btn btn-default">Cancel</a>
+                <a href="<?php echo site_url('app/categories');?>" class="btn btn-default">Cancel</a>
                 <input type="submit" name="submit" value="Save" class="btn btn-success">
             </div>
         </form>

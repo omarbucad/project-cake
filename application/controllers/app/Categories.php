@@ -70,7 +70,7 @@ class Categories extends MY_Controller {
 				$this->session->set_flashdata('status' , 'success');	
 				$this->session->set_flashdata('message' , 'Successfully Updated a Category');	
 
-				redirect("app/categories/?category_id=".$this->hash->encrypt($category_id).'?submit=submit' , 'refresh');
+				redirect("app/categories/", 'refresh');
 			}else{
 				$this->session->set_flashdata('status' , 'error');
 				$this->session->set_flashdata('message' , 'Something went wrong');	
@@ -79,6 +79,18 @@ class Categories extends MY_Controller {
 			}
 		}
 
+	}
+
+	public function delete_category($category_id){
+		$delete_category = $this->category->delete_category($category_id);
+		if($delete_category){
+
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Deleted Product');
+
+			redirect("app/categories" , 'refresh');
+
+		}
 	}
 	
 }

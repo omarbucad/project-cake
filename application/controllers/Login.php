@@ -21,6 +21,8 @@ class Login extends MY_Controller {
 			$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
 			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
 			$this->form_validation->set_rules('name'			, 'Full Name'	    , 'trim|required');
+			$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
+			$this->form_validation->set_rules('street1'	, 'Street 1'    , 'trim|required');
 		}
 
 		if ($this->form_validation->run() == FALSE){
@@ -59,7 +61,7 @@ class Login extends MY_Controller {
 
 				$this->db->trans_start();
 
-				$this->db->insert("address" , ["street1" => ""]);
+				$this->db->insert("address" , ["street1" => $this->input->post("street1")]);
 				$address_id = $this->db->insert_id();
 
 				$activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));
@@ -67,12 +69,22 @@ class Login extends MY_Controller {
 				$this->db->insert("customer" , [
 					"password"				=> $this->input->post("password") ,
 					"email"					=> $this->input->post("username") ,
+					"phone_number"			=> $this->input->post("phone_number") ,
 					"activation_code" 		=> $activation_code,
 					"physical_address_id" 	=> $address_id ,
 					"display_name"			=> $this->input->post("name"),
 					"status"				=> 2 ,
 					"created"				=> time()
 				]);
+
+				$this->db->where("address_id", $address_id);
+				$this->db->update("address", [
+		            "street2"	=> $this->input->post("street2") ,
+		            "suburb"	=> $this->input->post("suburb") ,
+		            "city"		=> $this->input->post("city") ,
+		            "postcode"	=> $this->input->post("postcode") ,
+		            "state"		=> $this->input->post("state") 
+		        ]);
 
 				$customer_id = $this->db->insert_id();
 

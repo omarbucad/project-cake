@@ -29,6 +29,21 @@
 
 		$(".total_price").html("RM "+parseFloat(total_price).toFixed(2));
 	}
+
+	$(document).on("click" , "#form_submit" , function(){
+
+		var form = $("#checkout_form");
+		var payment_method = $("#payment_method").val();
+		
+		if(payment_method == ""){
+			alert("Please select a payment method");
+		}else{
+			var c = confirm("Are you sure?");
+			if(c == true){
+				form.submit();
+			}
+		}
+	});
 </script>
 <style type="text/css">
 	section{
@@ -57,7 +72,7 @@
 			<h2 class="page-header">MY CART</h2>
 
 			<?php if($cart_list["list"]) : ?>
-				<form action="<?php echo site_url("cart/checkout"); ?>" method="POST">
+				<form action="<?php echo site_url("cart/checkout"); ?>" method="POST" id="checkout_form">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -106,8 +121,16 @@
 							</tr>
 						</tbody>
 					</table>
+					<div class="form-group">
+						<label for="payment_method">Payment Method *</label>
+						<select class="form-control" name="payment_method" id="payment_method">
+							<option value="">- Select Payment Method -</option>
+							<option value="COD">Cash on Delivery</option>
+							<option value="PAYCHEQUE">Paycheque</option>
+						</select>
+					</div>
 					<div class="text-right">
-						<input type="submit" class="btn btn-primary" value="Check Out">
+						<button type="button" class="btn btn-primary" id="form_submit">Check Out</button>
 					</div>
 				</form>
 			<?php else : ?>
