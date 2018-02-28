@@ -11,8 +11,6 @@ class Invoice extends MY_Controller {
 
 	public function index(){
 
-
-		print_r_die($this->create_invoice_pdf(1));
 		$this->data['page_name'] = "Invoice Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/invoice";
 
@@ -86,6 +84,7 @@ class Invoice extends MY_Controller {
 				echo json_encode(["status" => true , "message" => "<span class='label label-success'>On Delivery</span>"]);
 
 				break;
+			
 			case 'delivered':
 
 				$this->db->where("order_id" , $order_id)->update("customer_order" , ["status" => 4]);
@@ -93,12 +92,28 @@ class Invoice extends MY_Controller {
 				echo json_encode(["status" => true , "message" => "<span class='label label-success'>Delivered</span>"]);
 
 				break;
+			
 			default:
-				# code...
+				echo json_encode(["status" => false , "message" => "Error"]);
 				break;
 		}
 	}
 
+	public function pay_invoice(){
+		if($response = $this->invoice->pay_invoice()){
+
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Updated Invoice #'.$this->input->post("invoice_no"));	
+
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			
+		}else{
+			$this->session->set_flashdata('status' , 'error');
+			$this->session->set_flashdata('message' , 'Something went wrong');	
+
+			redirect("app/invoice" , 'refresh');
+		}
+	}
 	private function create_invoice_pdf($invoice_id){
 
 		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);

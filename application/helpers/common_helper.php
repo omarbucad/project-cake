@@ -41,15 +41,33 @@ if( ! function_exists('convert_gender')){
 if( ! function_exists('convert_status')){
     
     function convert_status($status) {
-        
-            if($status == 1){
-                return "<span class='label label-success'>Active</span>";
-            }else{
-                return "<span class='label label-danger'>Inactive</span>";
-            }
-        
+        if($status == 1){
+            return "<span class='label label-success'>Active</span>";
+        }else{
+            return "<span class='label label-danger'>Inactive</span>";
+        }
+    }
+}
 
-       
+if( ! function_exists('convert_invoice_status')){
+    
+    function convert_invoice_status($status) {
+        if($status == "UNPAID"){
+            return "<span class='label label-danger'>Unpaid</span>";
+        }else{
+            return "<span class='label label-success'>Paid</span>";
+        }
+    }
+}
+
+if( ! function_exists('convert_payment_status')){
+    
+    function convert_payment_status($status) {
+        if($status == "COD"){
+            return "<span class='label label-info'>Cash on Delivery</span>";
+        }else{
+            return "<span class='label label-primary'>Paycheque</span>";
+        }
     }
 }
 

@@ -56,6 +56,9 @@ $(function() {
   return $('.select2').select2();
 });
 $(function() {
+  return $('[data-toggle="tooltip"]').tooltip();
+});
+$(function() {
   return $('.select2_modal').select2({
     dropdownParent: $(".modal")
   });

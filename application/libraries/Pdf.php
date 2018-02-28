@@ -15,7 +15,7 @@ class Pdf {
 	private $result;
 
 	function __construct( ) {
-		$this->html2pdf = new HTML2PDF('P','A4','en' , true , 'UTF-8' , $marges = array(10, 10, 10, 10));
+		
 		$this->CI =& get_instance();
 
 		$year = date("Y");
@@ -32,7 +32,7 @@ class Pdf {
 	}
 
 	public function create_invoice($data = array()){
-		
+		$this->html2pdf = new HTML2PDF('P','A4','en' , true , 'UTF-8' , $marges = array(10, 10, 10, 10));
 		try{
 
 			$filename = "INVOICE_".$data->invoice_no.'_'.time().'.pdf';
@@ -54,6 +54,7 @@ class Pdf {
 	}
 
 	public function create_do($data = array()){
+		$this->html2pdf = new HTML2PDF('P','A4','en' , true , 'UTF-8' , $marges = array(10, 10, 10, 10));
 		try{
 
 			$filename = "DO_".$data->invoice_no.'_'.time().'.pdf';

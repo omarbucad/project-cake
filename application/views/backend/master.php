@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/bootstrap-switch.min.css?version='.$version) ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/select2.min.css?version='.$version) ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/bootstrap-tagsinput.css?version='.$version) ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/css/sweetalert.css?version='.$version) ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/css/sweetalert.css?version='.$version) ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/css/multi-select.css?version='.$version) ?>">
 
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
@@ -51,28 +51,12 @@
     <script type="text/javascript" src="<?php echo site_url('public/js/jquery.multi-select.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/js/app.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/js/sweetalert.min.js?version='.$version) ?>"></script>
-
-
-    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyCGmuzaf5Kk2a_-CZSGk7nQKpuZ5j5-d44",
-        authDomain: "project-cake-8735c.firebaseapp.com",
-        databaseURL: "https://project-cake-8735c.firebaseio.com",
-        projectId: "project-cake-8735c",
-        storageBucket: "project-cake-8735c.appspot.com",
-        messagingSenderId: "14154700266"
-      };
-      firebase.initializeApp(config);
-    </script>
-    
+    <script type="text/javascript" src="<?php echo site_url('public/js/pdfobject.js?version='.$version) ?>"></script>    
 </head>
 
 <body class="flat-green">
     <?php if($this->session->flashdata("status")) : ?>
         <script type="text/javascript">
-
             $(document).ready(function(){
                 $.notify("<?php echo $this->session->flashdata("message"); ?>" , { className:  "<?php echo $this->session->flashdata("status"); ?>" , position : "top center"});
             });

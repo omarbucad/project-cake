@@ -70,8 +70,8 @@
                             </tr>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <tr>
-                            <td colspan="5" class="text-center">No Result</td>
+                        <tr class="customer-row">
+                            <td colspan="5" class="text-center"><span>No Result</span></td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

@@ -74,6 +74,7 @@ class Invoice_model extends CI_Model {
             "price"         => $order_info->total_price ,
             "created_by"    => $user_id ,
             "payment_type"  => "UNPAID" ,
+            "payment_method"=> $order_info->pay_method,
             "invoice_date"  => time() ,
             "gst"           => 6 ,
             "total_price"   => ($order_info->total_price * 0.06) + $order_info->total_price,
@@ -81,6 +82,14 @@ class Invoice_model extends CI_Model {
         ]);
 
         $last_id = $this->db->insert_id();
+
+        $this->db->insert("invoice_logs" , [
+            "invoice_id"        => $last_id ,
+            "payment_method"    => $order_info->pay_method ,
+            "notes"             => "Initial" ,
+            "user_id"           => $user_id ,
+            "created"           => time()
+        ]);
 
         return $last_id;
     }
@@ -98,10 +107,11 @@ class Invoice_model extends CI_Model {
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
         
-        $this->db->select("i.* , co.* , c.display_name , c.email , u.name");
+        $this->db->select("i.* , co.* , c.display_name , c.email , u.name , u2.name as updated_by");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
+        $this->db->join("users u2" , "u2.user_id = i.updated_by" , "LEFT");
 
         /*
             TODO :: SEARCHING LOGIC HERE
@@ -125,6 +135,14 @@ class Invoice_model extends CI_Model {
             $this->db->where("i.invoice_date <= " , $end);
         }   
 
+        if($payment_method = $this->input->get("payment_method")){
+            $this->db->where("i.payment_method" , $payment_method);
+        }
+
+        if($order_status = $this->input->get("order_status")){
+            $this->db->where("co.status" , $order_status);
+        }
+
         if($count){
             return $this->db->get("invoice i")->num_rows();
         }else{
@@ -132,11 +150,19 @@ class Invoice_model extends CI_Model {
         }
         
         foreach($result as $key => $row){
-            $result[$key]->invoice_date = convert_timezone($row->invoice_date);
+            $result[$key]->invoice_date = convert_timezone($row->invoice_date , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->price_raw = $row->price;
             $result[$key]->price = custom_money_format($row->price);
             $result[$key]->files = $this->db->where("invoice_id" , $row->invoice_id)->get("invoice_files")->result();
+            $result[$key]->invoice_pdf = $this->config->base_url($row->invoice_pdf);
+            $result[$key]->delivery_order_pdf = $this->config->base_url($row->delivery_order_pdf);
+            $result[$key]->status_raw = $row->status;
+            $result[$key]->payment_type_raw = $row->payment_type;
+            $result[$key]->payment_method_raw = $row->payment_method;
+            $result[$key]->payment_method = convert_payment_status($row->payment_method);
+            $result[$key]->payment_type = convert_invoice_status($row->payment_type);
+            $result[$key]->status = convert_order_status($row->status);
         }
 
         return $result;
@@ -162,6 +188,7 @@ class Invoice_model extends CI_Model {
             $result[$k]->total_price = custom_money_format($r->total_price );
             $result[$k]->status_raw = $result[$k]->status;
             $result[$k]->status = convert_order_status($r->status);
+            
         }
 
         return $result;
@@ -197,8 +224,16 @@ class Invoice_model extends CI_Model {
         if($invoice_information){
             $invoice_information->price = custom_money_format($invoice_information->price , true);
             $invoice_information->gst = round($invoice_information->gst).'%';
-            $invoice_information->gst_price = round($invoice_information->gst).'%';
+            $invoice_information->gst_price = custom_money_format(($invoice_information->gst / 100) * $invoice_information->price , true);
             $invoice_information->total_price = custom_money_format($invoice_information->total_price , true);
+
+
+            $invoice_information->address = $invoice_information->street1.",<br>";
+            $invoice_information->address .= ($invoice_information->street2) ? $invoice_information->street2.",<br>" : "";
+            $invoice_information->address .= ($invoice_information->suburb) ? $invoice_information->suburb.",<br>" : "";
+            $invoice_information->address .= ($invoice_information->state) ? $invoice_information->state.",<br>" : "";
+            $invoice_information->address .= ($invoice_information->postcode) ? $invoice_information->postcode.",<br>" : "";
+            $invoice_information->address .= ($invoice_information->city) ? $invoice_information->city : "";
 
             $order_list = $this->db->where("order_id" , $invoice_information->order_id)->get("customer_order_product")->result();
 
@@ -212,5 +247,90 @@ class Invoice_model extends CI_Model {
         }
 
         return $invoice_information;
+    }
+
+    public function pay_invoice(){
+        $user_id = $this->session->userdata("user")->user_id;
+
+        $this->db->trans_start();
+
+        //UPDATE INVOICE TABLE TO PAID
+        $this->db->where("invoice_id" , $this->input->post("invoice_id"))->update("invoice" , [
+            "paid_date"       => strtotime($this->input->post("paid_date")),
+            "payment_method"  => $this->input->post("payment_method"),
+            "payment_type"    => "PAID" ,
+            "updated_by"      => $user_id
+        ]);
+
+        //ADD INVOICE LOGS
+        $this->db->insert("invoice_logs" , [
+            "invoice_id"     => $this->input->post("invoice_id"),
+            "payment_method" => $this->input->post("payment_method") ,
+            "notes"          => $this->input->post("notes") ,
+            "paid_date"      => strtotime($this->input->post("paid_date")) ,
+            "cheque_no"      => $this->input->post("cheque_no"),
+            "user_id"        => $user_id ,
+            "created"        => time()
+        ]);
+
+        $this->multiple_upload($this->input->post("invoice_id"));
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private function multiple_upload($invoice_id){
+
+        $year = date("Y");
+        $month = date("m");
+        $folder = "./public/upload/files/".$year."/".$month;
+
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+            create_index_html($folder);
+        }
+
+        $config['upload_path']          = $folder;
+        $config['allowed_types']        = "gif|jpg|jpeg|png|pdf";
+        $data = $_FILES['file'];
+
+        $this->load->library('upload', $config);
+
+        if(!empty($_FILES['file']['name'])){
+
+            $filesCount = count($_FILES['file']['name']);
+
+            for($i = 0; $i < $filesCount; $i++){
+      
+                $_FILES['file']['name']     = $data['name'][$i];
+                $_FILES['file']['type']     = $data['type'][$i];
+                $_FILES['file']['tmp_name'] = $data['tmp_name'][$i];
+                $_FILES['file']['error']    = $data['error'][$i];
+                $_FILES['file']['size']     = $data['size'][$i];
+
+                $config['file_name'] = md5($invoice_id).'_'.time().'_'.$data['name'][$i];
+
+                $this->upload->initialize($config);
+
+                if ( $this->upload->do_upload('file')){
+
+                    $image = $this->upload->data();
+
+                    $this->db->insert("invoice_files" , [
+                        "invoice_id"    => $invoice_id ,
+                        "file_path"     => $year."/".$month."/".$image['file_name'],
+                        "file_type"     => $image['file_type']
+                    ]);
+
+                }
+            }//end for loop
+
+        }//end if
+
     }
 }

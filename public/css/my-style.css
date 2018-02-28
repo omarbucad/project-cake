@@ -165,7 +165,7 @@ nav > ul{
 	width: 100%;
 	margin-bottom: 10px;
 }
-.customer-table thead , .customer-table tfoot{
+.customer-table > thead , .customer-table > tfoot{
 	border-top:1px solid rgba(0,0,0,0.2);
 	border-bottom:1px solid rgba(0,0,0,0.2);
 }
@@ -202,7 +202,7 @@ nav > ul{
 .customer-table tr.customer-info{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-.customer-table tr{
+.customer-table > tbody > tr{
 	border-left : 2px solid transparent;
 }
 .customer-table tr.customer-info , .customer-table tr.active{
