@@ -62,7 +62,7 @@
                                 <div class="col-xs-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="s_name">Name</label>
-                                        <input type="text" name="name" value="<?php echo set_value("name"); ?>" placeholder="Product Name" class="form-control " />
+                                        <input type="text" name="name" value="<?php echo $this->input->get("name")?>" placeholder="Product Name" class="form-control " />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-lg-3">

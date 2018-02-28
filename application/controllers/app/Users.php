@@ -116,7 +116,7 @@ class Users extends MY_Controller {
 				$this->session->set_flashdata('status' , 'success');	
 				$this->session->set_flashdata('message' , 'Successfully Updated Customer');	
 
-				redirect("app/users/customer/?user_id=".$this->hash->encrypt($last_id).'?submit=submit' , 'refresh');
+				redirect("app/users/customer/?customer_id=".$this->hash->encrypt($customer_id).'?submit=submit' , 'refresh');
 				
 			}else{
 				$this->session->set_flashdata('status' , 'error');

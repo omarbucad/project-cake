@@ -227,9 +227,10 @@ class Product_model extends CI_Model {
         */
 
         $order = array(
-            "customer_id" => $this->session->userdata("customer")->customer_id ,
-            "status"      => 1 ,
-            "total_price" => 0,
+            "customer_id"    => $this->session->userdata("customer")->customer_id ,
+            "status"         => 1 ,
+            "total_price"    => 0,
+            "payment_method" => $this->input->post("payment_method") ,
             "created"     => time()
         );
 
@@ -467,7 +468,7 @@ class Product_model extends CI_Model {
             return true;
         }      
     }
-     public function delete_product($product_id){
+    public function delete_product($product_id){
         $this->db->trans_start();
 
         $this->db->where('product_id', $product_id);
@@ -477,10 +478,10 @@ class Product_model extends CI_Model {
 
         $this->db->trans_complete();
 
-        if ($this->db->trans_status() === FALSE){
+        if($this->db->trans_status() === FALSE){
             return false;
         }else{
-            return true;
+           return true;
         }      
-     }
+    }
 }

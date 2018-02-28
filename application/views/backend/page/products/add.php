@@ -125,7 +125,7 @@
 
 
 	    	<div class="text-right margin-bottom">
-	    		<a href="javascript:void(0);" class="btn btn-default">Cancel</a>
+	    		<a href="<?php echo site_url('app/products');?>"  class="btn btn-default">Cancel</a>
 	    		<input type="submit" name="submit" value="Save" class="btn btn-success">
 	    	</div>
     	</form>

@@ -90,5 +90,22 @@ class Category_model extends CI_Model {
             return true;
         }
     }
+
+    public function delete_category($category_id){
+        $this->db->trans_start();
+
+        $this->db->where('category_id', $category_id);
+        $this->db->update("category" , [
+            "deleted" => time()
+        ]);
+
+        $this->db->trans_complete();
+
+        if($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+           return true;
+        }      
+    }
 	
 }

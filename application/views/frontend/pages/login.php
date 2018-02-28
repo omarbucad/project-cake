@@ -16,43 +16,96 @@
 		<div class="col-lg-6 col-xs-12">
 			<form action="<?php echo site_url("login/?action=login"); ?>" method="POST">
 				<legend>LOGIN</legend>
-				<div class="form-group">
-					<label for="username">Email Address *</label>
-					<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
-				</div>
-				<div class="form-group">
-					<label for="password">Password *</label>
-					<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
-				</div>
-				<div class="text-left">
-					<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
-					<a href="javascript:void(0);">Lost your Password?</a>
-				</div>
-				<div class="checkbox">
-				    <label>
-				      <input type="checkbox" name="remember_me"> Remember Me
-				    </label>
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="username">Email Address *</label>
+								<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
+							</div>
+							<div class="form-group">
+								<label for="password">Password *</label>
+								<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
+							</div>
+							<div class="text-left">
+								<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
+								<a href="javascript:void(0);">Lost your Password?</a>
+							</div>
+							<div class="checkbox">
+							    <label>
+							      <input type="checkbox" name="remember_me"> Remember Me
+							    </label>
+							</div>
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>
 		<div class="col-lg-6 col-xs-12">
 			<form action="<?php echo site_url("login/?action=register"); ?>" method="POST">
 				<legend>REGISTER</legend>
-				<div class="form-group">
-					<label for="name">Full Name *</label>
-					<input type="text" name="name" class="form-control" placeholder="Name" id="name" required="true">
+				<div>
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">Personal Information</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="name">Full Name *</label>
+								<input type="text" name="name" class="form-control" placeholder="Name" id="name" required="true" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="username">Email Address *</label>
+								<input type="email" name="username" class="form-control" placeholder="Email Address" id="username" required="true" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="phone_number">Phone number *</label>
+								<input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="password">Password *</label>
+								<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="confirm_password">Confirm Password *</label>
+								<input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="username">Email Address *</label>
-					<input type="email" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
-				</div>
-				<div class="form-group">
-					<label for="password">Password *</label>
-					<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
-				</div>
-				<div class="form-group">
-					<label for="confirm_password">Confirm Password *</label>
-					<input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true">
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">Address *
+							<a href="#adress-div" data-toggle="collapse" class="pull-right">
+								<i class="fa fa-caret-down" aria-hidden="true"></i>
+							</a>
+						</div>
+						<div class="panel-body collapse" id="adress-div">
+							<div class="form-group">
+			                    <label for="street1">Street 1 *</label>
+			                    <input type="text" name="street1" class="form-control" id="street1" placeholder="Street 1" autocomplete="off">
+			                </div>
+			                <div class="form-group">
+			                    <label for="street2">Street 2</label>
+			                    <input type="text" name="street2" class="form-control" id="street2" placeholder="Street 2" autocomplete="off">
+			                </div>
+			                <div class="form-group">
+			                    <label for="suburb">Suburb</label>
+			                    <input type="text" name="suburb" class="form-control" id="suburb" placeholder="Suburb" autocomplete="off">
+			                </div>
+			                <div class="form-group">
+			                    <label for="city">City</label>
+			                    <input type="text" name="city" class="form-control" id="city" placeholder="City" autocomplete="off">
+			                </div>
+			                <div class="form-group">
+			                    <label for="postcode">Post Code</label>
+			                    <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Post Code" autocomplete="off">
+			                </div>
+			                <div class="form-group">
+			                    <label for="state">State</label>
+			                    <input type="text" name="state" class="form-control" id="state" placeholder="State" autocomplete="off">
+			                </div>
+						</div>
+					</div>
 				</div>
 				<div class="text-left">
 					<input type="submit" name="submit" class="btn btn-primary btn-block" value="Register">
