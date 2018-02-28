@@ -230,8 +230,8 @@ class Product_model extends CI_Model {
             "customer_id"    => $this->session->userdata("customer")->customer_id ,
             "status"         => 1 ,
             "total_price"    => 0,
-            "payment_method" => $this->input->post("payment_method") ,
-            "created"     => time()
+            "pay_method"     => $this->input->post("payment_method") ,
+            "created"        => time()
         );
 
         $this->db->insert("customer_order" , $order);

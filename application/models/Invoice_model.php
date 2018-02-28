@@ -214,7 +214,7 @@ class Invoice_model extends CI_Model {
 
     public function get_invoice_by_id($invoice_id){
         $this->db->select("i.invoice_no , i.invoice_date , i.price , i.gst , i.total_price , i.payment_method");
-        $this->db->select("c.display_name , c.email , a.street1 , a.street2 , a.suburb , a.state , a.postcode , a.city");
+        $this->db->select("c.display_name , c.email , a.street1 , a.street2 , a.suburb , a.state , a.postcode , a.city , c.phone_number");
         $this->db->select("co.items , co.order_id");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");

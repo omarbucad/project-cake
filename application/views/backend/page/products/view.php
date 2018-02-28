@@ -105,9 +105,8 @@
             <table class="table my-table">
                 <thead>
                     <tr>
-                        <th width="25%">Name</th>
-                        <th width="20%">Short Description</th>
-                        <th width="20%">Description</th>
+                        <th width="35%">Name</th>
+                        <th width="30%">Short Description</th>
                         <th width="10%">Position</th>
                         <th width="10%">Category</th>
                         <th width="10%">Status</th>
@@ -130,7 +129,6 @@
                                     </div>
                                 </td>
                                 <td ><span ><?php echo $row->short_description; ?></span></td>
-                                <td ><span ><?php echo $row->product_description; ?></span></td>
                                 <td ><span ><input type="text" name="product_position" class="form-control position-value" value="<?php echo $row->product_position; ?>" data-id="<?php echo $row->product_id;?>" style="width: 45px;"/></td>
                                 <td ><span ><?php echo $row->category_name; ?></span></td>
                                 <td ><span ><?php echo $row->status; ?></span></td>
