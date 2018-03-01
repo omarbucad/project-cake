@@ -80,7 +80,7 @@
 				<td colspan="4" style="">
 					Hp no:<br>
 					<div style="padding:5px 0px;">
-						<strong><?php echo "01506251424"; ?></strong>
+						<strong><?php echo $phone_number; ?></strong>
 					</div>
 				</td>
 			</tr>

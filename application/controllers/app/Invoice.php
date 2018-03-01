@@ -23,7 +23,6 @@ class Invoice extends MY_Controller {
 		$this->data['result'] = $this->invoice->get_invoice();
 		$this->load->view('backend/master' , $this->data);
 	}
-
 	public function order(){
 		$this->data['page_name'] = "Product Order Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/order";
@@ -106,7 +105,7 @@ class Invoice extends MY_Controller {
 			$this->session->set_flashdata('message' , 'Successfully Updated Invoice #'.$this->input->post("invoice_no"));	
 
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
-			
+
 		}else{
 			$this->session->set_flashdata('status' , 'error');
 			$this->session->set_flashdata('message' , 'Something went wrong');	
@@ -114,6 +113,7 @@ class Invoice extends MY_Controller {
 			redirect("app/invoice" , 'refresh');
 		}
 	}
+	
 	private function create_invoice_pdf($invoice_id){
 
 		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
