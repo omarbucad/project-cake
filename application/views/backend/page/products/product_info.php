@@ -25,7 +25,7 @@
                 <li><a href="<?php echo site_url('app/products'); ?>">Product</a></li>
                 <li class="active">Product Details</li>
             </ol>   
-            <h3><?php echo $result->product_name?> <span class="pull-right">RM <?php echo $result->price; ?></span></h3>
+            <h3><?php echo $result->product_name?> <span class="pull-right"><?php echo $result->price; ?></span></h3>
         </div>
         
         <section class="container">

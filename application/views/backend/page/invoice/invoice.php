@@ -191,16 +191,12 @@
             </div>
         </div>
         <div class="container ">
-            <div class="pull-right">
-                <nav aria-label="Page navigation">
-                  <?php echo $links; ?>
-              </nav>
-            </div>
+ 
             <table class="customer-table">
                 <thead>
                     <tr>
                         <th width="25%">Invoice No</th>
-                        <th width="10%">Total Price</th>
+                        <th width="10%">Price</th>
                         <th width="10%">Payment Method</th>
                         <th width="15%">Status</th>
                         <th width="20%">Invoice Date</th>
@@ -271,6 +267,10 @@
                                                 <td>
                                                     <?php if($row->image) : ?>
                                                         <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
+                                                    <?php endif; ?>
+                                                    <?php if($row->delivered_date != "NA") : ?>
+                                                        <br>
+                                                        <small><?php echo $row->delivered_date; ?></small>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

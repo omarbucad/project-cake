@@ -119,6 +119,9 @@ class Product_model extends CI_Model {
             }
         }
 
+        if($product_id = $this->input->get("product_id")){
+            $this->db->where("p.product_id" , $this->hash->decrypt($product_id));
+        }
 
         if($count){
             return $this->db->order_by("product_position" , "ASC")->get("products p")->num_rows();
@@ -168,7 +171,7 @@ class Product_model extends CI_Model {
         if($count){
             return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
         }else{
-            $result = $this->db->limit($limit , $skip)->order_by("p.product_position" , "ASC")->get("products p")->result();
+            $result = $this->db->limit($limit , $skip)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->result();
         }
 
         $tmp = array();
@@ -230,8 +233,8 @@ class Product_model extends CI_Model {
             "customer_id"    => $this->session->userdata("customer")->customer_id ,
             "status"         => 1 ,
             "total_price"    => 0,
-            "pay_method" => $this->input->post("payment_method") ,
-            "created"     => time()
+            "pay_method"     => $this->input->post("payment_method") ,
+            "created"        => time()
         );
 
         $this->db->insert("customer_order" , $order);
@@ -258,10 +261,15 @@ class Product_model extends CI_Model {
 
         $this->db->insert_batch("customer_order_product" , $product_array);
 
+        $gst_price = $total_price * 0.06;
+        $order_number = date("dmY").'-'.sprintf('%05d', $order_id);
+
         $this->db->where("order_id" , $order_id)->update("customer_order" , [
-            "order_number"      => date("dmY").'-'.sprintf('%05d', $order_id) ,
-            "total_price"       => $total_price ,
-            "items"             => $items
+            "order_number"          => $order_number ,
+            "total_price"           => $total_price ,
+            "total_price_with_gst"  => $total_price + $gst_price,
+            "gst_price"             => $gst_price ,
+            "items"                 => $items
         ]);
 
         $this->db->trans_complete();
@@ -269,7 +277,7 @@ class Product_model extends CI_Model {
         if ($this->db->trans_status() === FALSE){
             return false;
         }else{
-            return date("dmY").'-'.sprintf('%05d', $order_id);
+            return $order_number;
         }
     }
 
@@ -291,6 +299,8 @@ class Product_model extends CI_Model {
 
         foreach($result as $key => $row){
             $result[$key]->total_price = custom_money_format($row->total_price);
+            $result[$key]->gst_price = custom_money_format($row->gst_price);
+            $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created );
             $result[$key]->status = convert_order_status($row->status , true);
         }
@@ -299,7 +309,10 @@ class Product_model extends CI_Model {
     }
 
     public function get_order_by_id($order_number , $raw = false){
-        $result = $this->db->where("order_number" , $order_number)->get("customer_order")->row();
+        $this->db->select("co.* , a.* , c.display_name");
+        $this->db->join("customer c" , "c.customer_id = co.customer_id");
+        $this->db->join("address a" , "a.address_id = c.physical_address_id");
+        $result = $this->db->where("order_number" , $order_number)->get("customer_order co")->row();
 
         if($result){
             $this->db->select("op.product_name , op.product_price , op.quantity , op.total_price , op.product_id" );
@@ -313,9 +326,19 @@ class Product_model extends CI_Model {
             }
 
             $result->created = convert_timezone($result->created , true);
+            $result->delivered_date = convert_timezone($result->delivered_date , true);
             $result->total_price = custom_money_format($result->total_price );
+            $result->gst_price = custom_money_format($result->gst_price );
+            $result->total_price_with_gst = custom_money_format($result->total_price_with_gst );
             $result->status_raw = $result->status;
             $result->status = convert_order_status($result->status , $raw);
+
+            $result->address = $result->street1;
+            $result->address .= ($result->street2) ? ",<br>".$result->street2 : "";
+            $result->address .= ($result->suburb) ? ",<br>".$result->suburb : "";
+            $result->address .= ($result->state) ? ",<br>".$result->state : "";
+            $result->address .= ($result->postcode) ? ",<br>".$result->postcode : "";
+            $result->address .= ($result->city) ? ",<br>".$result->city : "";
         }
 
         return $result;
@@ -352,7 +375,7 @@ class Product_model extends CI_Model {
 
         if($result){
             $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();
-            $result->price = round($result->price , 2);
+            $result->price = custom_money_format($result->price);
         }
         
         return $result;
