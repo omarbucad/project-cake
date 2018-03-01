@@ -36,3 +36,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.png
 *.jpg
 application/config/config.php
+*.pdf
+*.html

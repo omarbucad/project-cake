@@ -342,12 +342,13 @@ class Product_model extends CI_Model {
     }
 
     public function view_productsbyid ($id) {
-        $result = $this->db->select("*")
-        ->from('products p')
-        ->join('products_images pi' , 'p.product_id = pi.product_id' )
-        ->where('pi.primary_image' , 1)
-        ->where('p.product_id' , $id)
-        ->get()->row(); 
+        $this->db->join('products_images pi' , 'p.product_id = pi.product_id');
+        $this->db->where([
+            "pi.primary_image" => 1 ,
+            "p.product_id"     => $id
+        ]);
+        
+        $result = $this->db->get('products p')->row(); 
 
         if($result){
             $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();

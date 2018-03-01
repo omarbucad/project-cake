@@ -102,10 +102,7 @@
                   <p class="card-text"><?php echo $row->short_description; ?></p>
                 </div>
                 <div class="card-footer text-right">
-                  <div style="display: flex;">
-                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-success btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
-                    <a href="javascript:void(0);" style="flex: 1;margin: 5px;" class="btn btn-warning btn-xs add-wish" data-id="<?php echo $row->product_id; ?>"><i class="fa fa-star"></i > Add to Wish Lists</a>
-                  </div>
+                   <a href="javascript:void(0);"  class="btn btn-success btn-block btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
                 </div>
 
               </div>

@@ -222,10 +222,10 @@ class Invoice_model extends CI_Model {
         $invoice_information = $this->db->where("invoice_id" , $invoice_id)->get("invoice i")->row();
 
         if($invoice_information){
-            $invoice_information->price = custom_money_format($invoice_information->price , true);
-            $invoice_information->gst = round($invoice_information->gst).'%';
-            $invoice_information->gst_price = custom_money_format(($invoice_information->gst / 100) * $invoice_information->price , true);
-            $invoice_information->total_price = custom_money_format($invoice_information->total_price , true);
+            $invoice_information->gst_price     = custom_money_format((($invoice_information->gst / 100) * $invoice_information->price) , true);
+            $invoice_information->total_price   = custom_money_format($invoice_information->total_price , true);
+            $invoice_information->price         = custom_money_format($invoice_information->price , true);
+            $invoice_information->gst           = round($invoice_information->gst).'%';
 
 
             $invoice_information->address = $invoice_information->street1.",<br>";

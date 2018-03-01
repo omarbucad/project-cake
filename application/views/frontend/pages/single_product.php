@@ -141,29 +141,13 @@
 					<h3 class="card-title"><?php echo $result->product_name; ?></h3>
 					<h4><?php echo $result->price; ?></h4>
 					<p class="card-text"><?php echo $result->product_description; ?></p>
-					<div class="text-right">
-						<a href="javascript:void(0);" class="btn btn-success btn-xs add-cart" data-id="<?php echo $result->product_id; ?>">Add to Cart</a>
-					</div>
 				</div>
-			</div><!-- card -->
 
-			<div class="card card-outline-secondary my-4" style="margin-top: 5%">
-				<div class="card-header">
-					<h4>Product Review</h4>
-				</div>
-				<div class="card-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-					<hr>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-					<hr>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-					<hr>
-					<a href="#" class="btn btn-success">Leave a Review</a>
-				</div>
-			</div>
+			</div><!-- card -->
+			<br>
+			<br>
+			<a href="javascript:void(0);" class="btn btn-success btn-block add-cart" data-id="<?php echo $result->product_id; ?>">Add to Cart</a>
+
 		</div><!-- col-9 -->
 	</div><!-- row -->
 
