@@ -46,6 +46,13 @@ class Cart extends MY_Controller {
 
 		if($order_number = $this->product->checkout()){
 
+			$this->notification->notify_admin([
+				"sender" 	=> $this->session->userdata("customer")->customer_id ,
+				"ref_type"  => "CUSTOMER",
+				"reference" => 'Added a new order #'.$order_number,
+				"ref_id" 	=> $order_number
+			]);
+
             $this->session->set_userdata("cart" , [
             	"items"	=> 0 ,
             	"price" => 0 ,

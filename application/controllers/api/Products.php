@@ -162,11 +162,20 @@ class Products extends CI_Controller{
 
 	        $this->db->insert_batch("customer_order_product" , $product_array);
 
+	        $order_number = date("mdY").'-'.sprintf('%05d', $order_id);
+
 	        $this->db->where("order_id" , $order_id)->update("customer_order" , [
-	            "order_number"      => date("mdY").'-'.sprintf('%05d', $order_id) ,
+	            "order_number"      =>  $order_number,
 	            "total_price"       => $total_price ,
 	            "items"             => $items
 	        ]);
+
+	        $this->notification->notify_admin([
+				"sender" 	=> $this->post->customer_id ,
+				"ref_type"  => "CUSTOMER",
+				"reference" => 'Added a new order #'.$order_number,
+				"ref_id" 	=> $order_number
+			]);
 			
 			$this->db->trans_complete();
 

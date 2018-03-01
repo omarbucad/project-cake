@@ -64,7 +64,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">Attn:</td>
-				<td>D/O No:</td>
+				<td>D/O NO:</td>
 				<td><?php echo $invoice_no; ?></td>
 			</tr>
 

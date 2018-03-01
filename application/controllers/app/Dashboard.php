@@ -17,4 +17,10 @@ class Dashboard extends MY_Controller {
 		$this->data['unpaid_invoice'] = $this->invoice->get_dashboard_invoice();
 		$this->load->view('backend/master' , $this->data);
 	}
+
+	public function read_notif(){
+		if($this->input->post()){
+			$this->notification->notify_read($this->input->post("id"));
+		}
+	}
 }

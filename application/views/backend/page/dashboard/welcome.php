@@ -5,6 +5,35 @@
 	$(document).ready(function(){
 		$(".table").DataTable();
 	});
+
+	$(document).on("click" , ".pay_invoice" , function(){
+        var invoice_id = $(this).data("id");
+        var invoice_no = $(this).data("invoiceno");
+        var modal = $('#invoice_pay').modal("show");
+        modal.find(".modal-title").html("Invoice #"+invoice_no);
+        modal.find('#_invoice_id').val(invoice_id);
+        modal.find('#_invoice_no').val(invoice_no);
+    });
+
+	$(document).on("change" , "#_paymethod" , function(){
+        var v = $(this).val();
+
+        if(v == "COD"){
+            $('._cheque').addClass("hide").find("input").attr("required" , false);
+        }else{
+            $('._cheque').removeClass("hide").find("input").attr("required" , true);
+        }
+    });
+    
+    $(document).on("click" , "#submitForm" , function(){
+        var form = $(this).closest(".modal").find("form");
+        var c = confirm("Are you sure?");
+        
+        if(c == true){
+            form.submit();
+        }
+
+    });
 </script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -41,7 +70,7 @@
 						   						</td>
 						   						<td>
 						   							<span>
-						   								<a href="javascript:void(0);" class="btn btn-primary btn-xs">Go to Order</a><br>
+						   								<a href="<?php echo site_url("app/invoice/order?name=$row->order_number"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
 						   								<small><?php echo $row->created; ?></small>
 						   							</span>
 						   						</td>
@@ -71,7 +100,9 @@
 							   					<td><span><?php echo $row->invoice_no; ?></span></td>
 							   					<td><span><?php echo $row->price; ?></span></td>
 							   					<td><span><?php echo $row->invoice_date; ?></span></td>
-							   					<td><a href="javascript:void(0);" class="btn btn-primary btn-xs">Update</a></td>
+							   					<td>
+							   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>
+							   					</td>
 							   				</tr>
 						   				<?php endforeach; ?>
 						   			</tbody>	
@@ -84,3 +115,49 @@
     	</div>
     </div>
  </div>
+
+
+ <div class="modal fade" id="invoice_pay" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Invoice Information</h4>
+            </div>
+            <div class="modal-body">
+               <form action="<?php echo site_url("app/invoice/pay_invoice"); ?>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="invoice_id" id="_invoice_id">
+                    <input type="hidden" name="invoice_no" id="_invoice_no">
+                    <div class="form-group">
+                       <label>Payment Method</label>
+                       <select class="form-control" name="payment_method" id="_paymethod">
+                           <option value="COD">Cash on Delivery</option>
+                           <option value="PAYCHEQUE">Paycheque</option>
+                       </select>
+                    </div>
+                    <div class="form-group _cheque hide">
+                       <label>Cheque No</label>
+                       <input type="text" name="cheque_no" class="form-control" placeholder="xxx-xxxxxx-xx" required="false">
+                    </div>
+                    <div class="form-group">
+                       <label>Paid Date</label>
+                       <input type="text" name="paid_date" class="form-control datepicker">
+                    </div>
+
+                    <div class="form-group">
+                       <label>Notes ( Optional )</label>
+                       <textarea class="form-control" name="notes" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                       <label>Files ( Optional )</label>
+                       <input type="file" name="file[]" class="form-control" multiple="">
+                       <p class="help-block">Images , Pdf or Excel</p>
+                    </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
+                <a href="javascript:void(0);" class="btn btn-primary" id="submitForm">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>

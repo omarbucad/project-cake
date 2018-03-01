@@ -22,6 +22,7 @@ class MY_Controller extends CI_Controller {
                 redirect("/app/login" , "refresh");
             }else if($this->session->userdata("user")){
                 $this->data['session_data'] = $this->session->userdata("user");
+                $this->data['notification_list'] = $this->notification->notify_list();
             }
         }
 

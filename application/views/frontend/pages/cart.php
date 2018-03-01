@@ -64,7 +64,6 @@
 				    My Account
 				  </a>
 				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item active">My Order</a>
-				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item">Wishlist</a>
 				</div>
 			</section>
 		</div>
@@ -77,9 +76,9 @@
 						<thead>
 							<tr>
 								<th width="35%">Name</th>
-								<th width="30%">Price</th>
-								<th width="15%">Quantity</th>
-								<th width="15%">Total</th>
+								<th width="20%">Price</th>
+								<th width="20%">Quantity</th>
+								<th width="20%">Total</th>
 								<th width="5%"></th>
 							</tr>
 						</thead>
@@ -95,7 +94,7 @@
 											</a>
 										</div>
 										<div style="float:left;width: 75%;">
-											<span><?php echo $row->product_name; ?></span>
+											<span style="padding-left: 5px;"><?php echo $row->product_name; ?></span>
 										</div>
 									</td>
 									<td data-price="<?php echo $row->price_raw; ?>">

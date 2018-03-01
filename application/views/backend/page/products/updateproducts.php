@@ -159,7 +159,7 @@
                                 <dt>Price</dt>
                                 <dd>
                                     <div class="form-group">
-                                        <input type="number" name="product_price" class="form-control" placeholder="0.00" value="<?php echo number_format($result->price , 2) ?>">
+                                        <input type="number" name="product_price" class="form-control" placeholder="0.00" value="<?php echo $result->price; ?>">
                                     </div>
                                 </dd>
                                 <dt>Position</dt>
