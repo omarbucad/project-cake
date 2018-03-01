@@ -333,4 +333,26 @@ class Invoice_model extends CI_Model {
         }//end if
 
     }
+
+    public function view_invoice_log($invoice_id){
+        $this->db->select("user_id");
+        $this->db->where("invoice_id",$invoice_id);
+        $user_id = $this->db->get("invoice_logs")->row();
+
+        $this->db->select("display_name");
+        $this->db->where("customer_id",$user_id->user_id);
+        $result["customer_info"] = $this->db->get("customer")->row();
+
+        $this->db->where("invoice_id", $invoice_id);
+        $this->db->where("paid_date !=", 0);
+        $invoice_log_info = $this->db->get("invoice_logs")->result();
+
+        foreach($invoice_log_info as $key => $value) {
+            $invoice_log_info[$key]->paid_date = convert_timezone($value->paid_date , true);
+            $invoice_log_info[$key]->created = convert_timezone($value->created , true);
+        }
+        $result["invoice_logs"] = $invoice_log_info;
+
+        return $result;
+    }
 }
