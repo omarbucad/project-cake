@@ -29,10 +29,10 @@
             </button>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo site_url(); ?>">Go To Customer Panel</a></li>
             <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                 <i class="fa fa-times icon"></i>
             </button>
+            <li><a href="<?php echo site_url(); ?>">Go To Customer Panel</a></li>
             <li class="dropdown danger">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comment"></i> <?php echo count($notification_list); ?></a>
                 <ul class="dropdown-menu danger  animated fadeInDown" style="width: 450px;">
