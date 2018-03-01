@@ -24,7 +24,9 @@ class Invoice_model extends CI_Model {
             $this->db->where("co.status" , $status);
 
         }else{
-            $this->db->where_in("co.status" , [ 1 , 2 , 3 ]);
+            if(!$this->input->get("name")){
+                $this->db->where_in("co.status" , [ 1 , 2 , 3 ]);
+            }
         }
 
         if($date = $this->input->get("date")){
@@ -106,11 +108,9 @@ class Invoice_model extends CI_Model {
     }
 
     public function get_invoice($count = false){
-        
-
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
-
+        
         $this->db->select("co.*, i.* , c.display_name , c.email , u.name , u2.name as updated_by");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
@@ -156,11 +156,10 @@ class Invoice_model extends CI_Model {
         foreach($result as $key => $row){
             $result[$key]->invoice_date = convert_timezone($row->invoice_date , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
+            $result[$key]->delivered_date = convert_timezone($row->delivered_date , true);
             $result[$key]->price_raw = $row->price;
-
             $result[$key]->price = custom_money_format($row->price);
             $result[$key]->total_price_raw = $row->total_price;
-
             $result[$key]->total_price = custom_money_format($row->total_price);
             $result[$key]->files = $this->db->where("invoice_id" , $row->invoice_id)->get("invoice_files")->result();
             $result[$key]->invoice_pdf = $this->config->base_url($row->invoice_pdf);
@@ -180,7 +179,7 @@ class Invoice_model extends CI_Model {
         $this->db->select("co.* , c.display_name , c.email");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $result = $this->db->where("co.status" , 1)->order_by("order_id" , "DESC")->get("customer_order co")->result();
-
+       
         foreach($result as $k => $r){
             $this->db->select("op.product_name , op.product_price , op.quantity , op.total_price , op.product_id" );
 
@@ -196,6 +195,9 @@ class Invoice_model extends CI_Model {
             $result[$k]->total_price = custom_money_format($r->total_price );
             $result[$k]->status_raw = $result[$k]->status;
             $result[$k]->status = convert_order_status($r->status);
+
+            $result[$k]->gst_price = custom_money_format($r->gst_price);
+            $result[$k]->total_price_with_gst = custom_money_format($r->total_price_with_gst);
             
         }
 
@@ -204,7 +206,7 @@ class Invoice_model extends CI_Model {
 
     public function get_dashboard_invoice(){
 
-        //$this->db->select("i.* , co.* , c.display_name , c.email , u.name");
+        $this->db->select(", co.* , i.* , c.display_name , c.email , u.name");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
@@ -214,7 +216,9 @@ class Invoice_model extends CI_Model {
             $result[$key]->invoice_date = convert_timezone($row->invoice_date);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->price_raw = $row->price;
+            $result[$key]->total_price_raw = $row->total_price;
             $result[$key]->price = custom_money_format($row->price);
+            $result[$key]->total_price = custom_money_format($row->total_price);
             $result[$key]->files = $this->db->where("invoice_id" , $row->invoice_id)->get("invoice_files")->result();
         }
 
@@ -223,7 +227,7 @@ class Invoice_model extends CI_Model {
 
     public function get_invoice_by_id($invoice_id){
         $this->db->select("i.invoice_no , i.invoice_date , i.price , i.gst , i.total_price , i.payment_method");
-        $this->db->select("c.display_name , c.email , a.street1 , a.street2 , a.suburb , a.state , a.postcode , a.city , c.phone_number");
+        $this->db->select("c.display_name , c.company_name , c.email , a.street1 , a.street2 , a.suburb , a.state , a.postcode , a.city , c.phone_number");
         $this->db->select("co.items , co.order_id");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");

@@ -119,6 +119,9 @@ class Product_model extends CI_Model {
             }
         }
 
+        if($product_id = $this->input->get("product_id")){
+            $this->db->where("p.product_id" , $this->hash->decrypt($product_id));
+        }
 
         if($count){
             return $this->db->order_by("product_position" , "ASC")->get("products p")->num_rows();
@@ -168,7 +171,7 @@ class Product_model extends CI_Model {
         if($count){
             return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
         }else{
-            $result = $this->db->limit($limit , $skip)->order_by("p.product_position" , "ASC")->get("products p")->result();
+            $result = $this->db->limit($limit , $skip)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->result();
         }
 
         $tmp = array();
@@ -372,7 +375,7 @@ class Product_model extends CI_Model {
 
         if($result){
             $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();
-            $result->price = round($result->price , 2);
+            $result->price = custom_money_format($result->price);
         }
         
         return $result;

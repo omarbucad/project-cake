@@ -70,7 +70,7 @@
 				<td colspan="4">
 					Company:<br>
 					<div style="padding:5px 0px;">
-						<strong><?php echo $display_name; ?></strong><br>
+						<strong><?php echo $company_name; ?></strong><br>
 						<?php echo $address; ?>
 					</div>
 				</td>

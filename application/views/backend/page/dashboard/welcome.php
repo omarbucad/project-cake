@@ -52,6 +52,7 @@
 						   					<th>Order Number</th>
 						   					<th>Item</th>
 						   					<th>Price</th>
+						   					<th>Price w/ GST</th>
 						   					<th></th>
 						   				</tr>
 						   			</thead>
@@ -67,6 +68,9 @@
 						   						</td>
 						   						<td>
 						   							<span><?php echo $row->total_price; ?></span>
+						   						</td>
+						   						<td>
+						   							<span><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span>
 						   						</td>
 						   						<td>
 						   							<span>
@@ -98,7 +102,7 @@
 										<?php foreach($unpaid_invoice as $row) : ?>
 						   					<tr>
 							   					<td><span><?php echo $row->invoice_no; ?></span></td>
-							   					<td><span><?php echo $row->price; ?></span></td>
+							   					<td><span><?php echo $row->total_price; ?></span></td>
 							   					<td><span><?php echo $row->invoice_date; ?></span></td>
 							   					<td>
 							   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>

@@ -132,11 +132,7 @@
             </div>
         </div>
         <div class="container ">
-            <div class="pull-right">
-                <nav aria-label="Page navigation">
-                  <?php echo $links; ?>
-                </nav>
-            </div>
+
             <table class="customer-table">
                 <thead>
                     <tr>
@@ -159,7 +155,7 @@
                                 </td>
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
-                                <td ><span ><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?></small></span></td>
+                                <td ><span ><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span></td>
                                 <td class="status-here"><?php echo $row->status; ?></td>
                                 <td ><span ><?php echo $row->created; ?></span></td>
                                 <td class="text-right">
@@ -214,16 +210,29 @@
                         <?php endforeach; ?>
                     <?php else : ?>
                         <tr class="customer-row">
-                            <td colspan="6" class="text-center"><span>No Result</span></td>
+                            <td colspan="7" class="text-center"><span>No Result</span></td>
                         </tr>
                     <?php endif; ?>
                     
                 </tbody>
             </table>
-            <div class="pull-right">
-                <nav aria-label="Page navigation">
-                  <?php echo $links; ?>
-                </nav>
+            <div class="customer-table-showing margin-bottom">
+                <span class="pull-left">
+                    <?php 
+                        $x = 1;
+
+                        if( $this->input->get("per_page") ){
+                            $x = $this->input->get("per_page") + 1;
+                        }
+
+                    ?>
+                    <small>Displaying <?php echo $x; ?> – <?php echo ($x-1) + count($result) ; ?> of <?php echo $config['total_rows']; ?></small>
+                </span>
+                <div class="pull-right">
+                    <nav aria-label="Page navigation">
+                      <?php echo $links; ?>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>

@@ -97,11 +97,6 @@
         </div>
 
         <div class="container ">
-            <div class="pull-right">
-                <nav aria-label="Page navigation">
-                  <?php echo $links; ?>
-                </nav>
-            </div>
             <table class="table my-table">
                 <thead>
                     <tr>
@@ -123,7 +118,7 @@
                                             <img src="<?php echo site_url("thumbs/images/product/".$row->images->image_path."/80/80/".$row->images->image_name); ?>" class="img img-responsive thumbnail no-margin-bottom">
                                         </div>
                                         <div class="col-xs-6 col-lg-8 no-margin-bottom">
-                                            <a href="1"><?php echo $row->product_name; ?></a><br>
+                                            <a href="<?php echo site_url("app/products/product_info/$row->product_id"); ?>"><?php echo $row->product_name; ?></a><br>
                                             <small><strong><?php echo $row->price; ?></strong> </small>
                                         </div>
                                     </div>
@@ -143,9 +138,24 @@
                    
                 </tbody>
             </table>
-            <div class="pull-right">
-                <nav aria-label="Page navigation">
-                  <?php echo $links; ?>
-                </nav>
+
+            <div class="customer-table-showing margin-bottom">
+                <span class="pull-left">
+                    <?php 
+                        $x = 1;
+
+                        if( $this->input->get("per_page") ){
+                            $x = $this->input->get("per_page") + 1;
+                        }
+
+                    ?>
+                    <small>Displaying <?php echo $x; ?> – <?php echo ($x-1) + count($result) ; ?> of <?php echo $config['total_rows']; ?></small>
+                </span>
+                <div class="pull-right">
+                    <nav aria-label="Page navigation">
+                      <?php echo $links; ?>
+                    </nav>
+                </div>
             </div>
+            
         </div>
