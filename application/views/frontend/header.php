@@ -26,9 +26,7 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <?php if($this->session->userdata("user")) { 
-                unset($_SESSION["USER"]);
-              ?>
+            <?php if($this->session->userdata("user")) { ?>
               <li><a href="<?php echo site_url("app/dashboard"); ?>">GO to Admin Panel</a></li>
             <?php } ?>
             <?php if($this->session->userdata("customer")) : ?>
