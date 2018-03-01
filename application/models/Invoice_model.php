@@ -61,7 +61,6 @@ class Invoice_model extends CI_Model {
         }
 
         return $result;
-
     }
 
     public function create_invoice($order_id){
@@ -195,10 +194,11 @@ class Invoice_model extends CI_Model {
     }
 
     public function get_dashboard_invoice(){
-        $this->db->select("i.* , co.* , c.display_name , c.email , u.name");
+
+        //$this->db->select("i.* , co.* , c.display_name , c.email , u.name");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
-        $this->db->join("users u" , "u.user_id = co.driver_id");
+        $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
         $result = $this->db->where("i.payment_type" , "UNPAID")->order_by("invoice_date" , "DESC")->get("invoice i")->result();
 
         foreach($result as $key => $row){
@@ -331,7 +331,6 @@ class Invoice_model extends CI_Model {
             }//end for loop
 
         }//end if
-
     }
 
     public function view_invoice_log($invoice_id){

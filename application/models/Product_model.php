@@ -352,8 +352,9 @@ class Product_model extends CI_Model {
 
         if($result){
             $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();
+            $result->price = round($result->price , 2);
         }
-      
+        
         return $result;
     }
 

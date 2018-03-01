@@ -72,6 +72,7 @@ class Driver extends CI_Controller{
 	public function save_signature(){
 		if($this->post){
 			if($file_path = $this->save_image($this->post->order_number)){
+
 				$order_number = $this->post->order_number;
 
 				$this->db->where("order_number" , $order_number)->update("customer_order" , [
@@ -80,6 +81,13 @@ class Driver extends CI_Controller{
 					"notes"				=> $this->post->notes ,
 					"image"				=> $file_path ,
 					"status"			=> 4
+				]);
+
+				$this->notification->notify_admin([
+					"sender" 	=> $this->post->driver_id ,
+					"ref_type"  => "DRIVER",
+					"reference" => 'order #'.$order_number.' has been delivered',
+					"ref_id" 	=> $order_number
 				]);
 
 				echo json_encode(["status"=> true]);

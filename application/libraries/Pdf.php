@@ -42,7 +42,7 @@ class Pdf {
 			$this->html2pdf->Output($path , 'F');
 
 			return [
-				"attachment" => $_SERVER["DOCUMENT_ROOT"].$this->folder.'/'.$filename ,
+				"attachment" => FCPATH.$this->folder.'/'.$filename ,
 				"file"		 => $this->folder.'/'.$filename
 			];
 
@@ -64,7 +64,7 @@ class Pdf {
 			$this->html2pdf->Output($path , 'F');
 
 			return [
-				"attachment" => $_SERVER["DOCUMENT_ROOT"].$this->folder.'/'.$filename ,
+				"attachment" => FCPATH.$this->folder.'/'.$filename ,
 				"file"		 => $this->folder.'/'.$filename
 			];
 
