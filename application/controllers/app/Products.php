@@ -122,4 +122,15 @@ class Products extends MY_Controller {
 
 		}
 	}
+
+	public function product_info($product_id){
+		$product_id = $this->hash->decrypt($product_id);
+		$this->data['result']	 = $this->product->view_productsbyid($product_id);
+
+		$this->data['main_page'] = "backend/page/products/product_info";
+		$this->data['page_name'] = "Product Details";
+		$this->data['category_list'] = $this->product->get_category();
+
+		$this->load->view("backend/master", $this->data);
+	}
 }
