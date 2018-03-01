@@ -23,6 +23,10 @@ class Login extends MY_Controller {
 			$this->form_validation->set_rules('name'			, 'Full Name'	    , 'trim|required');
 			$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
 			$this->form_validation->set_rules('street1'	, 'Street 1'    , 'trim|required');
+			$this->form_validation->set_rules('street2'	, 'Street 2'    , 'trim|required');
+			$this->form_validation->set_rules('city'	, 'City'    , 'trim|required');
+			$this->form_validation->set_rules('postcode'	, 'Post Code'    , 'trim|required');
+			$this->form_validation->set_rules('state'	, 'State'    , 'trim|required');
 		}
 
 		if ($this->form_validation->run() == FALSE){

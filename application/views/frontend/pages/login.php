@@ -82,27 +82,27 @@
 						<div class="panel-body collapse" id="adress-div">
 							<div class="form-group">
 			                    <label for="street1">Street 1 *</label>
-			                    <input type="text" name="street1" class="form-control" id="street1" placeholder="Street 1" autocomplete="off">
+			                    <input type="text" name="street1" class="form-control" id="street1" placeholder="Street 1" autocomplete="off" required="true">
 			                </div>
 			                <div class="form-group">
-			                    <label for="street2">Street 2</label>
-			                    <input type="text" name="street2" class="form-control" id="street2" placeholder="Street 2" autocomplete="off">
+			                    <label for="street2">Street 2 *</label>
+			                    <input type="text" name="street2" class="form-control" id="street2" placeholder="Street 2" autocomplete="off" required="true">
 			                </div>
 			                <div class="form-group">
-			                    <label for="suburb">Suburb</label>
-			                    <input type="text" name="suburb" class="form-control" id="suburb" placeholder="Suburb" autocomplete="off">
+			                    <label for="suburb">Suburb *</label>
+			                    <input type="text" name="suburb" class="form-control" id="suburb" placeholder="Suburb" autocomplete="off" required="true">
 			                </div>
 			                <div class="form-group">
-			                    <label for="city">City</label>
-			                    <input type="text" name="city" class="form-control" id="city" placeholder="City" autocomplete="off">
+			                    <label for="city">City *</label>
+			                    <input type="text" name="city" class="form-control" id="city" placeholder="City" autocomplete="off" required="true">
 			                </div>
 			                <div class="form-group">
-			                    <label for="postcode">Post Code</label>
-			                    <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Post Code" autocomplete="off">
+			                    <label for="postcode">Post Code *</label>
+			                    <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Post Code" autocomplete="off"  required="true">
 			                </div>
 			                <div class="form-group">
-			                    <label for="state">State</label>
-			                    <input type="text" name="state" class="form-control" id="state" placeholder="State" autocomplete="off">
+			                    <label for="state">State *</label>
+			                    <input type="text" name="state" class="form-control" id="state" placeholder="State" autocomplete="off"  required="true">
 			                </div>
 						</div>
 					</div>
