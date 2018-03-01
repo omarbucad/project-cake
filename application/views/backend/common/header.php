@@ -7,11 +7,13 @@
             <ol class="breadcrumb navbar-breadcrumb">
                 <li class="active"><?php echo $page_name; ?></li>
             </ol>
+
             <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                 <i class="fa fa-th icon"></i>
             </button>
         </div>
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="<?php echo site_url(); ?>">Go To Customer Panel</a></li>
             <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                 <i class="fa fa-times icon"></i>
             </button>

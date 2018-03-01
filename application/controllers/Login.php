@@ -132,8 +132,14 @@ class Login extends MY_Controller {
 	}
 
 	public function logout(){
-		$this->session->sess_destroy();
-		redirect("/welcome" , "refresh");
+		if(isset($_SESSION["user"]) && isset($_SESSION["customer"])){
+			unset($_SESSION["customer"]);
+			redirect("/welcome" , "refresh");
+		}
+		else{
+			$this->session->sess_destroy();
+			redirect("/welcome" , "refresh");
+		}		
 	}
 
 	private function send_activation_email($data){

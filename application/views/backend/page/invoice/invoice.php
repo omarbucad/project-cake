@@ -275,7 +275,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Reciever Name</th>
+                                                <th>Receiver Name</th>
                                                 <td><?php echo $row->customer_name; ?></td>
                                                 <th>Notes</th>
                                                 <td><?php echo $row->notes; ?></td>
