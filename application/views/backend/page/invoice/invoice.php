@@ -48,6 +48,47 @@
         modal.find('#_invoice_no').val(invoice_no);
     });
 
+    $(document).on("click" , ".view_logs" , function(){
+        var invoice_id = $(this).data("id");
+        var invoice_no = $(this).data("invoiceno");
+        
+
+        var url = "<?php echo site_url("app/invoice/view_invoice_log/");?>"+invoice_id;
+
+        $.ajax({
+            url : url ,
+            method : "POST" ,
+            success : function(response){
+                var json = jQuery.parseJSON(response);
+                if(json.status){
+                    var tr = $("<tr>");
+                $.each(json.data.customer_info , function (a , b){
+                    $.each(json.data.invoice_logs , function(k , v){
+                        var td = $("<td>").html(v.payment_method);
+                        tr.append(td);
+                        var td = $("<td>").html(v.notes);
+                        tr.append(td);
+                        var td = $("<td>").html(v.paid_date);
+                        tr.append(td);
+                        var td = $("<td>").html(v.cheque_no);
+                        tr.append(td);
+                        var td = $("<td>").html(b.display_name);
+                        tr.append(td);
+                        var td = $("<td>").html(v.created);
+                        tr.append(td);
+                    });
+                });
+
+                    $("#invoice-logs-table").find("tbody").html(tr);
+
+                }
+            }
+        });
+
+        var modal = $('#invoice_logs').modal("show");
+        modal.find(".modal-title").html("Invoice #"+invoice_no);
+    });
+
     $(document).on("change" , "#_paymethod" , function(){
         var v = $(this).val();
 
@@ -317,6 +358,43 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
                 <a href="javascript:void(0);" class="btn btn-primary" id="submitForm">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="invoice_logs" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Invoice Logs</h4>
+            </div>
+            <div class="modal-body" id="invoice-content">
+               <table id="invoice-logs-table" class="table table-bordered">
+                   <thead>
+                       <tr>
+                        <td>Payment Method</td>
+                        <td>Notes</td>
+                        <td>Paid Date</td>
+                        <td>Cheque No</td>
+                        <td>Customer Name</td>
+                        <td>Date Updated</td>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                       </tr>
+                   </tbody>
+               </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>

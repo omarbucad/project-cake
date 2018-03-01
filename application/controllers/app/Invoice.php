@@ -133,15 +133,15 @@ class Invoice extends MY_Controller {
 
 	private function send_email_invoice($invoice_information , $pdf_file){
 
-		$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
-		$this->email->to($invoice_information->email);
+		// $this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
+		// $this->email->to($invoice_information->email);
 
-		$this->email->subject('Gravybaby Bill Statement');
-		$this->email->message($this->load->view('backend/email/send_invoice' , $invoice_information , TRUE));
-		$this->email->attach($pdf_file);
-		$this->email->set_mailtype('html');
+		// $this->email->subject('Gravybaby Bill Statement');
+		// $this->email->message($this->load->view('backend/email/send_invoice' , $invoice_information , TRUE));
+		// $this->email->attach($pdf_file);
+		// $this->email->set_mailtype('html');
 
-		$this->email->send();
+		// $this->email->send();
 	}
 
 
@@ -156,6 +156,15 @@ class Invoice extends MY_Controller {
 
 		}
 
+	}
+
+	public function view_invoice_log($invoice_id){
+		$data = $this->invoice->view_invoice_log($invoice_id);
+		if($data){
+			echo json_encode(["status" => true , "data" => $data]);
+		}else{
+			echo json_encode(["status" => false]);
+		}
 	}
 
 }
