@@ -103,10 +103,12 @@ class Invoice_model extends CI_Model {
     }
 
     public function get_invoice($count = false){
+        
+
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
-        
-        $this->db->select("i.* , co.* , c.display_name , c.email , u.name , u2.name as updated_by");
+
+        $this->db->select("co.*, i.* , c.display_name , c.email , u.name , u2.name as updated_by");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
@@ -152,7 +154,7 @@ class Invoice_model extends CI_Model {
             $result[$key]->invoice_date = convert_timezone($row->invoice_date , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->price_raw = $row->price;
-            $result[$key]->price = custom_money_format($row->price);
+            $result[$key]->total_price = custom_money_format($row->total_price);
             $result[$key]->files = $this->db->where("invoice_id" , $row->invoice_id)->get("invoice_files")->result();
             $result[$key]->invoice_pdf = $this->config->base_url($row->invoice_pdf);
             $result[$key]->delivery_order_pdf = $this->config->base_url($row->delivery_order_pdf);

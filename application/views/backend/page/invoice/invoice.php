@@ -214,7 +214,7 @@
                                 <td>
                                     <span><?php echo $row->invoice_no; ?></span>
                                 </td>
-                                <td ><span ><?php echo $row->price; ?></span></td>
+                                <td ><span ><?php echo $row->total_price; ?></span></td>
                                 <td >
                                     <span ><?php echo $row->payment_method; ?></span>
                                     <br>

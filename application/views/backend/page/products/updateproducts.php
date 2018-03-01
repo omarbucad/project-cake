@@ -219,8 +219,6 @@
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
-                                </dd>
-                                <dd>
                                     <div class="form-group">
                                         <div class="input-group">
                                           <input type="file" name="other_file[]" class="form-control">
@@ -233,6 +231,7 @@
                                         <a href="javascript:void(0);" class="btn btn-primary btn-add-more">Add More</a>
                                     </div>
                                 </dd>
+                                    
 
                             </dl>
 
