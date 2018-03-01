@@ -26,12 +26,10 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <?php if($this->session->userdata("user")) { ?>
-              <li><a href="<?php echo site_url("app/dashboard"); ?>">GO to Admin Panel</a></li>
-            <?php } ?>
+            <?php if($this->session->userdata("user")) : ?>
+              <li><a href="<?php echo site_url("app/dashboard"); ?>">Go to Admin Panel</a></li>
+            <?php endif; ?>
             <?php if($this->session->userdata("customer")) : ?>
-                <li><p class="navbar-text"></p></li>
-
                 <li class="dropdown">
                   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->userdata("customer")->display_name; ?></a>
                   <ul class="dropdown-menu">
@@ -42,7 +40,6 @@
                   </ul>
                 </li>
             <?php else : ?>
-
                 <li><a href="<?php echo site_url("login"); ?>">Login</a></li>
             <?php endif; ?>
             <li><a href="<?php echo site_url("cart"); ?>">Cart / <?php echo custom_money_format($this->session->userdata("cart")["price"]); ?> <span class="badge"><?php echo $this->session->userdata("cart")["items"]; ?></span></a></li>
