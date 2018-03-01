@@ -45,7 +45,7 @@
                                 <?php foreach($notification_list as $row) : ?>
                                     <a href="javascript:void(0);" data-href="<?php echo $row->url; ?>" data-id="<?php echo $row->id; ?>" class="read-notif">
                                         <li class="list-group-item">
-                                            <i class="fa <?php echo $row->icon; ?> icon"></i> <?php echo $row->sender->name.' '.$row->reference; ?>
+                                            <?php echo ($row->ref_type == "CUSTOMER") ? $row->sender->name.' '.$row->reference : $row->reference.' by '.$row->sender->name; ?>
                                         </li>
                                     </a>
                                 <?php endforeach; ?>

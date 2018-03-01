@@ -8,6 +8,7 @@
 	$(document).ready(function(){
 		compute_total();
 	});
+	
 	function compute_total(){
 		var total_price = parseFloat(0);
 		var table = $(".table");
@@ -21,13 +22,14 @@
 
 			total_price += parseFloat(tr_total);
 
-
 			$(v).find(".total").html("RM "+tr_total);
 			
-
 		});
 
-		$(".total_price").html("RM "+parseFloat(total_price).toFixed(2));
+		var tr_gst =  total_price * 0.06;
+
+		$(".total_gst").html("RM "+parseFloat(tr_gst).toFixed(2));
+		$(".total_price").html("RM "+parseFloat(total_price + tr_gst).toFixed(2));
 	}
 
 	$(document).on("click" , "#form_submit" , function(){
@@ -111,6 +113,13 @@
 									</td>
 								</tr>
 							<?php endforeach; ?>
+							<tr>
+								<td class="text-right" colspan="3">GST 6%</td>
+								<td>
+									<span class="total_gst">0.00</span>
+								</td>
+								<td></td>
+							</tr>
 							<tr>
 								<td class="text-right" colspan="3">Total</td>
 								<td>

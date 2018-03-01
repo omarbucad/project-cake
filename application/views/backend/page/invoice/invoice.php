@@ -200,7 +200,7 @@
                 <thead>
                     <tr>
                         <th width="25%">Invoice No</th>
-                        <th width="10%">Total Price</th>
+                        <th width="10%">Price</th>
                         <th width="10%">Payment Method</th>
                         <th width="15%">Status</th>
                         <th width="20%">Invoice Date</th>
@@ -214,7 +214,7 @@
                                 <td>
                                     <span><?php echo $row->invoice_no; ?></span>
                                 </td>
-                                <td ><span ><?php echo $row->price; ?></span></td>
+                                <td ><span ><?php echo $row->total_price; ?></span></td>
                                 <td >
                                     <span ><?php echo $row->payment_method; ?></span>
                                     <br>

@@ -21,7 +21,7 @@
 			</section>
 			<section>
 				<div class="list-group">
-				  <a href="javascript:void(0);" class="list-group-item ">
+				  <a href="<?php echo site_url("profile/"); ?>" class="list-group-item ">
 				    My Account
 				  </a>
 				  <a href="<?php echo site_url("order/"); ?>" class="list-group-item active">My Order</a>
@@ -83,9 +83,21 @@
 						</tr>
 					<?php endforeach; ?>
 					<tr>
-						<td class="text-right" colspan="3">Total</td>
+						<td class="text-right" colspan="3">Price</td>
 						<td>
 							<span class="total"><?php echo $order_data->total_price; ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right" colspan="3">GST 6%</td>
+						<td>
+							<span class="total"><?php echo $order_data->gst_price; ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right" colspan="3">Total</td>
+						<td>
+							<span class="total"><?php echo $order_data->total_price_with_gst; ?></span>
 						</td>
 					</tr>
 				</tbody>

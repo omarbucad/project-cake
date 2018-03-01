@@ -140,11 +140,12 @@
             <table class="customer-table">
                 <thead>
                     <tr>
-                        <th width="25%">Name</th>
+                        <th width="20%">Name</th>
                         <th width="10%">Items</th>
-                        <th width="10%">Total Price</th>
+                        <th width="10%">Price</th>
+                        <th width="10%">Price w/ GST</th>
                         <th width="10%">Status</th>
-                        <th width="20%">Created</th>
+                        <th width="15%">Created</th>
                         <th width="15%"></th>
                     </tr>
                 </thead>
@@ -158,6 +159,7 @@
                                 </td>
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
+                                <td ><span ><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?></small></span></td>
                                 <td class="status-here"><?php echo $row->status; ?></td>
                                 <td ><span ><?php echo $row->created; ?></span></td>
                                 <td class="text-right">
@@ -174,7 +176,7 @@
                                 </td>
                             </tr>
                             <tr class="customer-info hidden">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <table class="table table-bordered" style="width:96%;margin:10px auto;">
                                         <thead>
                                             <tr>

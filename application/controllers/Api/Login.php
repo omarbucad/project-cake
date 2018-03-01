@@ -28,7 +28,8 @@ class Login extends CI_Controller {
 			$username = $this->security->xss_clean( $this->post->username );
 			$password = $this->security->xss_clean( $this->post->password );
 
-			$result = $this->db->where("email" , $this->post->username)->where("password" , md5($password))->get('customer')->row();
+			$this->db->join("address a" , "a.address_id = c.physical_address_id");
+			$result = $this->db->where("email" , $this->post->username)->where("password" , md5($password))->get('customer c')->row();
 
 			if($result){
 				echo json_encode(["status" => true , "message" => "Login Successfully"  , "account_type" => "CUSTOMER" , "data" => $result]);

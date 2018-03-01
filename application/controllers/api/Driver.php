@@ -42,7 +42,14 @@ class Driver extends CI_Controller{
 
 		foreach($result as $key => $row){
 			$result[$key]->created = convert_timezone($row->created , true);
-			$result[$key]->status = convert_order_status($row->status , true);
+			$result[$key]->status  = convert_order_status($row->status , true);
+
+			$result[$key]->address = $row->street1.",<br>";
+            $result[$key]->address .= ($row->street2) ? $row->street2.",<br>" : "";
+            $result[$key]->address .= ($row->suburb) ? $row->suburb.",<br>" : "";
+            $result[$key]->address .= ($row->state) ? $row->state.",<br>" : "";
+            $result[$key]->address .= ($row->postcode) ? $row->postcode.",<br>" : "";
+            $result[$key]->address .= ($row->city) ? $row->city : "";
 		}
 
 		echo json_encode($result);
