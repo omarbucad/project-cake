@@ -98,9 +98,15 @@ class Users extends MY_Controller {
 	}
 
 	public function edit_customer($customer_id){
+		$this->form_validation->set_rules('company_name'		, 'Company Name'    , 'trim|required');
+		$this->form_validation->set_rules('display_name'		, 'Manager Name'    , 'trim|required');
+		$this->form_validation->set_rules('physical[street1]'	, 'Street 1'   		, 'trim|required');
+		$this->form_validation->set_rules('physical[street2]'	, 'Street 2'   		, 'trim|required');
+		$this->form_validation->set_rules('physical[suburb]'	, 'Suburb'   		, 'trim|required');
+		$this->form_validation->set_rules('physical[city]'		, 'City'   			, 'trim|required');
+		$this->form_validation->set_rules('physical[postcode]'	, 'Post Code'   	, 'trim|required');
+		$this->form_validation->set_rules('physical[state]'	, 'State'   		, 'trim|required');
 
-		$this->form_validation->set_rules('email'			, 'Email'   , 'trim|required');
-		$this->form_validation->set_rules('display_name'	, 'Name'   , 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){ 
 			$this->data['page_name'] = "Edit Customer";
@@ -154,6 +160,45 @@ class Users extends MY_Controller {
 				redirect("app/users/add" , 'refresh');
 			}
 		}
+	}
+
+	public function view_user_info($user_id){
+		$this->data['page_name'] = "User Details";
+		$this->data['main_page'] = "backend/page/users/user_info";
+
+		$this->data['user_info'] = $this->users->get_user_information($user_id);
+		
+		$this->load->view('backend/master' , $this->data);
+	}
+
+
+	public function change_user_password($user_id){
+
+		$this->form_validation->set_rules('password'		    , 'Password'			    , 'trim|required|md5');
+		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	    , 'trim|required|matches[password]|md5');
+
+		if ($this->form_validation->run() == FALSE){ 
+
+			$this->session->set_flashdata('status' , 'error');
+			$this->session->set_flashdata('message' , 'Password Mismatch');	
+
+			redirect("app/users/view_user_info/".$this->hash->encrypt($user_id) , 'refresh');
+
+		}else{
+
+			if($last_id = $this->users->change_user_password($user_id)){
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Changed Password');	
+
+			}else{
+				$this->session->set_flashdata('status' , 'error');
+				$this->session->set_flashdata('message' , 'Something went wrong');	
+
+			}
+
+			redirect("app/users/view_user_info/".$this->hash->encrypt($user_id) , 'refresh');
+		}
+		
 	}
 }
 

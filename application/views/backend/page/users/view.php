@@ -77,7 +77,7 @@
                                             <img src="<?php echo site_url("thumbs/images/user/$row->image_path/80/80/$row->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
                                         </div>
                                         <div class="col-xs-6 col-lg-8 no-margin-bottom">
-                                            <a href="1"><?php echo $row->username; ?> ( <?php echo $row->name; ?> )</a><br>
+                                            <a href="<?php echo site_url("app/users/view_user_info/$row->user_id");?>"><?php echo $row->username; ?> ( <?php echo $row->name; ?> )</a><br>
                                             <small class="help-block"><?php echo $row->email; ?></small>
                                         </div>
                                     </div>

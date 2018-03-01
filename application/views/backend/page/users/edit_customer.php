@@ -28,8 +28,12 @@
                         </div>
                         <div class="col-xs-12 col-lg-4">
                             <div class="form-group">
-                                <label for="display_name">Display Name</label>
-                                <input type="text" name="display_name" id="display_name" value="<?php echo $customer_info->display_name; ?>" class="form-control" placeholder="Display Name">
+                                <label for="display_name">Manager Name</label>
+                                <input type="text" name="display_name" id="display_name" value="<?php echo $customer_info->display_name; ?>" class="form-control" placeholder="Manager Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="company_name">Company Name</label>
+                                <input type="text" name="company_name" id="company_name" value="<?php echo $customer_info->company_name; ?>"  class="form-control" placeholder="Company Name">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -55,27 +59,27 @@
                         	<input type="hidden" name="physical_address_id" value="<?php echo $customer_info->physical_address_id; ?>">
                             <div class="form-group">
                                 <label>Street 1</label>
-                                <input type="text" name="physical[street1]" value="<?php echo $customer_address->street1; ?>" class="form-control">
+                                <input type="text" name="physical[street1]" value="<?php echo $customer_address->street1; ?>" class="form-control" required="true">
                             </div>
                             <div class="form-group">
                                 <label>Street 2</label>
-                                <input type="text" name="physical[street2]" value="<?php echo $customer_address->street2; ?>" class="form-control">
+                                <input type="text" name="physical[street2]" value="<?php echo $customer_address->street2; ?>" class="form-control" required="true">
                             </div>
                             <div class="form-group">
                                 <label>Suburb</label>
-                                <input type="text" name="physical[suburb]" value="<?php echo $customer_address->suburb; ?>" class="form-control">
+                                <input type="text" name="physical[suburb]" value="<?php echo $customer_address->suburb; ?>" class="form-control" required="true">
                             </div>
                             <div class="form-group">
                                 <label>City</label>
-                                <input type="text" name="physical[city]" value="<?php echo $customer_address->city; ?>" class="form-control">
+                                <input type="text" name="physical[city]" value="<?php echo $customer_address->city; ?>" class="form-control" required="true">
                             </div>
                             <div class="form-group">
                                 <label>Post Code</label>
-                                <input type="text" name="physical[postcode]" value="<?php echo $customer_address->postcode; ?>" class="form-control">
+                                <input type="text" name="physical[postcode]" value="<?php echo $customer_address->postcode; ?>" class="form-control" required="true">
                             </div>
                             <div class="form-group">
                                 <label>State</label>
-                                <input type="text" name="physical[state]" value="<?php echo $customer_address->state; ?>" class="form-control">
+                                <input type="text" name="physical[state]" value="<?php echo $customer_address->state; ?>" class="form-control" required="true">
                             </div>
                         </div>
                     </div>

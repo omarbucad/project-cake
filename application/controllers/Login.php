@@ -20,13 +20,14 @@ class Login extends MY_Controller {
 			$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|is_unique[customer.email]');
 			$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
 			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
-			$this->form_validation->set_rules('name'			, 'Full Name'	    , 'trim|required');
+			$this->form_validation->set_rules('name'			, 'Manager Name'	, 'trim|required');
+			$this->form_validation->set_rules('company_name'	, 'Company Name'	, 'trim|required');
 			$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
-			$this->form_validation->set_rules('street1'	, 'Street 1'    , 'trim|required');
-			$this->form_validation->set_rules('street2'	, 'Street 2'    , 'trim|required');
-			$this->form_validation->set_rules('city'	, 'City'    , 'trim|required');
-			$this->form_validation->set_rules('postcode'	, 'Post Code'    , 'trim|required');
-			$this->form_validation->set_rules('state'	, 'State'    , 'trim|required');
+			$this->form_validation->set_rules('street1'			, 'Street 1'    	, 'trim|required');
+			$this->form_validation->set_rules('street2'			, 'Street 2'    	, 'trim|required');
+			$this->form_validation->set_rules('city'			, 'City'    		, 'trim|required');
+			$this->form_validation->set_rules('postcode'		, 'Post Code'    	, 'trim|required');
+			$this->form_validation->set_rules('state'			, 'State'    		, 'trim|required');
 		}
 
 		if ($this->form_validation->run() == FALSE){
@@ -77,6 +78,7 @@ class Login extends MY_Controller {
 					"activation_code" 		=> $activation_code,
 					"physical_address_id" 	=> $address_id ,
 					"display_name"			=> $this->input->post("name"),
+					"company_name"			=> $this->input->post("company_name") ,
 					"status"				=> 2 ,
 					"created"				=> time()
 				]);

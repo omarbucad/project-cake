@@ -29,8 +29,6 @@
         </div>
         
         <section class="container">
-                
-            <input type="hidden" name="product_id" value="<?php echo $result->product_id ?>">
             <!-- STORE SETTINGS -->
             <div class="card margin-bottom">
                 <div class="card-header">

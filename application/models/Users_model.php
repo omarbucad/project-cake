@@ -200,6 +200,7 @@ class Users_model extends CI_Model {
         $this->db->where('customer_id' , $customer_id);
         $this->db->update("customer" , [
             "display_name"          => $post["display_name"],
+            "company_name"          => $post["company_name"],
             "status"                => $post['status']
         ]);
 
@@ -243,6 +244,24 @@ class Users_model extends CI_Model {
         }
 
         $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $user_id;
+        }
+    }
+
+    public function change_user_password($user_id){
+        
+        $this->db->trans_start();
+
+        $this->db->where("user_id", $user_id);
+        $this->db->update("users", [
+            "password"  => $this->input->post("password")
+        ]);
+        $this->db->trans_complete();
+
 
         if ($this->db->trans_status() === FALSE){
             return false;

@@ -16,29 +16,23 @@
 		<div class="col-lg-6 col-xs-12">
 			<form action="<?php echo site_url("login/?action=login"); ?>" method="POST">
 				<legend>LOGIN</legend>
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="form-group">
-								<label for="username">Email Address *</label>
-								<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
-							</div>
-							<div class="form-group">
-								<label for="password">Password *</label>
-								<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
-							</div>
-							<div class="text-left">
-								<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
-								<a href="javascript:void(0);">Lost your Password?</a>
-							</div>
-							<div class="checkbox">
-							    <label>
-							      <input type="checkbox" name="remember_me"> Remember Me
-							    </label>
-							</div>
-						</div>
+					<div class="form-group">
+						<label for="username">Email Address *</label>
+						<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
 					</div>
-				</div>
+					<div class="form-group">
+						<label for="password">Password *</label>
+						<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
+					</div>
+					<div class="text-left">
+						<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
+						<a href="javascript:void(0);">Lost your Password?</a>
+					</div>
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="remember_me"> Remember Me
+					    </label>
+					</div>
 			</form>
 		</div>
 		<div class="col-lg-6 col-xs-12">
@@ -50,8 +44,12 @@
 						<div class="panel-heading">Personal Information</div>
 						<div class="panel-body">
 							<div class="form-group">
-								<label for="name">Full Name *</label>
-								<input type="text" name="name" class="form-control" placeholder="Name" id="name" required="true" autocomplete="off">
+								<label for="name">Manager Name *</label>
+								<input type="text" name="name" class="form-control" placeholder="Manager Name" id="name" required="true" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="company_name">Company Name *</label>
+								<input type="text" name="company_name" class="form-control" placeholder="Company Name" id="company_name" required="true" autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label for="username">Email Address *</label>
