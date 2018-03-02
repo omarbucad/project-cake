@@ -2,7 +2,7 @@
     <div class="side-body padding-top">
 
         <div class="container" >
-        	<a href="<?php echo site_url('app/users'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> Create a user</h1>
+        	<a href="<?php echo site_url('app/users'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> Create a Customer</h1>
         </div>
         <div class="grey-bg ">
             <div class="container ">
@@ -30,6 +30,10 @@
                             <div class="form-group">
                                 <label for="display_name">Display Name</label>
                                 <input type="text" name="display_name" id="display_name" value="<?php echo set_value("display_name"); ?>" class="form-control" placeholder="Display Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="company_name">Company Name</label>
+                                <input type="text" name="company_name" id="company_name" value="<?php echo set_value("company_name"); ?>" class="form-control" placeholder="Company Name">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
