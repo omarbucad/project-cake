@@ -17,7 +17,6 @@
 			<form action="<?php echo site_url("login/?action=login"); ?>" method="POST">
 				<legend>LOGIN</legend>
 					<?php if($this->input->get("error")) :?>
-
 						<div class="alert alert-danger alert-dismissible">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Wrong Password!</div>
 					<?php endif; ?>

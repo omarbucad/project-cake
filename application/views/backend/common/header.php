@@ -51,7 +51,7 @@
                                 <?php endforeach; ?>
                                 <a href="javascript:void(0);">
                                     <li class="list-group-item message">
-                                        view all
+                                        <a href="<?php echo site_url('app/notifications/')?>">view all</a>
                                     </li>
                                 </a>
                             <?php else : ?>
