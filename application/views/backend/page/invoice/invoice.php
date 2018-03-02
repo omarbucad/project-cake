@@ -61,9 +61,11 @@
             success : function(response){
                 var json = jQuery.parseJSON(response);
                 if(json.status){
-                    var tr = $("<tr>");
-                $.each(json.data.customer_info , function (a , b){
-                    $.each(json.data.invoice_logs , function(k , v){
+                    
+                    $("#invoice-logs-table").find("tbody").html(" ");
+
+                    $.each(json.data , function(k,v){
+                        var tr = $("<tr>");
                         var td = $("<td>").html(v.payment_method);
                         tr.append(td);
                         var td = $("<td>").html(v.notes);
@@ -72,15 +74,16 @@
                         tr.append(td);
                         var td = $("<td>").html(v.cheque_no);
                         tr.append(td);
-                        var td = $("<td>").html(b.display_name);
+                        var td = $("<td>").html(v.display_name);
                         tr.append(td);
                         var td = $("<td>").html(v.created);
                         tr.append(td);
+                        $("#invoice-logs-table").find("tbody").append(tr);
+
                     });
-                });
+               
 
-                    $("#invoice-logs-table").find("tbody").html(tr);
-
+                    
                 }
             }
         });

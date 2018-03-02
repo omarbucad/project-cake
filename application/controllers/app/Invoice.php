@@ -160,6 +160,7 @@ class Invoice extends MY_Controller {
 
 	public function view_invoice_log($invoice_id){
 		$data = $this->invoice->view_invoice_log($invoice_id);
+		
 		if($data){
 			echo json_encode(["status" => true , "data" => $data]);
 		}else{
