@@ -2,6 +2,14 @@
     $(document).on('change' , '#profile_image' , function(){
         readURL(this , ".image-preview" , 'background');
     });
+    $(document).on("click" , ".btn-delete-user" , function(){
+
+        var c = confirm("Are you sure?");
+
+        if(c == true){
+            window.location.href = $(this).data("href");
+        }
+    });
 </script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -14,6 +22,9 @@
                 <div class="row no-margin-bottom">
                     <div class="col-xs-12 col-lg-8 no-margin-bottom">
                         <span></span>
+                    </div>
+                    <div class="col-xs-12 col-lg-8 no-margin-bottom text-left">
+                        <a href="javascript:void(0);" data-href="<?php echo site_url('app/users/delete_user/'.$user_info->user_id);?>" class="btn btn-danger btn-sm btn-delete-user">Delete User</a>
                     </div>
                     <div class="col-xs-12 col-lg-4 text-right no-margin-bottom">
                         <a href="javascript:void(0);" class="btn btn-success btn-same-size submit-form" data-form="#form_users">Save</a>

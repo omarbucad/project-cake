@@ -213,5 +213,25 @@ class Users extends MY_Controller {
 		
 		$this->load->view('backend/master' , $this->data);
 	}
+
+	public function delete_customer($customer_id){
+		$deleted = $this->users->delete_customer($customer_id);
+		if($deleted){
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Deleted Customer');
+
+			redirect("app/users/customer" , 'refresh');
+		}
+	}
+
+	public function delete_user($user_id){
+		$deleted = $this->users->delete_user($user_id);
+		if($deleted){
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Deleted User');
+
+			redirect("app/users" , 'refresh');
+		}
+	}
 }
 

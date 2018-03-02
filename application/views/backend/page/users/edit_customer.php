@@ -1,3 +1,13 @@
+<script type="text/javascript">
+    $(document).on("click" , ".btn-delete-customer" , function(){
+
+        var c = confirm("Are you sure?");
+
+        if(c == true){
+            window.location.href = $(this).data("href");
+        }
+    });
+</script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
@@ -9,6 +19,9 @@
                 <div class="row no-margin-bottom">
                     <div class="col-xs-12 col-lg-8 no-margin-bottom">
                         <span></span>
+                    </div>
+                    <div class="col-xs-12 col-lg-8 no-margin-bottom text-left">
+                        <a href="javascript:void(0);" data-href="<?php echo site_url('app/users/delete_customer/'.$customer_info->customer_id);?>" class="btn btn-danger btn-sm btn-delete-customer">Delete Customer</a>
                     </div>
                     <div class="col-xs-12 col-lg-4 text-right no-margin-bottom">
                         <a href="javascript:void(0);" class="btn btn-success btn-same-size submit-form" data-form="#form_users">Save</a>

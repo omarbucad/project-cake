@@ -44,7 +44,7 @@ class Login extends MY_Controller {
 				$result = $this->db->where([
 					"email"		=> $this->input->post("username") ,
 					"password"	=> $this->input->post("password")
-				])->get("customer")->row();
+				])->where("deleted IS NULL")->get("customer")->row();
 
 				
 				if($result){

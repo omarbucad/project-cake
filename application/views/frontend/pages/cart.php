@@ -134,7 +134,7 @@
 						<select class="form-control" name="payment_method" id="payment_method">
 							<option value="">- Select Payment Method -</option>
 							<option value="COD">Cash on Delivery</option>
-							<option value="CHEQUE">Paycheque</option>
+							<option value="CHEQUE">Pay by Cheque</option>
 						</select>
 					</div>
 					<div class="text-right">
