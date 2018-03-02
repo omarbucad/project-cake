@@ -63,7 +63,7 @@
                     <?php if($result) : ?>
                         <?php foreach($result as $key => $row) : ?>
                             <tr>
-                                <td><span><?php echo $row->display_name; ?></span></td>
+                                <td><span><a href="<?php echo site_url("app/users/view/customer_info/$row->customer_id"); ?>"><?php echo $row->display_name; ?></a></span></td>
                                 <td><span><?php echo $row->email; ?></span></td>
                                 <td><span><?php echo $row->street1; ?></span></td>
                                 <td><span><?php echo $row->status; ?></span></td>

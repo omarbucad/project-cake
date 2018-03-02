@@ -53,6 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['app/users/edit/user/(:any)'] = 'app/users/edit_user/$1';
 $route['app/users/view/user_info/(:any)'] = 'app/users/view_user_info/$1';
 $route['app/users/edit/customer/(:any)'] = 'app/users/edit_customer/$1';
+$route['app/users/view/customer_info/(:any)'] = 'app/users/view_customer_info/$1';
 
 $route['app/products/edit/product/(:any)'] = 'app/products/edit_product/$1';
 $route['app/products/view/product_info/(:any)'] = 'app/products/product_info/$1';

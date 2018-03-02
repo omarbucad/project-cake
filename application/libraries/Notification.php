@@ -25,8 +25,13 @@ class Notification {
 		$this->CI->db->where("id" , $notification_id)->update("notifications" , ["unread" => true]);
 	}
 
-	public function notify_list(){
-		$result =  $this->CI->db->where("unread" , 0)->order_by("created" , "DESC")->get("notifications")->result();
+	public function notify_list($all = false){
+		
+		if(!$all){
+			$this->CI->db->where("unread" , 0);
+		}
+
+		$result =  $this->CI->db->order_by("created" , "DESC")->get("notifications")->result();
 
 		foreach($result as $key => $row){
 			if($row->ref_type == "CUSTOMER"){

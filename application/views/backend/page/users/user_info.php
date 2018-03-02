@@ -28,27 +28,31 @@
                     </div>
                     <p><small class="help-block"><?php echo $user_info->email;?></small></p>
                     <p><small class="help-block"><?php echo convert_timezone($user_info->created,true);?></small></p>
-
+                    <p><small class="help-block">Total Confirmed Orders: <?php echo $total_confirmed_orders; ?></small></p>
                     <p><?php echo convert_status($user_info->status);?></p>
                 </div>
                 <div class="col-lg-9">
                         <h3><?php echo $user_info->username; ?> (<?php echo $user_info->name;?>)</h3>
-                        <div class="detail-content">
-                            <legend><h5>Change Password </h5></legend>
-                            <form  class="col-lg-6" action="<?php echo site_url("app/users/change_user_password/$user_info->user_id");?>" method="POST">
+                        <div class="detail-content panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Change Password</div>
+                                <div class="panel-body">
+                                    <form  class="col-lg-6" action="<?php echo site_url("app/users/change_user_password/$user_info->user_id");?>" method="POST">
   
-                                <div class="form-group">
-                                    <label for="password">New Password *</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Password" id="password" required="true" autocomplete="off">
+                                        <div class="form-group">
+                                            <label for="password">New Password *</label>
+                                            <input type="password" name="password" class="form-control" placeholder="Password" id="password" required="true" autocomplete="off">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirm_password">Confirm New Password *</label>
+                                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
+                                        </div>
+                                        <div class="text-left" style="margin-bottom: 20px;">
+                                            <input type="submit" name="submit" class="btn btn-primary" value="Confirm" onclick="return confirm('Are you sure')">
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label for="confirm_password">Confirm New Password *</label>
-                                    <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
-                                </div>
-                                <div class="text-left" style="margin-bottom: 20px;">
-                                    <input type="submit" name="submit" class="btn btn-primary" value="Confirm" onclick="return confirm('Are you sure')">
-                                </div>
-                            </form>
+                            </div>
                         </div>
                 </div>
             </div>

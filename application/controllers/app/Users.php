@@ -167,6 +167,7 @@ class Users extends MY_Controller {
 		$this->data['main_page'] = "backend/page/users/user_info";
 
 		$this->data['user_info'] = $this->users->get_user_information($user_id);
+		$this->data['total_confirmed_orders'] = $this->users->get_user_total_confirmed_orders($user_id);
 		
 		$this->load->view('backend/master' , $this->data);
 	}
@@ -199,6 +200,17 @@ class Users extends MY_Controller {
 			redirect("app/users/view_user_info/".$this->hash->encrypt($user_id) , 'refresh');
 		}
 		
+	}
+
+	public function view_customer_info($customer_id){
+		$this->data['page_name'] = "Customer Details";
+		$this->data['main_page'] = "backend/page/users/customer_info";
+
+		$this->data['customer_info'] = $this->users->get_customer_information($customer_id);
+		$this->data['customer_address'] = $this->users->get_customer_address($this->data['customer_info']->physical_address_id);
+		$this->data['customer_order'] = $this->users->get_customer_orders_info($customer_id);
+		
+		$this->load->view('backend/master' , $this->data);
 	}
 }
 

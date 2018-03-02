@@ -269,4 +269,59 @@ class Users_model extends CI_Model {
             return $user_id;
         }
     }
+
+    public function get_customer_orders_info($customer_id){
+        $this->db->trans_start();
+
+        $this->db->where("customer_id", $customer_id);
+        $customer_order_info["total_orders"] = $totalorder = $this->db->get("customer_order")->num_rows();
+
+        $this->db->where("customer_id", $customer_id);
+        $this->db->where("status !=",0);
+        $orderdetail = $this->db->get("customer_order")->result();
+
+        $totalprice = 0;
+        $totaldelivered = 0;
+        $totalondelivery = 0;
+
+        foreach ($orderdetail as $key => $value) {
+           
+            $totalprice = $totalprice + $orderdetail[$key]->total_price;
+
+            if($orderdetail[$key]->status = 4){     $totaldelivered++;      }
+            elseif($orderdetail[$key]->status = 3){    $totalondelivery++;     }
+            else{  }
+        }
+
+        $customer_order_info["total_price"] = custom_money_format($totalprice);
+        $customer_order_info["on_delivery"] = $totalondelivery;
+        $customer_order_info["delivered"] = $totaldelivered;
+
+        $this->db->trans_complete();
+
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $customer_order_info;
+        }
+
+    }
+
+    public function get_user_total_confirmed_orders($user_id){
+        $this->db->trans_start();
+
+        $this->db->join("users u", "u.user_id = i.created_by", "INNER");
+
+        $confirmed = $this->db->get("invoice i")->num_rows();
+
+        $this->db->trans_complete();
+
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $confirmed;
+        }
+    }
 }
