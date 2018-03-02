@@ -164,6 +164,7 @@ class Users_model extends CI_Model {
             "activation_code"       => $activation_code,
             "physical_address_id"   => $address_id ,
             "display_name"          => $this->input->post("display_name"),
+            "company_name"          => $this->input->post("company_name"),
             "status"                => 1 ,
             "created"               => time()
         ]);

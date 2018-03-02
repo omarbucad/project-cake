@@ -71,6 +71,7 @@ class Users extends MY_Controller {
 	public function add_customer(){
 		$this->form_validation->set_rules('email'				, 'Email'			    , 'trim|required|is_unique[customer.email]');
 		$this->form_validation->set_rules('display_name'		, 'Name'			    , 'trim|required');
+		$this->form_validation->set_rules('company_name'		, 'Company'			    , 'trim|required');
 		$this->form_validation->set_rules('password'		    , 'Password'			, 'trim|required|md5');
 		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	, 'trim|required|matches[password]|md5');
 
