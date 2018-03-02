@@ -103,7 +103,7 @@
 										<span><?php echo $row->price?></span>
 									</td>
 									<td>
-										<input type="number" name="quantity[<?php echo $row->product_id; ?>]" step="1" min="1" value="1" class="form-control quantity">
+										<input type="number" name="quantity[<?php echo $row->product_id; ?>]" step="1" min="1" value="<?php echo $row->qty; ?>" class="form-control quantity">
 									</td>
 									<td>
 										<span class="total"><?php echo $row->price; ?></span>
@@ -134,7 +134,7 @@
 						<select class="form-control" name="payment_method" id="payment_method">
 							<option value="">- Select Payment Method -</option>
 							<option value="COD">Cash on Delivery</option>
-							<option value="PAYCHEQUE">Paycheque</option>
+							<option value="CHEQUE">Paycheque</option>
 						</select>
 					</div>
 					<div class="text-right">

@@ -85,7 +85,7 @@
                                 </td>
                                 <td ><span ><?php echo $row->account_type; ?></span></td>
                                 <td ><span ><?php echo $row->status; ?></span></td>
-                                <td class="text-right"><span><a href="<?php echo site_url("app/users/edit/user/$row->user_id"); ?>">Edit</a></span></td>
+                                <td class="text-right"><span><a class="btn btn-success btn-xs" href="<?php echo site_url("app/users/edit/user/$row->user_id"); ?>">Edit</a></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else : ?>

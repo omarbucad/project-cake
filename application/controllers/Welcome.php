@@ -13,7 +13,7 @@ class Welcome extends MY_Controller {
 	public function index(){
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
 		$this->data['shop_list'] = $this->product->get_category();
-
+		
 		$s = ($this->input->get("shop_list")) ? $this->input->get("shop_list") : "all";
 
 		if($this->input->get("s")){

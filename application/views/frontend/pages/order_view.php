@@ -32,13 +32,15 @@
 			<h2 class="page-header">ORDER # <?php echo $this->uri->segment(3); ?></h2>
 			<table style="width:100%;margin: 20px 0px;">
 				<tr>
-					<th width="10%">Status</th>
-					<td width="40%"><?php echo $order_data->status; ?></td>
+					<th width="20%">Status</th>
+					<td width="30%"><?php echo $order_data->status; ?></td>
 					<th width="10%">Created</th>
 					<td width="40%"><?php echo $order_data->created; ?></td>
 				</tr>
 				<tr>
-					<td colspan="4" class="text-right">
+					<th>Payment Method</th>
+					<td><?php echo $order_data->pay_method; ?></td>
+					<td colspan="2" class="text-right">
 						<?php if($order_data->status_raw == 1) : ?>
 							<a href="javascript:void(0);" data-href="<?php echo site_url("cart/cancel_order/".$order_data->order_number); ?>" class="btn btn-danger btn-xs cancel-order">Cancel Order</a>
 						<?php endif; ?>

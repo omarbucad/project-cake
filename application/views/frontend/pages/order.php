@@ -30,6 +30,7 @@
 							<th>Order #</th>
 							<th>Items</th>
 							<th>Total Price</th>
+							<th>Payment Method</th>
 							<th>Date</th>
 							<th></th>
 						</tr>
@@ -40,6 +41,7 @@
 								<td><a href="<?php echo site_url("order/view/$row->order_number"); ?>"><?php echo $row->order_number; ?></a></td>
 								<td><?php echo $row->items; ?></td>
 								<td><?php echo $row->total_price_with_gst; ?></td>
+								<td><?php echo $row->pay_method; ?></td>
 								<td><?php echo $row->created; ?></td>
 								<td><?php echo $row->status; ?></td>
 							</tr>
