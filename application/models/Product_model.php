@@ -153,7 +153,7 @@ class Product_model extends CI_Model {
     public function get_shop_list($category_id , $search = false , $count = false){
 
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
-        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 12;
 
         $this->db->join("category c" , "c.category_id = p.category_id");
 
@@ -302,7 +302,7 @@ class Product_model extends CI_Model {
             $result[$key]->gst_price = custom_money_format($row->gst_price);
             $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created );
-            $result[$key]->status = convert_order_status($row->status , true);
+            $result[$key]->status = convert_order_status($row->status );
         }
 
         return $result;
