@@ -153,7 +153,7 @@ class Product_model extends CI_Model {
     public function get_shop_list($category_id , $search = false , $count = false){
 
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
-        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 12;
 
         $this->db->join("category c" , "c.category_id = p.category_id");
 

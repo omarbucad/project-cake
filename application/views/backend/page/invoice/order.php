@@ -25,11 +25,17 @@
                 url : url ,
                 data : { btn_click : type , order_id : id , selected_driver : selected_driver , note : note},
                 method : "POST",
+                beforeSend : function(){
+                    $me.closest("span").find("a").addClass("disabled");
+                },
                 success : function(response){
-                    console.log(response);
+
+                    $me.closest("span").find("a").removeClass("disabled");
+
                     var json = jQuery.parseJSON(response);
 
                     if(json.status){
+
                         if(type == "cancel"){
                            $me.closest("tr").find(".status-here").html(json.message);
                            $me.parent().html(" ");
