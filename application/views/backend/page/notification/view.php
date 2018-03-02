@@ -11,9 +11,7 @@
 						<div class="panel-body">
 							<table class="table">
 								<tbody>
-									<?php //print_r_die($this->notification->notify_list(true));?>
 									<?php foreach($result as $key => $value) :?>
-									<?php //print_r_die($value);?>
 										<tr class="bg bg-warning">
 											<td colspan="2">
 												<a href="<?php echo $value->url;?>"><b><?php echo $value->sender->name;?></b> <?php echo $value->reference; ?> </a>
