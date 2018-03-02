@@ -36,7 +36,7 @@ class Users_model extends CI_Model {
         /*
             TODO :: SEARCHING LOGIN HERE
         */
-
+        
         if($name = $this->input->get("name")){
             $this->db->like("username" , $name);
             $this->db->or_like("name" , $name);
@@ -59,6 +59,7 @@ class Users_model extends CI_Model {
                     break;
             }
         }
+        $this->db->where("deleted IS NULL");
 
         if($count){
             return $result = $this->db->get("users")->num_rows();
@@ -109,6 +110,7 @@ class Users_model extends CI_Model {
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
 
         $this->db->join("address a ", "a.address_id = c.physical_address_id");
+        $this->db->where("c.deleted IS NULL");
 
         /*
             TODO :: SEARCHING LOGIN HERE
@@ -324,5 +326,39 @@ class Users_model extends CI_Model {
         }else{
             return $confirmed;
         }
+    }
+
+    public function delete_customer($customer_id){
+        $this->db->trans_start();
+
+        $this->db->where('customer_id', $customer_id);
+        $this->db->update("customer" , [
+            "deleted" => time()
+        ]);
+
+        $this->db->trans_complete();
+
+        if($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+           return true;
+        }      
+    }
+
+    public function delete_user($user_id){
+        $this->db->trans_start();
+
+        $this->db->where('user_id', $user_id);
+        $this->db->update("users" , [
+            "deleted" => time()
+        ]);
+
+        $this->db->trans_complete();
+
+        if($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+           return true;
+        }      
     }
 }

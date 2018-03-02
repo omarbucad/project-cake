@@ -16,6 +16,11 @@
 		<div class="col-lg-6 col-xs-12">
 			<form action="<?php echo site_url("login/?action=login"); ?>" method="POST">
 				<legend>LOGIN</legend>
+					<?php if($this->input->get("error")) :?>
+
+						<div class="alert alert-danger alert-dismissible">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Wrong Password!</div>
+					<?php endif; ?>
 					<div class="form-group">
 						<label for="username">Email Address *</label>
 						<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
