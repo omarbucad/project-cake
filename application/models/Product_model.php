@@ -302,7 +302,7 @@ class Product_model extends CI_Model {
             $result[$key]->gst_price = custom_money_format($row->gst_price);
             $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created );
-            $result[$key]->status = convert_order_status($row->status , true);
+            $result[$key]->status = convert_order_status($row->status );
         }
 
         return $result;
