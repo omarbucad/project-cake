@@ -387,30 +387,61 @@ class Invoice_model extends CI_Model {
     }
 
     public function get_dashboard_cards_info(){
+        $result = array();
 
-        $monthstart = date("F 1 Y");
-        $monthend = new DateTime($monthstart);
-        $monthend = $monthend->format("F t Y");
+        //TODAY
+        $start  = strtotime("today midnight");
+        $end    = strtotime("today 23:59:59");
+        
+        $result["day"]["current"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["day"]["current"]["date"]  = date("d M Y");
 
-        $start = strtotime(trim($monthstart.'00:00'));
-        $end   = strtotime(trim($monthend.' 23:59'));
-
-        $this->db->where("invoice_date");
-        $this->db->where("invoice_date >= " , $start);
-        $this->db->where("invoice_date <= " , $end);
-        $this->db->select_sum('total_price');
-        $data["monthly"] = $this->db->get("invoice")->row();
-
-        $today = date("F d Y");
-        $starttime = strtotime(trim($today.'00:00'));
-        $endtime = strtotime(trim($today.'23:59'));
-        $this->db->where("invoice_date >= " , $start);
-        $this->db->where("invoice_date <= " , $endtime);
-        $this->db->select_sum('total_price');
-        $data["today"] = $this->db->get("invoice")->row();
-
-        print_r_die($data);
+        //YESTERDAY
+        $start  = strtotime("yesterday midnight");
+        $end    = strtotime("today midnight - 1 seconds");
+        
+        $result["day"]["previous"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["day"]["previous"]["date"]  = date("d M Y" , strtotime("yesterday"));
 
 
+        //WEEKLY
+        $start  = strtotime("monday this week 00:00:00");
+        $end    = strtotime("monday next week -1 seconds");
+
+        $result["week"]["current"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["week"]["current"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        //WEEK PREVIOUS
+        $start  = strtotime("monday last week 00:00:00");
+        $end    = strtotime("monday this week -1 seconds");
+
+        $result["week"]["previous"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["week"]["previous"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+
+        //MONTHLY 
+        $start  = strtotime("first day of this month 00:00:00");
+        $end    = strtotime("last day of this month 23:59:59");
+
+        $result["month"]["current"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["month"]["current"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        //MONTHLY PREVIOUS
+        $start  = strtotime("first day of last month 00:00:00");
+        $end    = strtotime("last day of last month 23:59:59");
+
+        $result["month"]["previous"]["sales"] = $this->get_sales(["start" => $start , "end" => $end]);
+        $result["month"]["previous"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        //print_r_die($result);
+        return $result;
+
+    }
+
+    private function get_sales($q){
+        $this->db->select_sum("total_price");
+        $this->db->where("invoice_date >= " , $q['start']);
+        $this->db->where("invoice_date <= " , $q['end']);
+        return custom_money_format($this->db->get("invoice")->row()->total_price);
     }
 }

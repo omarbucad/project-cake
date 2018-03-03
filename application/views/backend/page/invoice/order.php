@@ -44,7 +44,7 @@
 
                             $me.closest("tr").find(".status-here").html(json.message);
 
-                            var a = $("<a>" , {href : "javascript:void(0);" , class : "btn btn-success btn-xs btn-open-modal" , "data-id" : id , text : "On Delivery"});
+                            var a = $("<a>" , {href : "javascript:void(0);" , class : "btn btn-success btn-xs btn-open-modal" , "data-id" : id , text : "Assign Driver"});
 
                             $me.parent().html(a);
 
@@ -171,7 +171,7 @@
                                             <a href="javascript:void(0);" class="btn btn-danger btn-xs btn-click" data-type="cancel" data-id="<?php echo $row->order_id; ?>">Cancel Order</a>
                                             <a href="javascript:void(0);" class="btn btn-success btn-xs btn-click" data-type="confirm" data-id="<?php echo $row->order_id; ?>">Confirm Order</a>
                                         <?php elseif($row->status_raw_number == 2) : ?>
-                                            <a href="javascript:void(0);" class="btn btn-success btn-xs btn-open-modal" data-id="<?php echo $row->order_id; ?>" >On Delivery</a>
+                                            <a href="javascript:void(0);" class="btn btn-success btn-xs btn-open-modal" data-id="<?php echo $row->order_id; ?>" >Assign Driver</a>
                                         <?php elseif($row->status_raw_number == 3) : ?>
                                             <a href="javascript:void(0);" class="btn btn-success btn-xs btn-click" data-type="delivered" data-id="<?php echo $row->order_id; ?>">Delivered</a>
                                         <?php endif;?>

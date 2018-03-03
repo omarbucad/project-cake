@@ -73,18 +73,40 @@ class Products extends MY_Controller {
 
 	public function edit_product ($id) {
 		$product_id = $this->hash->decrypt($id);
-		$this->data['main_page'] = "backend/page/products/updateproducts";
-		$this->data['page_name'] = "Update Product";
-		$this->data['result']	 = $this->product->view_productsbyid($product_id);
-		$this->data['category_list'] = $this->product->get_category();
-		$this->load->view('backend/master' , $this->data);
-	}
 
-	public function update_product () {
-		if($this->input->post()){
-			$this->product->update_product($_POST);
+		$this->form_validation->set_rules('product_name'		, 'Product Name'	, 'trim|required');
+		$this->form_validation->set_rules('product_price'		, 'Product Price'	, 'trim|required');
+		$this->form_validation->set_rules('product_position'	, 'Position'		, 'trim|required');
+		$this->form_validation->set_rules('category'			, 'Category'		, 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){ 
+
+			$this->data['hash_id'] = $id;
+			$this->data['main_page'] = "backend/page/products/updateproducts";
+			$this->data['page_name'] = "Update Product";
+			$this->data['result']	 = $this->product->view_productsbyid($product_id);
+			$this->data['category_list'] = $this->product->get_category();
+			$this->load->view('backend/master' , $this->data);
+
+		}else{
+
+			if($response = $this->product->update_product()){
+
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Updated the Product');	
+
+				redirect("app/products/?product_id=".$id.'?submit=submit' , 'refresh');
+
+			}else{
+				$this->session->set_flashdata('status' , 'error');
+				$this->session->set_flashdata('message' , 'Something went wrong');	
+
+				redirect("app/products/edit_products/".$id , 'refresh');
+			}
+
 		}
 	}
+
 
 	public function delete_product_image ($image_id) {
 		$delete = $this->product->delete_productimage($image_id);

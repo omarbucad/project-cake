@@ -402,16 +402,13 @@ class Product_model extends CI_Model {
         return $result;
     }
 
-    public function update_product ($data) {
+    public function update_product () {
+
+        $data = $this->input->post();
+
         $this->db->trans_start();
 
-        if($data['productstatus'] == 'ACTIVE'){
-            $data['productstatus'] = 1;
-        }
-        else{
-            $data['productstatus'] = 0;
-        }
-        $arr = array(
+        $this->db->where("product_id" , $data['product_id'])->update("products" , array(
             "product_name"          => $data['product_name'] ,
             "price"                 => $data['product_price'] ,
             "product_position"      => $data['product_position'] ,
@@ -419,11 +416,7 @@ class Product_model extends CI_Model {
             "short_description"     => $data['short_description'] ,
             "product_description"   => $data['description'],
             "status"                => $data['productstatus']
-            );
-
-        $this->db->where("product_id" , $data['product_id']);
-        $asd = $this->db->update("products" , $arr);
-
+        ));
 
         if($_FILES['other_file']){
              $this->multiple_upload($data['product_id'] , false);
@@ -434,9 +427,7 @@ class Product_model extends CI_Model {
         if ($this->db->trans_status() === FALSE){
             return false;
         }else{
-            $this->session->set_flashdata('message_name', 'This is my message');
-            redirect("app/products");
-
+            return true;
         }
 
     }

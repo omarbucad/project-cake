@@ -28,6 +28,7 @@ class Invoice extends MY_Controller {
 			$this->data["links"] = $this->pagination->create_links();
 
 			$this->data['result'] = $this->invoice->get_invoice();
+			$this->data['card_info'] = $this->invoice->get_dashboard_cards_info();
 
 			$this->load->view('backend/master' , $this->data);
 		}

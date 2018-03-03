@@ -39,58 +39,11 @@
     <div class="side-body padding-top">
     	<div class="card">
     		<div class="card-body">
-    			<div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    	<span><h5><?php echo "March 3 2018"; ?></h5></span>
-                        <a href="#">
-                            <div class="card red summary-inline">
-                                <div class="card-body">
-                                    <i class="icon fa fa-tags fa-4x"></i>
-                                    <div class="content">
-                                        <div class="title">3</div>
-                                        <div class="sub-title"></div>
-                                        <span><small>Total Pending Orders Yesterday: <?php echo "5"; ?></small></span>
-                                    </div>
-                                    <div class="clear-both"></div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    	<span><h5>March 1 2018 - March 8 2018</h5></span>
-                        <a href="#">
-                            <div class="card yellow summary-inline">
-                                <div class="card-body">
-                                    <i class="icon fa fa-truck fa-4x" style="transform: scaleX(-1);"></i>
-                                    <div class="content">
-                                        <div class="title">4</div>
-                                        <div class="sub-title"></div>
-                                        <span><small>Total Pending Orders Last Week: <?php echo "5"; ?></small></span>
-                                    </div>
-                                    <div class="clear-both"></div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    	<span><h5>March 1 2017 - march 31 2017</h5></span>
-                        <a href="#">
-                            <div class="card green summary-inline">
-                                <div class="card-body">
-                                    <i class="icon fa fa-check-circle fa-4x"></i>
-                                    <div class="content">
-                                        <div class="title">1</div>
-                                        <div class="sub-title"></div>
-                                        <span><small>Total Pending Orders Last Month: <?php echo "5"; ?></small></span>
-                                    </div>
-                                    <div class="clear-both"></div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
 
-    			<h2>Welcome <?php echo $session_data->name; ?></h2>
+                <h2>Welcome <?php echo $session_data->name; ?></h2>
+
+    			<?php $this->load->view("backend/common/sales_box"); ?>
+
 
     			<div class="row">
     				<div class="col-lg-6 col-xs-12">

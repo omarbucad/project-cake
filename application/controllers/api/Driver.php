@@ -156,13 +156,36 @@ class Driver extends CI_Controller{
 		}
 	}
 
-	private function save_image($order_number){
+	public function send_items_image(){
+		if($this->post){
+			$order_number = $this->post->order_number;
+			$file = $this->save_image($order_number , false);
+
+			$this->db->insert("customer_order_images" , [
+				"order_no" 		=> $order_number,
+				"image_path" 	=> $file["image_path"] ,
+				"image_name"	=> $file["image_name"],
+				"i_type"		=> $this->post->type ,
+				"created"		=> time()
+			]);
+
+			echo ["status" => true];
+		}
+	}
+
+	private function save_image($order_number , $signature = true){
 		$image = $this->post->image;
 
 		$name = $order_number.'_'.time().'.PNG';
         $year = date("Y");
         $month = date("m");
-        $folder = "./public/upload/signature/".$year."/".$month;
+        
+        if($signature){
+        	$folder = "./public/upload/signature/".$year."/".$month;
+        }else{
+        	$folder = "./public/upload/items/".$year."/".$month;
+        }
+        
 
         $date = time();
 
@@ -188,7 +211,14 @@ class Driver extends CI_Controller{
 	    //make sure you are the owner and have the rights to write content
 	    file_put_contents($path, $data);
 
-        return $year."/".$month.'/'.$name;
+        if($signature){
+        	return $year."/".$month.'/'.$name;
+        }else{
+        	return [
+        		"image_path" => $year."/".$month.'/',
+        		"image_name" => $name
+        	];
+        }
 	}
 }
 

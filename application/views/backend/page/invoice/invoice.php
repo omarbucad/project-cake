@@ -118,10 +118,12 @@
 </style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
-
+        <?php $this->load->view("backend/common/sales_box"); ?>
         <div class="container">
         	<h1>Invoice</h1>
         </div>
+
+        
         <div class="grey-bg">
             <div class="container ">
                 <div class="row no-margin-bottom">

@@ -114,7 +114,7 @@
     }
 </style>
 <div class="container-fluid margin-bottom">
-    <form class="form-horizontal" action="<?php echo site_url("app/products/update_product"); ?>" method="POST" enctype="multipart/form-data">
+    <form class="form-horizontal" action="<?php echo site_url("app/products/edit_product/".$hash_id); ?>" method="POST" enctype="multipart/form-data">
         <div class="side-body padding-top">
             <div class="container">
                 <ol class="breadcrumb">
@@ -188,8 +188,8 @@
                                 <dd>
                                     <div class="form-group">
                                         <select class="form-control" name="productstatus">
-                                            <option  <?php echo ($result->status == 1) ? "selected" : "" ; ?> value="ACTIVE">Active</option>
-                                            <option <?php echo ($result->status == 0) ? "selected" : "" ; ?> value="INACTIVE">Inactive</option>
+                                            <option  <?php echo ($result->status == 1) ? "selected" : "" ; ?> value="1">Active</option>
+                                            <option <?php echo ($result->status == 0) ? "selected" : "" ; ?> value="0">Inactive</option>
                                         </select>
                                     </div>
                                 </dd>
