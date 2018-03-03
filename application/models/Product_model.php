@@ -168,6 +168,8 @@ class Product_model extends CI_Model {
             }
         }
 
+        $this->db->where("p.deleted IS NULL");
+
         if($count){
             return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
         }else{
