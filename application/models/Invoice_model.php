@@ -36,7 +36,6 @@ class Invoice_model extends CI_Model {
             $start = strtotime(trim($date[0].' 00:00'));
             $end   = strtotime(trim($date[1].' 23:59'));
 
-
             $this->db->where("co.created >= " , $start);
             $this->db->where("co.created <= " , $end);
         }
@@ -385,5 +384,33 @@ class Invoice_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    public function get_dashboard_cards_info(){
+
+        $monthstart = date("F 1 Y");
+        $monthend = new DateTime($monthstart);
+        $monthend = $monthend->format("F t Y");
+
+        $start = strtotime(trim($monthstart.'00:00'));
+        $end   = strtotime(trim($monthend.' 23:59'));
+
+        $this->db->where("invoice_date");
+        $this->db->where("invoice_date >= " , $start);
+        $this->db->where("invoice_date <= " , $end);
+        $this->db->select_sum('total_price');
+        $data["monthly"] = $this->db->get("invoice")->row();
+
+        $today = date("F d Y");
+        $starttime = strtotime(trim($today.'00:00'));
+        $endtime = strtotime(trim($today.'23:59'));
+        $this->db->where("invoice_date >= " , $start);
+        $this->db->where("invoice_date <= " , $endtime);
+        $this->db->select_sum('total_price');
+        $data["today"] = $this->db->get("invoice")->row();
+
+        print_r_die($data);
+
+
     }
 }
