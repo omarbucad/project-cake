@@ -74,7 +74,7 @@
                         tr.append(td);
                         var td = $("<td>").html(v.cheque_no);
                         tr.append(td);
-                        var td = $("<td>").html(v.display_name);
+                        var td = $("<td>").html(v.name);
                         tr.append(td);
                         var td = $("<td>").html(v.created);
                         tr.append(td);
@@ -129,6 +129,7 @@
                         <span></span>
                     </div>
                     <div class="col-xs-4 col-lg-6 text-right no-margin-bottom">
+                        <a href="<?php echo my_current_url("export=true"); ?>" class="btn btn-primary ">Export</a>
                         <a href="<?php echo site_url("app/invoice/order"); ?>" class="btn btn-success ">Go To Order</a>
                     </div>
                 </div>
@@ -145,6 +146,27 @@
                                     <input type="text" name="invoice_no" value="<?php echo $this->input->get("invoice_no"); ?>" class="form-control" id="s_name" placeholder="Search by Invoice #">
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="s_name">Search by Name , Company Name or Email</label>
+                                    <input type="text" name="name" value="<?php echo $this->input->get("name"); ?>" class="form-control" id="s_name" placeholder="Search by Name , Company Name or Email">
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="col-xs-12 col-lg-3 text-right">
+                                <button type="button" class="btn btn-link btn-vertical-center btn-same-size more-filter" data-value="hidden">More filter</button>
+                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
+                            </div>
+                        </div>
+                        <div class="row hide" id="view_advance_search">
+
+                            <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_name">Date period</label>
+                                    <input type="text" name="date" class="form-control daterange" autocomplete="off" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
+                                </div>
+                            </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_roles">Status</label>
@@ -157,23 +179,11 @@
                             </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_name">Date period</label>
-                                    <input type="text" name="date" class="form-control daterange" autocomplete="off" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-lg-3 text-right">
-                                <button type="button" class="btn btn-link btn-vertical-center btn-same-size more-filter" data-value="hidden">More filter</button>
-                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
-                            </div>
-                        </div>
-                        <div class="row hide" id="view_advance_search">
-                            <div class="col-xs-12 col-lg-3">
-                                <div class="form-group">
                                     <label for="s_brand">Payment Method</label>
                                      <select class="form-control" name="payment_method" id="s_brand">
                                         <option value="">All Payment Method</option>
                                         <option value="COD" <?php echo ($this->input->get("payment_method") == "COD") ? "selected" : "" ; ?>>Cash On Delivery</option>
-                                        <option value="PAYCHEQUE" <?php echo ($this->input->get("payment_method") == "PAYCHEQUE") ? "selected" : "" ; ?>>Paycheque</option>
+                                        <option value="PAYCHEQUE" <?php echo ($this->input->get("payment_method") == "PAYCHEQUE") ? "selected" : "" ; ?>>Pay By Cheque</option>
                                     </select>
                                 </div>
                             </div>
@@ -393,7 +403,7 @@
                         <td>Notes</td>
                         <td>Paid Date</td>
                         <td>Cheque No</td>
-                        <td>Customer Name</td>
+                        <td>Updated By</td>
                         <td>Date Updated</td>
                        </tr>
                    </thead>

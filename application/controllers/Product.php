@@ -16,9 +16,9 @@ class Product extends MY_Controller {
 		$this->data['shop_list']  = $this->product->get_category();
 		$this->data['result'] 	  = $this->product->get_product_by_id($product_id);
 		$this->data['main_page']  = "frontend/pages/single_product";
-
+		
 		$this->load->view('frontend/master' , $this->data);
-
+		
 	}
 
 	public function add_cart(){

@@ -92,6 +92,7 @@
                         <span></span>
                     </div>
                     <div class="col-xs-4 col-lg-6 text-right no-margin-bottom">
+                        <a href="<?php echo my_current_url("export=true"); ?>" class="btn btn-primary ">Export</a>
                         <a href="<?php echo site_url("app/invoice"); ?>" class="btn btn-success ">Go To Invoice</a>
                     </div>
                 </div>

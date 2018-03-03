@@ -14,28 +14,48 @@ class Invoice extends MY_Controller {
 		$this->data['page_name'] = "Invoice Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/invoice";
 
-		//PAGINATION
-		$this->data['config']["base_url"] = base_url("app/invoice") ;
-		$this->data['config']["total_rows"] = $this->invoice->get_invoice(true);
-		$this->pagination->initialize($this->data['config']);
-		$this->data["links"] = $this->pagination->create_links();
+		if($this->input->get("export")){
 
-		$this->data['result'] = $this->invoice->get_invoice();
-		$this->load->view('backend/master' , $this->data);
+			$this->data['result'] = $this->invoice->get_invoice(false , true);
+			$this->download_excel_invoice($this->data['result']);
+
+		}else{
+
+			//PAGINATION
+			$this->data['config']["base_url"] = base_url("app/invoice") ;
+			$this->data['config']["total_rows"] = $this->invoice->get_invoice(true);
+			$this->pagination->initialize($this->data['config']);
+			$this->data["links"] = $this->pagination->create_links();
+
+			$this->data['result'] = $this->invoice->get_invoice();
+
+			$this->load->view('backend/master' , $this->data);
+		}
 	}
+
 	public function order(){
 		$this->data['page_name'] = "Product Order Dashboard";
 		$this->data['main_page'] = "backend/page/invoice/order";
 
-		//PAGINATION
-		$this->data['config']["base_url"] = base_url("app/invoice/order") ;
-		$this->data['config']["total_rows"] = $this->invoice->get_order(true);
-		$this->pagination->initialize($this->data['config']);
-		$this->data["links"] = $this->pagination->create_links();
+		if($this->input->get("export")){
 
-		$this->data['result']	 = $this->invoice->get_order();
-		$this->data['driver_list'] = $this->invoice->get_driver_list();
-		$this->load->view('backend/master' , $this->data);
+			$this->data['result'] = $this->invoice->get_order(false , true);
+			$this->download_excel_order($this->data['result']);
+
+		}else{
+
+			//PAGINATION
+			$this->data['config']["base_url"] = base_url("app/invoice/order") ;
+			$this->data['config']["total_rows"] = $this->invoice->get_order(true);
+			$this->pagination->initialize($this->data['config']);
+			$this->data["links"] = $this->pagination->create_links();
+
+			$this->data['result']	 = $this->invoice->get_order();
+			$this->data['driver_list'] = $this->invoice->get_driver_list();
+			$this->load->view('backend/master' , $this->data);
+		}
+
+		
 	}
 
 	public function update_status_order(){
@@ -155,7 +175,6 @@ class Invoice extends MY_Controller {
 			]);
 
 		}
-
 	}
 
 	public function view_invoice_log($invoice_id){
@@ -166,6 +185,57 @@ class Invoice extends MY_Controller {
 		}else{
 			echo json_encode(["status" => false]);
 		}
+	}
+
+	private function download_excel_invoice($data){
+
+		$export = array();
+
+		foreach($data as $key => $row){
+			$export[] = array(
+				"Order No" 		 => $row->order_number ,
+				"Customer" 		 => $row->display_name,
+				"Company Name" 	 => $row->company_name ,
+				"Ordered Items " => $row->items,
+				"Price w/o GST"	 => $row->price,
+				"GST @6%"		 => $row->gst_price,
+				"Total Price"	 => $row->total_price_with_gst,
+				"Ordered Date"	 => $row->ordered_date,
+ 				"Status"   		 => $row->status_raw,
+ 				"Invoice No"	 => $row->invoice_no,
+ 				"Pay Method"	 => $row->payment_method_raw,
+ 				"Invoice Date"	 => $row->invoice_date,
+ 				"Invoice Status" => $row->payment_type_raw ,
+ 				"Created By"	 => $row->created_by
+			);
+		}
+
+
+		download_send_headers('invoice_' . date("Y-m-d") . ".csv");
+		echo array2csv($export);
+	}
+
+	private function download_excel_order($data){
+
+		$export = array();
+
+		foreach($data as $key => $row){
+			$export[] = array(
+				"Order No" 		 => $row->order_number ,
+				"Customer" 		 => $row->display_name,
+				"Company Name" 	 => $row->company_name ,
+				"Ordered Items " => $row->items,
+				"Price w/o GST"	 => $row->total_price,
+				"GST @6%"		 => $row->gst_price,
+				"Total Price"	 => $row->total_price_with_gst,
+				"Ordered Date"	 => $row->created,
+ 				"Status"   		 => $row->status_raw
+			);
+		}
+
+
+		download_send_headers('order_' . date("Y-m-d") . ".csv");
+		echo array2csv($export);
 	}
 
 }
