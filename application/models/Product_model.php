@@ -291,6 +291,20 @@ class Product_model extends CI_Model {
             TODO :: SEARCHING LOGIN HERE
         */
 
+        if($order_no = $this->input->get("order_no")){
+            $this->db->where("order_number" , $order_no);
+        }
+
+        if($date = $this->input->get("date")){
+            $date  = explode("-", $date);
+            $start = strtotime(trim($date[0].' 00:00'));
+            $end   = strtotime(trim($date[1].' 23:59'));
+
+
+            $this->db->where("created >= " , $start);
+            $this->db->where("created <= " , $end);
+        }
+
         if($count){
            return $this->db->where("customer_id" , $customer_id)->order_by("order_id" , "DESC")->get("customer_order")->num_rows();
         }else{
