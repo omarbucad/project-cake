@@ -317,6 +317,7 @@ class Product_model extends CI_Model {
             $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created );
             $result[$key]->status = convert_order_status($row->status );
+            $result[$key]->pay_method = convert_payment_status($row->pay_method );
         }
 
         return $result;
@@ -346,6 +347,8 @@ class Product_model extends CI_Model {
             $result->total_price_with_gst = custom_money_format($result->total_price_with_gst );
             $result->status_raw = $result->status;
             $result->status = convert_order_status($result->status , $raw);
+            $result->pay_method = convert_payment_status($result->pay_method , $raw);
+            //$result->payment_method = convert_payment_status($result->payment_method , $raw);
 
             $result->address = $result->street1;
             $result->address .= ($result->street2) ? ",<br>".$result->street2 : "";

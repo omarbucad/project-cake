@@ -53,10 +53,11 @@ class Cart extends MY_Controller {
 				"ref_id" 	=> $order_number
 			]);
 
-            $this->session->set_userdata("cart" , [
-            	"items"	=> 0 ,
-            	"price" => 0 ,
-            	"list"	=> array()
+           $this->session->set_userdata("cart" , [
+                "items" => 0 ,
+                "price" => 0 ,
+                "price_raw" => 0,
+                "list"  => array()
             ]);
 
 			$this->session->set_flashdata('status' , 'success');	

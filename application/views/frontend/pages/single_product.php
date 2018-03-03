@@ -6,29 +6,31 @@
 	});
 
 	$(document).on("click" , ".add-cart" , function(){
+	    var id = $(this).data("id");
+	    var url = "<?php echo site_url("product/add_cart"); ?>";
+	    var qty = $(this).closest(".input-group").find("input").val();
 
-		var id = $(this).data("id");
-		var url = "<?php echo site_url("product/add_cart"); ?>";
-		
-		$.ajax({
-			url : url ,
-			data : {id : id },
-			method : "POST" ,
-			success : function(response){
-				var json = jQuery.parseJSON(response);
+	    $.ajax({
+	      url : url ,
+	      data : {id : id , qty : qty },
+	      method : "POST" ,
+	      success : function(response){
+	        var json = jQuery.parseJSON(response);
 
-				if(json.status){
-					var modal = $('#myModal').modal("show");
-					modal.find(".total_items").html(json.data.items);
-					modal.find(".total_price").html(json.data.price);
-				}else{
-					alert(json.message);
-				}
+	        if(json.status){
+	          var modal = $('#myModal').modal("show");
+	          modal.find(".total_items").html(json.data.items);
+	          modal.find(".total_price").html(json.data.price);
+	          modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
+	          modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
+	        }else{
+	          alert(json.message);
+	        }
 
-			}
-		});
-		
-	});
+	      }
+	    });
+	    
+	  });
 
 </script>
 <style type="text/css">
@@ -146,7 +148,17 @@
 			</div><!-- card -->
 			<br>
 			<br>
-			<a href="javascript:void(0);" class="btn btn-success btn-block add-cart" data-id="<?php echo $result->product_id; ?>">Add to Cart</a>
+			<br>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="input-group">
+						<input type="number" step="1" class="form-control" value="1">
+						<span class="input-group-btn" >
+							<button class="btn btn-success add-cart"  data-id="<?php echo $result->product_id; ?>" type="button">Add to Cart</button>
+						</span>
+					</div><!-- /input-group -->
+				</div>
+			</div>
 
 		</div><!-- col-9 -->
 	</div><!-- row -->
@@ -156,49 +168,33 @@
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">1 new item has been added to your cart</h4>
-			</div>
-			<div class="modal-body">
-				<legend>My Cart ( <small><span class="total_items">2</span> Items</small> )</legend>
-				<table style="width: 100%;">
-					<tr>
-						<td>TOTAL</td>
-						<td class="text-right"><span class="total_price">RM 1000</span></td>
-					</tr>
-
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>
-				<a href="<?php echo site_url("cart"); ?>" class="btn btn-primary">Proceed to Checkout</a>
-			</div>
-		</div>
-	</div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">1 new item has been added to your cart</h4>
+      </div>
+      <div class="modal-body">
+        <legend>My Cart ( <small><span class="total_items">2</span> Items</small> )</legend>
+        <table style="width: 100%;">
+          <tr>
+            <td >Price</td>
+            <td class="text-right"><span class="total_price">1</span></td>
+          </tr>
+          <tr>
+            <td >GST @6%</td>
+            <td class="text-right"><span class="total_gst">1</span></td>
+          </tr>
+          <tr>
+            <td >Total price w/ GST</td>
+            <td class="text-right"><span class="total_price_with_gst">1</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>
+        <a href="<?php echo site_url("cart"); ?>" class="btn btn-primary">Proceed to Checkout</a>
+      </div>
+    </div>
+  </div>
 </div>
-
-<script type="text/javascript">
-		/*star function*/
-var $star_rating = $('.star-rating .fa');
-
-var SetRatingStar = function() {
-  return $star_rating.each(function() {
-    if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
-      return $(this).removeClass('fa-star-o').addClass('fa-star');
-    } else {
-      return $(this).removeClass('fa-star').addClass('fa-star-o');
-    }
-  });
-};
-
-$star_rating.on('click', function() {
-  $star_rating.siblings('input.rating-value').val($(this).data('rating'));
-  return SetRatingStar();
-});
-
-SetRatingStar();
-
-</script>

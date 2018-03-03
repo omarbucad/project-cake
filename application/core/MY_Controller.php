@@ -31,6 +31,7 @@ class MY_Controller extends CI_Controller {
             $this->session->set_userdata("cart" , [
                 "items" => 0 ,
                 "price" => 0 ,
+                "price_raw" => 0,
                 "list"  => array()
             ]);
         }

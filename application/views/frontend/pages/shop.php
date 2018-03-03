@@ -2,10 +2,11 @@
   $(document).on("click" , ".add-cart" , function(){
     var id = $(this).data("id");
     var url = "<?php echo site_url("product/add_cart"); ?>";
-    
+    var qty = $(this).closest(".input-group").find("input").val();
+
     $.ajax({
       url : url ,
-      data : {id : id },
+      data : {id : id , qty : qty },
       method : "POST" ,
       success : function(response){
         var json = jQuery.parseJSON(response);
@@ -14,6 +15,8 @@
           var modal = $('#myModal').modal("show");
           modal.find(".total_items").html(json.data.items);
           modal.find(".total_price").html(json.data.price);
+          modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
+          modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
         }else{
           alert(json.message);
         }
@@ -102,7 +105,13 @@
                   <p class="card-text"><?php echo $row->short_description; ?></p>
                 </div>
                 <div class="card-footer text-right">
-                   <a href="javascript:void(0);"  class="btn btn-success btn-block btn-xs add-cart" data-id="<?php echo $row->product_id; ?>">Add to Cart</a>
+                   <div class="input-group">
+                    <input type="number" step="1" class="form-control" value="1">
+                    <span class="input-group-btn" style="width: 60%" >
+                      <button class="btn btn-success add-cart" style="width: 100%" data-id="<?php echo $row->product_id; ?>" type="button">Add to Cart</button>
+                    </span>
+                  </div><!-- /input-group -->
+                  
                 </div>
 
               </div>
@@ -137,10 +146,17 @@
         <legend>My Cart ( <small><span class="total_items">2</span> Items</small> )</legend>
         <table style="width: 100%;">
           <tr>
-            <td>TOTAL</td>
-            <td class="text-right"><span class="total_price">RM 1000</span></td>
+            <td >Price</td>
+            <td class="text-right"><span class="total_price">1</span></td>
           </tr>
-
+          <tr>
+            <td >GST @6%</td>
+            <td class="text-right"><span class="total_gst">1</span></td>
+          </tr>
+          <tr>
+            <td >Total price w/ GST</td>
+            <td class="text-right"><span class="total_price_with_gst">1</span></td>
+          </tr>
         </table>
       </div>
       <div class="modal-footer">

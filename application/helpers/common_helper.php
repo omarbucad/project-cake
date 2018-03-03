@@ -66,7 +66,7 @@ if( ! function_exists('convert_payment_status')){
         if($status == "COD"){
             return "<span class='label label-info'>Cash on Delivery</span>";
         }else{
-            return "<span class='label label-primary'>Paycheque</span>";
+            return "<span class='label label-primary'>Cheque</span>";
         }
     }
 }
@@ -75,11 +75,11 @@ if( ! function_exists('convert_customer_status')){
     
     function convert_customer_status($status) {
         if($status == 1){
-                return "<span class='label label-success'>Activated</span>";
+            return "<span class='label label-success'>Activated</span>";
         }else if($status == 2){
-                return "<span class='label label-info'>Unactivated</span>";
+            return "<span class='label label-info'>Unactivated</span>";
         }else{
-                return "<span class='label label-danger'>Inactive</span>";
+            return "<span class='label label-danger'>Inactive</span>";
         }
 
         return false;
@@ -244,33 +244,46 @@ if ( ! function_exists('custom_money_format'))
     }   
 }
 
-if ( ! function_exists('calcAverageRating'))
+if ( ! function_exists('array2csv'))
 {
-    function calcAverageRating($ratings) {
-
-        /*
-            $ratings = array(
-                5 => 252,
-                4 => 124,
-                3 => 40,
-                2 => 29,
-                1 => 33
-            );
-        */
-
-        $totalWeight = 0;
-        $totalReviews = 0;
-
-        foreach ($ratings as $weight => $numberofReviews) {
-            $WeightMultipliedByNumber = $weight * $numberofReviews;
-            $totalWeight += $WeightMultipliedByNumber;
-            $totalReviews += $numberofReviews;
+    function array2csv($array) 
+    {
+        if (count($array) == 0) {
+            return null;
         }
+        ob_start();
 
-        //divide the total weight by total number of reviews
-        $averageRating = $totalWeight / $totalReviews;
+        $df = fopen("php://output", 'w');
 
-        return $averageRating;
+        fputcsv($df, array_keys(reset($array)));
+
+        foreach ($array as $row) {
+            fputcsv($df, $row);
+        }
+        
+        fclose($df);
+
+        return ob_get_clean();
     }
 }
 
+if ( ! function_exists('download_send_headers'))
+{
+    function download_send_headers($filename) 
+    {
+        // disable caching
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+
+        // force download  
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename={$filename}");
+        header("Content-Transfer-Encoding: binary");
+    }
+}
