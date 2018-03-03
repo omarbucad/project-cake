@@ -49,35 +49,22 @@
 		</div>
 		<div class="col-lg-8">
 			<h2 class="page-header">MY ORDERS</h2>
-
-			<div class="card margin-bottom">
-            <div class="card-body no-padding-left no-padding-right">
-                <div class="container">
-                    <div class="card-body no-padding-left no-padding-right">
-                        <form action="<?php echo site_url("order"); ?>" method="GET">
-                        <div class="row">
-                            <div class="col-xs-12 col-lg-3">
-                                <div class="form-group">
-                                    <label for="s_name">Order #</label>
-                                    <input type="text" name="order_no" class="form-control" value="<?php echo $this->input->get("order_no"); ?>" id="s_name" placeholder="Order #">
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-lg-3">
-                                <div class="form-group">
-                                    <label for="s_name">Date Period</label>
-                                    <input type="text" name="date" class="form-control daterange" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-lg-2  text-right">
-                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="s_name">Order #</label><br>
+					<input type="text" name="order_no" class="form-control" value="<?php echo $this->input->get("order_no"); ?>" id="s_name" placeholder="Order #">
+				</div>
+				<div class="form-group">
+					<label for="s_date">Date Period</label><br>
+					<input type="text" name="date" class="form-control daterange" value="<?php echo $this->input->get("date"); ?>" id="s_date" placeholder="Search by date">
+				</div>
+				<div class="form-group">
+					<label for="s_date">&nbsp;</label><br>
+				<button type="submit" class="btn btn-primary">Search</button>
+				</div>
+				
+			</form>
+			<hr>
 			<?php if($order_list) : ?>
 				<table class="table table-border">
 					<thead>

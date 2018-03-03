@@ -326,7 +326,7 @@ class Product_model extends CI_Model {
     }
 
     public function get_order_by_id($order_number , $raw = false){
-        $this->db->select("co.* , a.* , c.display_name");
+        $this->db->select("co.* , a.* , c.display_name , c.company_name");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("address a" , "a.address_id = c.physical_address_id");
         $result = $this->db->where("order_number" , $order_number)->get("customer_order co")->row();
@@ -349,6 +349,7 @@ class Product_model extends CI_Model {
             $result->total_price_with_gst = custom_money_format($result->total_price_with_gst );
             $result->status_raw = $result->status;
             $result->status = convert_order_status($result->status , $raw);
+            $result->pay_method_raw = $result->pay_method;
             $result->pay_method = convert_payment_status($result->pay_method , $raw);
             //$result->payment_method = convert_payment_status($result->payment_method , $raw);
 
@@ -394,6 +395,7 @@ class Product_model extends CI_Model {
 
         if($result){
             $result->images = $this->db->where('product_id', $id)->order_by('primary_image','DESC')->get('products_images')->result();
+            $result->price_raw = round($result->price , 2);
             $result->price = custom_money_format($result->price);
         }
         

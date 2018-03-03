@@ -62,11 +62,19 @@ if( ! function_exists('convert_invoice_status')){
 
 if( ! function_exists('convert_payment_status')){
     
-    function convert_payment_status($status) {
-        if($status == "COD"){
-            return "<span class='label label-info'>Cash on Delivery</span>";
+    function convert_payment_status($status , $raw = false) {
+        if($raw){
+            if($status == "COD"){
+                return "Cash on Delivery";
+            }else{
+                return "Pay by Cheque";
+            }
         }else{
-            return "<span class='label label-primary'>Pay by Cheque</span>";
+            if($status == "COD"){
+                return "<span class='label label-info'>Cash on Delivery</span>";
+            }else{
+                return "<span class='label label-primary'>Pay by Cheque</span>";
+            }
         }
     }
 }

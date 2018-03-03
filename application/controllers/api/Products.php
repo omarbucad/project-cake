@@ -63,6 +63,7 @@ class Products extends CI_Controller{
 			$result[$key]->short_description = htmlentities($row->short_description);
 			$result[$key]->price_raw = $row->price;
 			$result[$key]->price = custom_money_format($row->price);
+			$result[$key]->qty = 1;
 		}
 
 		if($result){
@@ -134,6 +135,7 @@ class Products extends CI_Controller{
 	            "customer_id" => $this->post->customer_id ,
 	            "status"      => 1 ,
 	            "total_price" => 0,
+	            "pay_method"  => $this->post->pay_method,
 	            "created"     => time()
 	        );
 
@@ -165,9 +167,11 @@ class Products extends CI_Controller{
 	        $order_number = date("mdY").'-'.sprintf('%05d', $order_id);
 
 	        $this->db->where("order_id" , $order_id)->update("customer_order" , [
-	            "order_number"      =>  $order_number,
-	            "total_price"       => $total_price ,
-	            "items"             => $items
+	            "order_number"      	=> $order_number,
+	            "total_price"       	=> $total_price ,
+	            "items"             	=> $items ,
+	            "gst_price"				=> $total_price * 0.06,
+	            "total_price_with_gst" 	=> ($total_price * 0.06) + $total_price 
 	        ]);
 
 	        $this->notification->notify_admin([
@@ -182,7 +186,7 @@ class Products extends CI_Controller{
 			if ($this->db->trans_status() === FALSE){
 	            echo json_encode(["status" => false , "message" => "Checkout Failed , Please Try Again Later"]);
 	        }else{
-	        	echo json_encode(["status" => true , "order_number" => date("mdY").'-'.sprintf('%05d', $order_id)]);
+	        	echo json_encode(["status" => true , "order_number" => $order_number]);
 	        }
 		}
 	}

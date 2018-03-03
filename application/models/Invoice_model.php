@@ -67,7 +67,7 @@ class Invoice_model extends CI_Model {
             $result[$k]->gst_price = custom_money_format($r->gst_price );
             $result[$k]->total_price_with_gst = custom_money_format( $r->total_price_with_gst );
 
-            //$result[$k]->status_raw = $r->status;
+            $result[$k]->status_raw_number = $r->status;
             $result[$k]->status_raw = convert_order_status($r->status , true);
             $result[$k]->status = convert_order_status($r->status);
         }

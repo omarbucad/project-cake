@@ -167,12 +167,12 @@
                                 <td ><span ><?php echo $row->created; ?></span></td>
                                 <td class="text-right">
                                     <span>
-                                        <?php if($row->status_raw == 1) : ?>
+                                        <?php if($row->status_raw_number == 1) : ?>
                                             <a href="javascript:void(0);" class="btn btn-danger btn-xs btn-click" data-type="cancel" data-id="<?php echo $row->order_id; ?>">Cancel Order</a>
                                             <a href="javascript:void(0);" class="btn btn-success btn-xs btn-click" data-type="confirm" data-id="<?php echo $row->order_id; ?>">Confirm Order</a>
-                                        <?php elseif($row->status_raw == 2) : ?>
+                                        <?php elseif($row->status_raw_number == 2) : ?>
                                             <a href="javascript:void(0);" class="btn btn-success btn-xs btn-open-modal" data-id="<?php echo $row->order_id; ?>" >On Delivery</a>
-                                        <?php elseif($row->status_raw == 3) : ?>
+                                        <?php elseif($row->status_raw_number == 3) : ?>
                                             <a href="javascript:void(0);" class="btn btn-success btn-xs btn-click" data-type="delivered" data-id="<?php echo $row->order_id; ?>">Delivered</a>
                                         <?php endif;?>
                                     </span>
