@@ -15,6 +15,7 @@ class Dashboard extends MY_Controller {
 		$this->data['main_page'] = "backend/page/dashboard/welcome";
 		$this->data['new_order'] = $this->invoice->get_dashboard_order();
 		$this->data['unpaid_invoice'] = $this->invoice->get_dashboard_invoice();
+		$this->data['card_info'] = $this->invoice->get_dashboard_cards_info();
 		$this->load->view('backend/master' , $this->data);
 	}
 
