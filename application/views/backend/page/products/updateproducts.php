@@ -209,11 +209,11 @@
                                 <dd>
                                     <div class="row text-center">
                                         <?php foreach($result->images as $key => $value):?>
-                                            <div class="col-lg-3 thumbnail-list-item" style="background-image: url('<?php echo site_url("thumbs/images/product/".$value->image_path."/80/80/".$value->image_name); ?>'); background-repeat: no-repeat; background-position: center; position: relative; background-size: contain; height: 100%;    width: auto; min-height: 200px; min-width: 200px; margin-right: 20px;">
+                                            <div class="col-lg-3 thumbnail-list-item" style="background-image: url('<?php echo site_url("thumbs/images/product/".$value->image_path."/250/250/".$value->image_name); ?>'); background-repeat: no-repeat; background-position: center; position: relative; background-size: contain; height: 100%;    width: auto; min-height: 200px; min-width: 200px; margin-right: 20px;">
 
-                                                <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-remove-image" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Delete</a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-remove-image" data-id="<?=$value->image_id;?>" style="margin-top: 90px;">Delete</a>
                                                 <?php if($value->primary_image != 1):?>
-                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm btn-set-primary" data-id="<?=$value->image_id;?>"style="margin-top: 90px;">Make Primary</a>
+                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm btn-set-primary" data-id="<?=$value->image_id;?>" style="margin-top: 90px;">Make Primary</a>
                                                 <?php endif;?>
 
                                             </div>

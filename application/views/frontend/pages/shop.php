@@ -59,6 +59,30 @@
     min-height: 100%;
     min-width: 100%;
   }
+
+  .cropper:hover .product-image{
+  /*  -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
+      /*filter: grayscale(50%);
+    transition: .5s ease-in;
+    transition: .5s ease-out;*/
+  }
+  .cropper:hover .product-shortdesc{
+    opacity: 1;
+  }
+  .product-shortdesc{
+    transition: .5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 25px 10px;
+    width: 100%;
+  }
 </style>
 <div style="margin-top: 100px;"></div>
 <div class="container">
@@ -93,8 +117,11 @@
             <div class="col-lg-4 col-md-6 mb-4 ">
               <div class="card h-100 thumbnail">
                 <a href="<?php echo site_url("product/?id=$row->product_id"); ?>">
-                  <div class="cropper">
-                    <img class="card-img-top" src="<?php echo site_url("thumbs/images/product/".$row->images[0]->image_path."/250/250/".$row->images[0]->image_name); ?>" alt="" >
+                  <div class="cropper text-center">
+                    <img class="card-img-top product-image" src="<?php echo site_url("thumbs/images/product/".$row->images[0]->image_path."/250/250/".$row->images[0]->image_name); ?>" alt="" >
+                    <div class="product-shortdesc">
+                      <p class="text"><?php echo $row->short_description; ?></p>
+                    </div>
                   </div>
                 </a>
                 <div class="card-body">
@@ -102,7 +129,6 @@
                     <a href="<?php echo site_url("product/?id=$row->product_id"); ?>"><?php echo $row->product_name; ?></a>
                   </h4>
                   <h5><?php echo $row->price; ?></h5>
-                  <p class="card-text"><?php echo $row->short_description; ?></p>
                 </div>
                 <div class="card-footer text-right">
                    <div class="input-group">
