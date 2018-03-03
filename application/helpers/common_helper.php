@@ -66,7 +66,7 @@ if( ! function_exists('convert_payment_status')){
         if($status == "COD"){
             return "<span class='label label-info'>Cash on Delivery</span>";
         }else{
-            return "<span class='label label-primary'>Cheque</span>";
+            return "<span class='label label-primary'>Pay by Cheque</span>";
         }
     }
 }
@@ -125,13 +125,13 @@ if( ! function_exists('convert_order_status')){
                     return "<span class='label label-danger'>Cancelled</span>";
                     break;
                 case 1:
-                    return "<span class='label label-success'>Processing</span>";
+                    return "<span class='label label-info'>Processing</span>";
                     break;
                 case 2:
-                    return "<span class='label label-success'>Confirmed Ordered</span>";
+                    return "<span class='label label-primary'>Confirmed Ordered</span>";
                     break;
                 case 3:
-                    return "<span class='label label-success'>On Delivery</span>";
+                    return "<span class='label label-warning'>On Delivery</span>";
                     break;
                 case 4:
                     return "<span class='label label-success'>Delivered</span>";
@@ -285,5 +285,17 @@ if ( ! function_exists('download_send_headers'))
         // disposition / encoding on response body
         header("Content-Disposition: attachment;filename={$filename}");
         header("Content-Transfer-Encoding: binary");
+    }
+}
+
+
+if ( ! function_exists('my_current_url'))
+{
+    function my_current_url($myurl) 
+    {
+        $CI =& get_instance();
+
+        $url = $CI->config->site_url($CI->uri->uri_string());
+        return $_SERVER['QUERY_STRING'] ? $url.'?'.$_SERVER['QUERY_STRING'].$myurl : $url.'?'.$myurl;
     }
 }

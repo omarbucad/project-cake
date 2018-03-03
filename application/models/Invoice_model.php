@@ -2,11 +2,13 @@
 
 class Invoice_model extends CI_Model {
 
-	public function get_order($count = false){
+	public function get_order($count = false , $view_all = false){
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "co.order_id";
+        $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
 
-        $this->db->select("co.* , c.display_name , c.email");
+        $this->db->select("co.* , c.display_name , c.company_name , c.email");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
 
         if($name = $this->input->get("name")){
@@ -37,11 +39,15 @@ class Invoice_model extends CI_Model {
             $this->db->where("co.created >= " , $start);
             $this->db->where("co.created <= " , $end);
         }
+        
+        $this->db->order_by($sort_by , $sort);
 
         if($count){
             return $this->db->get("customer_order co")->num_rows();
+        }else if($view_all){
+            $result = $this->db->get("customer_order co")->result();
         }else{
-            $result = $this->db->limit($limit , $skip)->order_by("order_id" , "DESC")->get("customer_order co")->result();
+            $result = $this->db->limit($limit , $skip)->get("customer_order co")->result();
         }
 
         foreach($result as $k => $r){
@@ -60,7 +66,8 @@ class Invoice_model extends CI_Model {
             $result[$k]->gst_price = custom_money_format($r->gst_price );
             $result[$k]->total_price_with_gst = custom_money_format( $r->total_price_with_gst );
 
-            $result[$k]->status_raw = $result[$k]->status;
+            //$result[$k]->status_raw = $r->status;
+            $result[$k]->status_raw = convert_order_status($r->status , true);
             $result[$k]->status = convert_order_status($r->status);
         }
 
@@ -106,19 +113,28 @@ class Invoice_model extends CI_Model {
         return $result;
     }
 
-    public function get_invoice($count = false){
+    public function get_invoice($count = false , $view_all = false){
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "i.invoice_date";
+        $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
         
-        $this->db->select("co.*, i.* , c.display_name , c.email , u.name , u2.name as updated_by");
+        $this->db->select("co.*, i.* , co.created as ordered_date , c.display_name , c.company_name , c.email , u.name , u2.name as updated_by , u3.name as created_by");
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
         $this->db->join("users u2" , "u2.user_id = i.updated_by" , "LEFT");
+        $this->db->join("users u3" , "u3.user_id = i.created_by" , "LEFT");
 
         /*
             TODO :: SEARCHING LOGIC HERE
         */
+
+        if($name = $this->input->get("name")){
+            $this->db->like("c.display_name" , $name);
+            $this->db->or_like("c.company_name" , $name);
+            $this->db->or_like("c.email" , $name);
+        }
 
         if($invoice_no = $this->input->get("invoice_no")){
             $this->db->where("invoice_no" , $invoice_no);
@@ -146,20 +162,27 @@ class Invoice_model extends CI_Model {
             $this->db->where("co.status" , $order_status);
         }
 
+        $this->db->order_by($sort_by , $sort);
+
         if($count){
             return $this->db->get("invoice i")->num_rows();
+        }else if($view_all){
+            $result = $this->db->get("invoice i")->result();
         }else{
-            $result = $this->db->limit($limit , $skip)->order_by("invoice_date" , "DESC")->get("invoice i")->result();
+            $result = $this->db->limit($limit , $skip)->get("invoice i")->result();
         }
         
         foreach($result as $key => $row){
             $result[$key]->invoice_date = convert_timezone($row->invoice_date , true);
+            $result[$key]->ordered_date = convert_timezone($row->ordered_date , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->delivered_date = convert_timezone($row->delivered_date , true);
             $result[$key]->price_raw = $row->price;
             $result[$key]->price = custom_money_format($row->price);
             $result[$key]->total_price_raw = $row->total_price;
             $result[$key]->total_price = custom_money_format($row->total_price);
+            $result[$key]->gst_price = custom_money_format($row->gst_price);
+            $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->files = $this->db->where("invoice_id" , $row->invoice_id)->get("invoice_files")->result();
             $result[$key]->invoice_pdf = $this->config->base_url($row->invoice_pdf);
             $result[$key]->delivery_order_pdf = $this->config->base_url($row->delivery_order_pdf);
@@ -168,6 +191,7 @@ class Invoice_model extends CI_Model {
             $result[$key]->payment_method_raw = $row->payment_method;
             $result[$key]->payment_method = convert_payment_status($row->payment_method);
             $result[$key]->payment_type = convert_invoice_status($row->payment_type);
+            $result[$key]->status_raw = convert_order_status($row->status,true);
             $result[$key]->status = convert_order_status($row->status);
         }
 
@@ -347,12 +371,9 @@ class Invoice_model extends CI_Model {
 
     public function view_invoice_log($invoice_id){
 
-
-        $this->db->select("il.*,cu.display_name");
-
+        $this->db->select("il.* , u.name ");
         $this->db->join("invoice i", "i.invoice_id = il.invoice_id");
-        $this->db->join("customer_order co", "co.order_id = i.order_id");
-        $this->db->join("customer cu", "cu.customer_id = co.customer_id");
+        $this->db->join("users u", "u.user_id = il.user_id");
         $this->db->where("il.invoice_id", $invoice_id);
 
         $result = $this->db->get("invoice_logs il")->result();
