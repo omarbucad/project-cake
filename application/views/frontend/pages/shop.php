@@ -2,7 +2,9 @@
   $(document).on("click" , ".add-cart" , function(){
     var id = $(this).data("id");
     var url = "<?php echo site_url("product/add_cart"); ?>";
-    var qty = $(this).closest(".input-group").find("input").val();
+    var qty = $('#_qty').val();
+
+    $(this).closest(".modal").modal("hide");
 
     $.ajax({
       url : url ,
@@ -26,21 +28,32 @@
     
   });
 
-  /*function for adding wish */
-  $(document).on('click' ,'.add-wish' , function () {
-    var product_id = $(this).data('id');
-    var url = "<?php echo site_url("product/add_wish"); ?>";
+  $(document).on("click" , ".add-cart-show" , function(){
+      var product_id = $(this).data("id");
+      var url = "<?php echo site_url("product/check_cart"); ?>";  
 
-    $.ajax({
-      url  : url ,
-      data : {product_id : product_id } ,
-      method : "POST" ,
-      success : function (response) {
-        var json = jQuery.parseJSON(response);
-        alert(json.message);
-      }
-    });
+      $.ajax({
+        url : url ,
+        data : {id : product_id },
+        method : "POST" ,
+        success : function(response){
+          
+          var json = jQuery.parseJSON(response);
+          
+          if(json.status){
+
+            var modal = $("#myModal2").modal("show");
+            modal.find(".add-cart").data("id" , product_id);
+
+          }else{
+            alert(json.message);
+          }
+        }
+      });
+
+      
   });
+
 </script>
 <style type="text/css">
   .cropper{
@@ -118,7 +131,7 @@
               <div class="card h-100 thumbnail">
                 <a href="<?php echo site_url("product/?id=$row->product_id"); ?>">
                   <div class="cropper text-center">
-                    <img class="card-img-top product-image" src="<?php echo site_url("thumbs/images/product/".$row->images[0]->image_path."/250/250/".$row->images[0]->image_name); ?>" alt="" >
+                    <img class="card-img-top product-image" src="<?php echo site_url("thumbs/images/product/".$row->images[0]->image_path."/350/250/".$row->images[0]->image_name); ?>" alt="" >
                     <div class="product-shortdesc">
                       <p class="text"><?php echo $row->short_description; ?></p>
                     </div>
@@ -131,13 +144,7 @@
                   <h5><?php echo $row->price; ?></h5>
                 </div>
                 <div class="card-footer text-right">
-                   <div class="input-group">
-                    <input type="number" step="1" class="form-control" value="1">
-                    <span class="input-group-btn" style="width: 60%" >
-                      <button class="btn btn-success add-cart" style="width: 100%" data-id="<?php echo $row->product_id; ?>" type="button">Add to Cart</button>
-                    </span>
-                  </div><!-- /input-group -->
-                  
+                   <button class="btn btn-success add-cart-show" style="width: 100%" data-id="<?php echo $row->product_id; ?>" type="button">Add to Cart</button>
                 </div>
 
               </div>
@@ -188,6 +195,32 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>
         <a href="<?php echo site_url("cart"); ?>" class="btn btn-primary">Proceed to Checkout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Item Quantity</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a href="javascript:void(0);" class="btn btn-primary add-cart">Confirm</a>
       </div>
     </div>
   </div>

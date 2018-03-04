@@ -59,20 +59,20 @@
 	    				<dt>Product Name</dt>
 	    				<dd>
 	    					<div class="form-group">
-	    						<input type="text" name="product_name" class="form-control">
+	    						<input type="text" name="product_name" value="<?php echo set_value("product_name"); ?>" class="form-control">
 	    					</div>
 	    				</dd>
 	    				
 	    				<dt>Price</dt>
 	    				<dd>
 	    					<div class="form-group">
-	    						<input type="number" name="product_price" step="0.01" class="form-control" placeholder="0.00">
+	    						<input type="number" name="product_price" value="<?php echo set_value("product_price"); ?>"  step="0.01" class="form-control" placeholder="0.00">
 	    					</div>
 	    				</dd>
 	    				<dt>Position</dt>
 	    				<dd>
 	    					<div class="form-group">
-	    						<input type="number" name="product_position" value="1" class="form-control">
+	    						<input type="number" name="product_position"  value="<?php echo set_value("product_position"); ?>"  value="1" class="form-control">
 	    					</div>
 	    				</dd>
 	    				<dt>Category</dt>
@@ -82,7 +82,7 @@
 							      <select class="form-control" name="category" id="category_select">
 							      		<option value="">Select Category</option>
 							      		<?php foreach($category_list as $row) : ?>
-							      			<option value="<?php echo $row->category_id; ?>"><?php echo $row->category_name; ?></option>
+							      			<option value="<?php echo $row->category_id; ?>" <?php echo (set_value("category") == $row->category_id) ? "selected": ""; ?>><?php echo $row->category_name; ?></option>
 							      		<?php endforeach; ?>
 							      </select>
 							      <span class="input-group-btn">
@@ -94,13 +94,13 @@
 	    				<dt>Short Description</dt>
 	    				<dd>
 	    					<div class="form-group">
-	    						<input type="text" name="short_description" class="form-control">
+	    						<input type="text" name="short_description"  value="<?php echo set_value("short_description"); ?>"  class="form-control">
 	    					</div>
 	    				</dd>
 	    				<dt>Description</dt>
 	    				<dd>
 	    					<div class="form-group">
-	    						<textarea class="textarea" name="description"></textarea>
+	    						<textarea class="textarea" name="description"> <?php echo set_value("description"); ?> </textarea>
 	    					</div>
 	    				</dd>
 	    				<dt>Images</dt>

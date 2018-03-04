@@ -1,6 +1,6 @@
 <script type="text/javascript">
-	$(document).on('mouseover' , '.img-list' , function(){
-		var img = $(this).find("img");
+	$(document).on('click' , '.img-list' , function(){
+		var img = $(this);
 
 		$('#img-parent').attr('src' , img.data('src'));
 	});
@@ -8,7 +8,7 @@
 	$(document).on("click" , ".add-cart" , function(){
 	    var id = $(this).data("id");
 	    var url = "<?php echo site_url("product/add_cart"); ?>";
-	    var qty = $(this).closest(".input-group").find("input").val();
+	    var qty = $('#_qty').val();
 
 	    $.ajax({
 	      url : url ,
@@ -31,7 +31,32 @@
 	    });
 	    
 	  });
+	
+	$(document).on("click" , ".add-cart-show" , function(){
+      var product_id = $(this).data("id");
+      var url = "<?php echo site_url("product/check_cart"); ?>";  
 
+      $.ajax({
+        url : url ,
+        data : {id : product_id },
+        method : "POST" ,
+        success : function(response){
+          
+          var json = jQuery.parseJSON(response);
+          
+          if(json.status){
+
+            var modal = $("#myModal2").modal("show");
+            modal.find(".add-cart").data("id" , product_id);
+
+          }else{
+            alert(json.message);
+          }
+        }
+      });
+
+      
+  });
 </script>
 <style type="text/css">
 	.card {
@@ -60,7 +85,7 @@
 
 	.cropper{
 		width: 100%;
-		height: 450px;
+		height: 350px;
 		overflow: hidden;
 		position: relative;
 	}
@@ -84,12 +109,13 @@
 		background-color: rgba(0,0,0,.03);
 		border-bottom: 1px solid rgba(0,0,0,.125);
 	}
-	.star-rating {
-		line-height:32px;
-		font-size:1.25em;
+	.img-container{
+		overflow: hidden;
 	}
 
-	.star-rating .fa-star{color: yellow;}
+	.img-container > .img-list{
+		display: inline-block;
+	}
 </style>
 <div style="margin-top: 100px;"></div>
 <div class="container">
@@ -113,53 +139,30 @@
 
 		</div>
 		<div class="col-lg-9">
-
 			<div class="card">
-
-				<?php if(count($result->images) == 1) : ?>
-					<div class="text-center">
-						<img class="card-img-top img-fluid" src="<?php echo site_url("thumbs/images/product/".$result->images[0]->image_path."/500/500/".$result->images[0]->image_name); ?>" alt="">
-					</div>
-				<?php else: ?>
-
-					<div class="row">
-						<div class="col-lg-8 col-xs-8">
-							<div class="cropper">
-								<img class="card-img-top img-fluid" id="img-parent" src="<?php echo site_url("thumbs/images/product/".$result->images[0]->image_path."/500/500/".$result->images[0]->image_name); ?>" alt="">
-							</div>
+				<div class="row">
+					<div class="col-lg-7 col-xs-12">
+						<div class="cropper">
+							<img class="card-img-top img-fluid" id="img-parent" src="<?php echo site_url("thumbs/images/product/".$result->images[0]->image_path."/400/400/".$result->images[0]->image_name); ?>" alt="">
 						</div>
-						<div class="col-lg-4 col-xs-4" style="max-height: 450px;overflow: auto;">
+						<?php if(count($result->images) != 1) : ?>
+						<div class="img-container" style="margin-top: 20px;">
 							<?php foreach($result->images as $row) : ?>
-								<a href="javascript:void(0);" class="img-list">
-									<div class="cropper" style="height: 150px;">
-										<img class="card-img-top img-fluid" data-src="<?php echo site_url("thumbs/images/product/".$row->image_path."/500/500/".$row->image_name); ?>" src="<?php echo site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name); ?>" alt="">
-									</div>
-								</a>
+								<img class="img-thumbnail img-list" style="width: calc((100% / 3) - 3px);height: 120px;" data-src="<?php echo site_url("thumbs/images/product/".$row->image_path."/400/400/".$row->image_name); ?>" src="<?php echo site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name); ?>" alt="">
 							<?php endforeach; ?>
 						</div>
+						<?php endif; ?>
 					</div>
-				<?php endif; ?>
-				<div class="card-body">
-					<h3 class="card-title"><?php echo $result->product_name; ?></h3>
-					<h4><?php echo $result->price; ?></h4>
-					<p class="card-text"><?php echo $result->product_description; ?></p>
+					<div class="col-lg-5 col-xs-12">
+						<div class="card-body">
+							<h3 class="card-title" style="margin-top: 0px;"><?php echo $result->product_name; ?></h3>
+							<h4><?php echo $result->price; ?></h4>
+							<p class="card-text"><?php echo $result->product_description; ?></p>
+							<button class="btn btn-success add-cart-show btn-block"  data-id="<?php echo $result->product_id; ?>" type="button">Add to Cart</button>
+						</div>
+					</div>
 				</div>
-
 			</div><!-- card -->
-			<br>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-lg-3">
-					<div class="input-group">
-						<input type="number" step="1" class="form-control" value="1">
-						<span class="input-group-btn" >
-							<button class="btn btn-success add-cart"  data-id="<?php echo $result->product_id; ?>" type="button">Add to Cart</button>
-						</span>
-					</div><!-- /input-group -->
-				</div>
-			</div>
-
 		</div><!-- col-9 -->
 	</div><!-- row -->
 
@@ -194,6 +197,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>
         <a href="<?php echo site_url("cart"); ?>" class="btn btn-primary">Proceed to Checkout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Item Quantity</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a href="javascript:void(0);" class="btn btn-primary add-cart">Confirm</a>
       </div>
     </div>
   </div>

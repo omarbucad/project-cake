@@ -21,6 +21,17 @@ class Product extends MY_Controller {
 		
 	}
 
+	public function check_cart(){
+		$data = $this->session->userdata("cart");
+		$product_id = $this->input->post("id");
+
+		if(isset($data["list"][$product_id])){
+			echo json_encode(["status" => false , "message" => "Product has been already added to cart"]);
+		}else{
+			echo json_encode(["status" => true ]);
+		}
+	}
+
 	public function add_cart(){
 
 		$data = $this->session->userdata("cart");

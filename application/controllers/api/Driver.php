@@ -70,7 +70,32 @@ class Driver extends CI_Controller{
 		}
 
 		if($result){
+			$result->show_delivery_button = ($result->order_images AND $result->status == "On Delivery") ? true : false;
 			echo json_encode(["status" => true  , "data" => $result]);
+		}else{
+			echo json_encode(["status" => false , "message" => "No Results..."]);	
+		}
+	}
+
+	public function get_items_images($order_number){
+		$result = $this->db->where("order_no" , $order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
+
+		$tmp = array();
+
+		foreach($result as $key => $row){
+			$tmp[$row->i_type][] = [
+				"image_id"		=> $row->image_id,
+				"image"	    	=> site_url("thumbs/images/items/".$row->image_path."/350/350/".$row->image_name) ,
+				"image_large"	=> site_url("thumbs/images/items/".$row->image_path."/550/550/".$row->image_name)
+			];
+		}
+
+		if(!isset($tmp["AFTER"])){
+			$tmp["AFTER"] = array();
+		}
+
+		if($tmp){
+			echo json_encode(["status" => true  , "data" => $tmp]);
 		}else{
 			echo json_encode(["status" => false , "message" => "No Results..."]);	
 		}
@@ -169,8 +194,19 @@ class Driver extends CI_Controller{
 				"created"		=> time()
 			]);
 
-			echo ["status" => true];
+			$last_id = $this->db->insert_id();
+
+			echo json_encode([
+				"image_id"		=> $last_id ,
+				"image"			=> site_url("thumbs/images/items/".$file["image_path"]."/350/350/".$file["image_name"]) ,
+				"image_large"	=> site_url("thumbs/images/items/".$file["image_path"]."/550/550/".$file["image_name"]) 
+			]);
 		}
+	}
+
+	public function remove_image_items($image_id){
+		$this->db->where("image_id" , $image_id)->update("customer_order_images" , ["deleted" => time()]);
+		echo json_encode(["status" => true]);
 	}
 
 	private function save_image($order_number , $signature = true){
@@ -191,6 +227,7 @@ class Driver extends CI_Controller{
 
         if (!file_exists($folder)) {
             mkdir($folder, 0777, true);
+            mkdir($folder.'/thumbnail', 0777, true);
             create_index_html($folder);
         }
 

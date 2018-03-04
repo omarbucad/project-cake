@@ -147,6 +147,13 @@ class Users_model extends CI_Model {
 
         foreach($result as $key => $row){
             $result[$key]->status = convert_customer_status($row->status);
+
+            $result[$key]->address = $row->street1.",";
+            $result[$key]->address .= ($row->street2) ? $row->street2."," : "";
+            $result[$key]->address .= ($row->suburb) ? $row->suburb."," : "";
+            $result[$key]->address .= ($row->state) ? $row->state."," : "";
+            $result[$key]->address .= ($row->postcode) ? $row->postcode."," : "";
+            $result[$key]->address .= ($row->city) ? $row->city : "";
         }
 
         return $result;

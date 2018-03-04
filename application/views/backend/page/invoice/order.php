@@ -112,7 +112,7 @@
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_roles">Status</label>
-                                    <select class="form-control" name="status" id="s_roles">
+                                    <select class="form-control " name="status" id="s_roles">
                                         <option value="">- Select Status-</option>
                                         <option value="C" <?php echo ($this->input->get("status") == "C") ? "selected" : "" ; ?> >Cancelled Order</option>
                                         <option value="1"  <?php echo ($this->input->get("status") == "1") ? "selected" : "" ; ?>>Placed Order</option>
@@ -157,8 +157,8 @@
                         <?php foreach($result as $key => $row) : ?>
                             <tr class="customer-row">
                                 <td>
-                                    <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
-                                    <small class="help-block"><?php echo $row->email; ?></small>
+                                    <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->company_name; ?> )</a><br>
+                                    <small class="help-block"><?php echo $row->display_name; ?><br><?php echo $row->email; ?></small>
                                 </td>
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
@@ -185,13 +185,13 @@
                                             <tr>
                                                 <th>Product</th>
                                                 <th>Quantity</th>
-                                                <th>Total Price</th>
+                                                <th colspan="2">Total Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach($row->product_list as $r) : ?>
                                                 <tr>
-                                                    <td width="60%">
+                                                    <td >
                                                         <div class="row">
                                                             <div class="col-xs-6 col-lg-2 no-margin-bottom">
                                                                 <img src="<?php echo site_url("thumbs/images/product/".$r->images[0]->image_path."/80/80/".$r->images[0]->image_name); ?>" class="img img-responsive thumbnail no-margin-bottom">
@@ -202,14 +202,50 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td width="20%">
+                                                    <td >
                                                         <span><?php echo $r->quantity; ?></span>
                                                     </td>
-                                                    <td width="20%">
+                                                    <td  colspan="2">
                                                         <span><?php echo $r->total_price; ?></span>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
+                                            <tr>
+                                                <th>Driver</th>
+                                                <td><?php echo $row->name; ?> </td>
+                                                <th>Signature</th>
+                                                <td>
+                                                    <?php if($row->image) : ?>
+                                                        <small>Reciever name : <?php echo $row->customer_name; ?></small><br>
+                                                        <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
+                                                    <?php endif; ?>
+                                                    <?php if($row->delivered_date != "NA") : ?>
+                                                        <br>
+                                                        <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
+                                                        <br>
+                                                        <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
+                                                        <small>notes : <i><?php echo $row->notes; ?></i></small>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                            <?php if($row->item_image) : ?>
+                                                <tr>
+                                                    <th>BEFORE DELIVERY</th>
+                                                    <td colspan="3">
+                                                        <?php foreach($row->item_image["BEFORE"] as $r) : ?>
+                                                             <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                        <?php endforeach; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>AFTER DELIVERY</th>
+                                                    <td colspan="3">
+                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
+                                                             <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                        <?php endforeach; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>

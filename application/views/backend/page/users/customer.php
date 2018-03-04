@@ -65,7 +65,7 @@
                             <tr>
                                 <td><span><a href="<?php echo site_url("app/users/view/customer_info/$row->customer_id"); ?>"><?php echo $row->display_name; ?></a></span></td>
                                 <td><span><?php echo $row->email; ?></span></td>
-                                <td><span><?php echo $row->street1; ?></span></td>
+                                <td><span><?php echo $row->address; ?></span></td>
                                 <td><span><?php echo $row->status; ?></span></td>
                                 <td><span><a class="btn btn-xs btn-success" href="<?php echo site_url("app/users/edit/customer/$row->customer_id"); ?>">Edit</a></span></td>
                             </tr>

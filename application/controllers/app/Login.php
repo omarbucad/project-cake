@@ -16,8 +16,9 @@ class Login extends MY_Controller {
 			$password = md5($this->input->post("password"));
 
 			$check = $this->db->where(array(
-				"username"	=> $username ,
-				"password"	=> $password
+				"username"		=> $username ,
+				"password"		=> $password ,
+				"account_type"  => "ADMIN"
 			))->where("deleted IS NULL")->get("users")->row();
 
 			if($check){

@@ -82,7 +82,7 @@ class Products extends MY_Controller {
 		if ($this->form_validation->run() == FALSE){ 
 
 			$this->data['hash_id'] = $id;
-			$this->data['main_page'] = "backend/page/products/updateproducts";
+			$this->data['main_page'] = "backend/page/products/update_products";
 			$this->data['page_name'] = "Update Product";
 			$this->data['result']	 = $this->product->view_productsbyid($product_id);
 			$this->data['category_list'] = $this->product->get_category();
@@ -110,6 +110,7 @@ class Products extends MY_Controller {
 
 	public function delete_product_image ($image_id) {
 		$delete = $this->product->delete_productimage($image_id);
+		
 		if($delete){
 			echo json_encode(['status' => $delete]);
 		}

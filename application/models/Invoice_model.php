@@ -8,8 +8,9 @@ class Invoice_model extends CI_Model {
         $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "co.order_id";
         $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
 
-        $this->db->select("co.* , c.display_name , c.company_name , c.email");
+        $this->db->select("co.* , c.display_name , c.company_name , c.email, u.name ");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
+        $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
 
         if($name = $this->input->get("name")){
             $this->db->like("c.display_name" , $name);
@@ -27,7 +28,7 @@ class Invoice_model extends CI_Model {
 
         }else{
             if(!$this->input->get("name")){
-                $this->db->where_in("co.status" , [ 1 , 2 , 3 ]);
+                $this->db->where_not_in("co.status" , [ 0 ]);
             }
         }
 
@@ -69,6 +70,17 @@ class Invoice_model extends CI_Model {
             $result[$k]->status_raw_number = $r->status;
             $result[$k]->status_raw = convert_order_status($r->status , true);
             $result[$k]->status = convert_order_status($r->status);
+
+            $result[$k]->delivered_date = convert_timezone($r->delivered_date , true);
+            $result[$k]->place_delivery_date = convert_timezone($r->place_delivery_date , true);
+
+            $item_image = $this->db->where("order_no" , $r->order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
+            
+            $result[$k]->item_image = array();
+
+            foreach($item_image as $key => $row){
+                $result[$k]->item_image[$row->i_type][] = $row;
+            }
         }
 
         return $result;
@@ -177,6 +189,7 @@ class Invoice_model extends CI_Model {
             $result[$key]->ordered_date = convert_timezone($row->ordered_date , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->delivered_date = convert_timezone($row->delivered_date , true);
+            $result[$key]->place_delivery_date = convert_timezone($row->place_delivery_date , true);
             $result[$key]->price_raw = $row->price;
             $result[$key]->price = custom_money_format($row->price);
             $result[$key]->total_price_raw = $row->total_price;
@@ -193,6 +206,13 @@ class Invoice_model extends CI_Model {
             $result[$key]->payment_type = convert_invoice_status($row->payment_type);
             $result[$key]->status_raw = convert_order_status($row->status,true);
             $result[$key]->status = convert_order_status($row->status);
+
+            $item_image = $this->db->where("order_no" , $row->order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
+            $result[$key]->item_image = array();
+            
+            foreach($item_image as $k => $r){
+                $result[$key]->item_image[$r->i_type][] = $r;
+            }
         }
 
         return $result;

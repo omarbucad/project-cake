@@ -94,9 +94,10 @@ class Invoice extends MY_Controller {
 			case 'on_delivery':
 
 				$this->db->where("order_id" , $order_id)->update("customer_order" , [
-					"status" 			=> 3 ,
-					"driver_id"			=> $this->input->post("selected_driver"),
-					"driver_note"		=> $this->input->post("note")
+					"status" 				=> 3 ,
+					"driver_id"				=> $this->input->post("selected_driver"),
+					"driver_note"			=> $this->input->post("note"),
+					"place_delivery_date"	=> time()
 				]);
 
 				$this->send_push_notification($this->input->post("selected_driver"));

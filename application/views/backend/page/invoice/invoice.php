@@ -118,8 +118,10 @@
 </style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
-        <?php $this->load->view("backend/common/sales_box"); ?>
+        
+
         <div class="container">
+            <?php $this->load->view("backend/common/sales_box"); ?>
         	<h1>Invoice</h1>
         </div>
 
@@ -278,23 +280,51 @@
                                             <tr>
                                                 <th>Driver</th>
                                                 <td><?php echo $row->name; ?> </td>
-                                                <th>Customer Signature</th>
+                                                <th>Signature</th>
                                                 <td>
                                                     <?php if($row->image) : ?>
+                                                        <small>Reciever name : <?php echo $row->customer_name; ?></small><br>
                                                         <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
                                                     <?php endif; ?>
                                                     <?php if($row->delivered_date != "NA") : ?>
                                                         <br>
-                                                        <small><?php echo $row->delivered_date; ?></small>
+                                                        <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
+                                                        <br>
+                                                        <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
+                                                        <small>notes : <i><?php echo $row->notes; ?></i></small>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
+                                            <?php if($row->item_image) : ?>
+                                                <tr>
+                                                    <th>BEFORE DELIVERY</th>
+                                                    <td colspan="3">
+                                                        <?php foreach($row->item_image["BEFORE"] as $r) : ?>
+                                                             <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                        <?php endforeach; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>AFTER DELIVERY</th>
+                                                    <td colspan="3">
+                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
+                                                             <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                        <?php endforeach; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+                                            <?php if($row->files) : ?>
                                             <tr>
-                                                <th>Receiver Name</th>
-                                                <td><?php echo $row->customer_name; ?></td>
-                                                <th>Notes</th>
-                                                <td><?php echo $row->notes; ?></td>
+                                                <th colspan="4">Other Files</th>
                                             </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <?php foreach($row->files as $r) : ?>
+                                                        <a href="<?php echo site_url("public/upload/files/".$r->file_path);?>"><?php echo $r->file_name;?></a>
+                                                    <?php endforeach; ?>
+                                                </td>
+                                            </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>

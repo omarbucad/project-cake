@@ -342,6 +342,8 @@ class Product_model extends CI_Model {
                 $result->product_list[$key]->images = $this->db->where("product_id" , $row->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
             }
 
+            $result->order_images = $this->db->where("order_no" , $result->order_number)->get("customer_order_images")->num_rows();
+
             $result->created = convert_timezone($result->created , true);
             $result->delivered_date = convert_timezone($result->delivered_date , true);
             $result->total_price = custom_money_format($result->total_price );

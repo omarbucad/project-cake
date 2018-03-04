@@ -2,9 +2,11 @@
 	$(document).on("keyup" , ".quantity" , function(){
 		compute_total();
 	});
+
 	$(document).on("change" , ".quantity" , function(){
 		compute_total();
 	});
+	
 	$(document).ready(function(){
 		compute_total();
 	});
