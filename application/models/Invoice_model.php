@@ -380,7 +380,8 @@ class Invoice_model extends CI_Model {
                     $this->db->insert("invoice_files" , [
                         "invoice_id"    => $invoice_id ,
                         "file_path"     => $year."/".$month."/".$image['file_name'],
-                        "file_type"     => $image['file_type']
+                        "file_type"     => $image['file_type'] ,
+                        "file_name"     => $image['file_name']
                     ]);
 
                 }
