@@ -9,6 +9,8 @@
 	    var id = $(this).data("id");
 	    var url = "<?php echo site_url("product/add_cart"); ?>";
 	    var qty = $('#_qty').val();
+	    
+	    $(this).closest(".modal").modal("hide");
 
 	    $.ajax({
 	      url : url ,
