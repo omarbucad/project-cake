@@ -682,4 +682,24 @@ class MY_Controller extends CI_Controller {
             }
         }
     }   
+
+
+    public function super_admin_only(){
+        if(sao_side('SUPER_ADMIN')){
+            return true;
+        }
+        else{
+            $url = $this->uri->segment(2);
+
+            switch ($url) {
+                case 'dashboard':
+                    redirect('app/invoice/order');
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
+    }
 }

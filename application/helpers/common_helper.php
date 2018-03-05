@@ -307,3 +307,17 @@ if ( ! function_exists('my_current_url'))
         return $_SERVER['QUERY_STRING'] ? $url.'?'.$_SERVER['QUERY_STRING'].$myurl : $url.'?'.$myurl;
     }
 }
+
+if ( ! function_exists('sao_side'))
+{
+    function sao_side($account_type) 
+    {
+        $CI =& get_instance();
+
+       if($account_type == $CI->session->userdata("user")->account_type){
+             return true;
+        }else{
+            return false;
+        }
+    }
+}

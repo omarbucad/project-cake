@@ -17,9 +17,8 @@ class Login extends MY_Controller {
 
 			$check = $this->db->where(array(
 				"username"		=> $username ,
-				"password"		=> $password ,
-				"account_type"  => "ADMIN"
-			))->where("deleted IS NULL")->get("users")->row();
+				"password"		=> $password
+			))->where_in("account_type" , ["SUPER_ADMIN" , "ADMIN"])->where("deleted IS NULL")->get("users")->row();
 
 			if($check){
 				$this->session->set_userdata("user" , $check);

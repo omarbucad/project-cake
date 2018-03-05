@@ -11,11 +11,13 @@
                 </button>
             </div>
             <ul class="nav navbar-nav">
+                <?php if(sao_side("SUPER_ADMIN")) : ?>
                 <li class="<?php echo ($this->uri->segment(2) == "dashboard") ? "active" : ""; ?>">
                     <a href="<?php echo site_url('app/dashboard'); ?>">
                         <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
                     </a>
                 </li>
+                 <?php endif; ?>
                 <li class="panel panel-default dropdown <?php echo ($this->uri->segment(2) == "invoice") ? "active" : ""; ?>">
                     <a data-toggle="collapse" href="#dropdown-element">
                         <span class="icon fa fa-clipboard"></span><span class="title">Invoice</span>
@@ -24,7 +26,9 @@
                     <div id="dropdown-element" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
+                            <?php if(sao_side("SUPER_ADMIN")) : ?>
                                 <li><a href="<?php echo site_url('app/invoice/'); ?>">Billing Statement</a></li>
+                            <?php endif;?>
                                 <li><a href="<?php echo site_url('app/invoice/order'); ?>">Order List</a></li>                               
                             </ul>
                         </div>
@@ -40,8 +44,9 @@
                         <span class="icon fa fa-list"></span><span class="title">Categories</span>
                     </a>
                 </li>
-                <li class="panel panel-default dropdown <?php echo ($this->uri->segment(2) == "users") ? "active" : ""; ?>">
-                    <a data-toggle="collapse" href="#dropdown-form">
+                <li class="<?php echo (sao_side('SUPER_ADMIN')) ? 'panel panel-default dropdown': '';?> <?php echo ($this->uri->segment(2) == "users") ? "active" : ""; ?>">
+                    
+                    <a <?php echo (sao_side('SUPER_ADMIN')) ? 'data-toggle="collapse"': '';?> href="<?php echo (sao_side('SUPER_ADMIN')) ? '#dropdown-form' : site_url("app/users/view_user_info/").$this->hash->encrypt($session_data->user_id); ?>">
                         <span class="icon fa fa-users"></span><span class="title">Accounts</span>
                     </a>
                     <!-- Dropdown level 1 -->

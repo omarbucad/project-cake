@@ -143,8 +143,8 @@ class Login extends MY_Controller {
 			redirect("/welcome" , "refresh");
 		}
 		else{
-			$this->session->sess_destroy();
-			redirect("/welcome" , "refresh");
+			unset($_SESSION["customer"]);
+			redirect("/app/login" , "refresh");
 		}		
 	}
 

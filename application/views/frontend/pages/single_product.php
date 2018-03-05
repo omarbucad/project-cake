@@ -118,6 +118,9 @@
 	.img-container > .img-list{
 		display: inline-block;
 	}
+	.card{
+		border:none;
+	}
 </style>
 <div style="margin-top: 100px;"></div>
 <div class="container">

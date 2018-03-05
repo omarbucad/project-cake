@@ -34,6 +34,7 @@
                                         <option value="">All Roles</option>
                                         <option value="DRIVER" <?php echo ($this->input->get("roles") == "DRIVER") ? "selected" : ""; ?>>Driver</option>
                                         <option value="ADMIN" <?php echo ($this->input->get("roles") == "ADMIN") ? "selected" : ""; ?>>Admin</option>
+                                        <option value="SUPER_ADMIN" <?php echo ($this->input->get("roles") == "SUPER_ADMIN") ? "selected" : ""; ?>>Super Admin</option>
                                     </select>
                                 </div>
                             </div>

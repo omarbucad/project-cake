@@ -34,6 +34,14 @@
         }
 
     });
+
+    $(document).on("click" , "#pending-order" , function(){
+    	$(".panel-pending").toggle();
+    });
+
+    $(document).on("click" , "#confirmed-order" , function(){
+    	$(".panel-confirmed").toggle();
+    });
 </script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -43,11 +51,43 @@
                 <h2>Welcome <?php echo $session_data->name; ?></h2>
 
     			<?php $this->load->view("backend/common/sales_box"); ?>
-
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                   <a href="javascript:void(0);" id="pending-order">
+                    <div class="card blue summary-inline">
+                        <div class="card-body">
+                            <i class="icon fa fa-shopping-cart fa-4x"></i>
+                            <div class="content">
+                                <div class="title"><?php echo $total_pending_order; ?></div>
+                                <div class="sub-title">Total Pending Orders</div>
+                                
+                                <span class="pull-right sub"><small>Click to View List</small></span>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                   <a href="javascript:void(0);" id="confirmed-order">
+                    <div class="card red summary-inline">
+                        <div class="card-body">
+                            <i class="icon fa fa-thumbs-up fa-4x"></i>
+                            <div class="content">
+                                <div class="title"><?php echo $total_confirmed_order; ?></div>
+                                <div class="sub-title">Total Confirmed Orders</div>
+                                <span class="pull-right sub"><small>Click to View List</small></span>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+          </div>
 
     			<div class="row">
     				<div class="col-lg-6 col-xs-12">
-	    				<div class="panel panel-success">
+	    				<div class="panel panel-success panel-pending" style="display: none;">
 						  	<div class="panel-heading">New Order</div>
 						  	<div class="panel-body">
 						  		<table class="table">
@@ -90,7 +130,7 @@
 						</div>
 	    			</div>
 	    			<div class="col-lg-6 col-xs-12">
-	    				<div class="panel panel-danger">
+	    				<div class="panel panel-danger panel-confirmed" style="display: none;">
 						   	<div class="panel-heading">Unpaid Invoices</div>
 						   	<div class="panel-body">
 						   		<table class="table">

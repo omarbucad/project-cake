@@ -68,6 +68,7 @@
                                 <select class="form-control" name="role">
                                     <option value="DRIVER">Driver</option>
                                     <option value="ADMIN">Admin</option>
+                                    <option value="SUPER_ADMIN">Super Admin</option>
                                 </select>
                             </div>
                             

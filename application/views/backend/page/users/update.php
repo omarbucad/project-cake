@@ -79,6 +79,7 @@
                                 <select class="form-control" name="role">
                                     <option  <?php echo ($user_info->account_type == "DRIVER") ? "selected" : "" ; ?> value="DRIVER">Driver</option>
                                     <option <?php echo ($user_info->account_type == "ADMIN") ? "selected" : "" ; ?> value="ADMIN">Admin</option>
+                                    <option <?php echo ($user_info->account_type == "SUPER_ADMIN") ? "selected" : "" ; ?> value="SUPER_ADMIN">Super Admin</option>
                                 </select>
                             </div>
                             
