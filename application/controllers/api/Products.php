@@ -30,7 +30,7 @@ class Products extends CI_Controller{
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->p_id)->get("products_images")->row();
 
-			$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name);
+			@$result[$key]->image = site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name);
 		}
 
 		if($result){
@@ -81,8 +81,8 @@ class Products extends CI_Controller{
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
 
 			$result[$key]->image = array(
-				"thumbnail"	=> site_url("thumbs/images/product/".$image->image_path."/500/500/".$image->image_name) ,
-				"large_image" => site_url("thumbs/images/product/".$image->image_path."/700/700/".$image->image_name)
+				"thumbnail"	=> site_url("thumbs/images/product/".$image->image_path."/250/250/".$image->image_name) ,
+				"large_image" => site_url("thumbs/images/product/".$image->image_path."/500/500/".$image->image_name)
 			);
 			$result[$key]->short_description = htmlentities($row->short_description);
 			$result[$key]->price_raw = $row->price;
@@ -109,8 +109,8 @@ class Products extends CI_Controller{
 
 			foreach($images as $key => $row){
 				$result->images[] = array(
-					"thumbnail" => site_url("thumbs/images/product/".$row->image_path."/350/350/".$row->image_name) ,
-					"large_image" =>site_url("thumbs/images/product/".$row->image_path."/550/550/".$row->image_name)
+					"thumbnail" => site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name) ,
+					"large_image" =>site_url("thumbs/images/product/".$row->image_path."/500/500/".$row->image_name)
 				);
 			}
 

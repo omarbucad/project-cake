@@ -1,5 +1,6 @@
 <?php
 ini_set("memory_limit","512M");
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Thumbs extends CI_Controller {
