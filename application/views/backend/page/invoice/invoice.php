@@ -110,10 +110,22 @@
         }
 
     });
+
+    $(document).ready(function() {
+        $('.animated-thumbnail').lightGallery({
+            thumbnail:true
+        });
+    });
 </script>
 <style type="text/css">
     .daterangepicker.dropdown-menu {
         z-index: 100001 !important;
+    }
+    .lg-backdrop{
+        z-index: 999999!important;
+    }
+    .lg-outer{
+        z-index: 999999!important;
     }
 </style>
 <div class="container-fluid margin-bottom">
@@ -299,17 +311,25 @@
                                                 <tr>
                                                     <th>BEFORE DELIVERY</th>
                                                     <td colspan="3">
+                                                        <div class="animated-thumbnail">
                                                         <?php foreach($row->item_image["BEFORE"] as $r) : ?>
+                                                            <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                            </a>
                                                         <?php endforeach; ?>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th>AFTER DELIVERY</th>
                                                     <td colspan="3">
-                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
+                                                       <div class="animated-thumbnail">
+                                                          <?php foreach($row->item_image["AFTER"] as $r) : ?>
+                                                            <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                            </a>
                                                         <?php endforeach; ?>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endif; ?>
