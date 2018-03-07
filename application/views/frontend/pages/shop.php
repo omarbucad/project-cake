@@ -6,25 +6,30 @@
 
     $(this).closest(".modal").modal("hide");
 
-    $.ajax({
-      url : url ,
-      data : {id : id , qty : qty },
-      method : "POST" ,
-      success : function(response){
-        var json = jQuery.parseJSON(response);
+    if(qty == 0){
+        alert("Please enter a quantity.");
+    }
+    else{
+      $.ajax({
+        url : url ,
+        data : {id : id , qty : qty },
+        method : "POST" ,
+        success : function(response){
+          var json = jQuery.parseJSON(response);
 
-        if(json.status){
-          var modal = $('#myModal').modal("show");
-          modal.find(".total_items").html(json.data.items);
-          modal.find(".total_price").html(json.data.price);
-          modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
-          modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
-        }else{
-          alert(json.message);
+          if(json.status){
+            var modal = $('#myModal').modal("show");
+            modal.find(".total_items").html(json.data.items);
+            modal.find(".total_price").html(json.data.price);
+            modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
+            modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
+          }else{
+            alert(json.message);
+          }
+
         }
-
-      }
-    });
+      });
+    }
     
   });
 
@@ -214,7 +219,7 @@
         <form>
           <div class="form-group">
             <label>Quantity</label>
-            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control">
+            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control" value="1" min="1">
           </div>
         </form>
       </div>

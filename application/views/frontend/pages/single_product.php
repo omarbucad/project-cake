@@ -9,29 +9,32 @@
 	    var id = $(this).data("id");
 	    var url = "<?php echo site_url("product/add_cart"); ?>";
 	    var qty = $('#_qty').val();
-	    
+
 	    $(this).closest(".modal").modal("hide");
+	    if(qty == 0){
+	    	alert("Please enter a quantity.");
+	    }
+	    else{
+		    $.ajax({
+		      url : url ,
+		      data : {id : id , qty : qty },
+		      method : "POST" ,
+		      success : function(response){
+		        var json = jQuery.parseJSON(response);
 
-	    $.ajax({
-	      url : url ,
-	      data : {id : id , qty : qty },
-	      method : "POST" ,
-	      success : function(response){
-	        var json = jQuery.parseJSON(response);
+		        if(json.status){
+		          var modal = $('#myModal').modal("show");
+		          modal.find(".total_items").html(json.data.items);
+		          modal.find(".total_price").html(json.data.price);
+		          modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
+		          modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
+		        }else{
+		          alert(json.message);
+		        }
 
-	        if(json.status){
-	          var modal = $('#myModal').modal("show");
-	          modal.find(".total_items").html(json.data.items);
-	          modal.find(".total_price").html(json.data.price);
-	          modal.find(".total_gst").html("RM "+parseFloat(json.data.price_raw * 0.06).toFixed(2));
-	          modal.find(".total_price_with_gst").html("RM " +parseFloat((json.data.price_raw * 0.06) + json.data.price_raw).toFixed(2));
-	        }else{
-	          alert(json.message);
-	        }
-
-	      }
-	    });
-	    
+		      }
+		    });
+	    }
 	  });
 	
 	$(document).on("click" , ".add-cart-show" , function(){
@@ -59,6 +62,11 @@
 
       
   });
+	$(document).ready(function() {
+        $('.animated-thumbnail').lightGallery({
+            thumbnail:true
+        });
+    });
 </script>
 <style type="text/css">
 	.card {
@@ -115,12 +123,21 @@
 		overflow: hidden;
 	}
 
-	.img-container > .img-list{
+	.img-container  .img-list{
 		display: inline-block;
 	}
 	.card{
 		border:none;
 	}
+    .daterangepicker.dropdown-menu {
+        z-index: 100001 !important;
+    }
+    .lg-backdrop{
+        z-index: 999999!important;
+    }
+    .lg-outer{
+        z-index: 999999!important;
+    }
 </style>
 <div style="margin-top: 100px;"></div>
 <div class="container">
@@ -152,9 +169,13 @@
 						</div>
 						<?php if(count($result->images) != 1) : ?>
 						<div class="img-container" style="margin-top: 20px;">
+							<div class="animated-thumbnail">
 							<?php foreach($result->images as $row) : ?>
+								<a href="<?php echo site_url("thumbs/images/product/".$row->image_path."/800/800/".$row->image_name); ?>">
 								<img class="img-thumbnail img-list" style="width: calc((100% / 3) - 3px);height: 120px;" data-src="<?php echo site_url("thumbs/images/product/".$row->image_path."/400/400/".$row->image_name); ?>" src="<?php echo site_url("thumbs/images/product/".$row->image_path."/250/250/".$row->image_name); ?>" alt="">
+								</a>
 							<?php endforeach; ?>
+							</div>
 						</div>
 						<?php endif; ?>
 					</div>
@@ -219,7 +240,7 @@
         <form>
           <div class="form-group">
             <label>Quantity</label>
-            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control">
+            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control" value="1" min="1">
           </div>
         </form>
       </div>

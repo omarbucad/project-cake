@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/font-awesome.min.css?version='.$version) ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/css/carousel.css?version='.$version) ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/css/sweetalert.css?version='.$version) ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/lightgallery.min.css?version='.$version) ?>">
 
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
@@ -27,6 +28,7 @@
     <script type="text/javascript" src="<?php echo site_url('public/lib/js/jquery.min.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/lib/js/bootstrap.min.js?version='.$version) ?>"></script>
     <script type="text/javascript" src="<?php echo site_url('public/js/sweetalert.min.js?version='.$version) ?>"></script>
+    <script type="text/javascript" src="<?php echo site_url('public/lib/js/lightgallery-all.min.js?version='.$version) ?>"></script>
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
