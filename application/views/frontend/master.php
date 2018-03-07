@@ -8,7 +8,7 @@
     <title><?php echo $title_page; ?></title>
 
     <!-- Favicon-->
-    <link rel="icon" href="<?php echo site_url('public/img/GB2.png') ?>" type="image/x-icon">
+    <link rel="icon" href="<?php echo site_url('public/img/favicon.png') ?>" type="image/x-icon">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('public/lib/css/bootstrap.min.css?version='.$version) ?>">

@@ -198,6 +198,7 @@ class Products extends CI_Controller{
 
         foreach($result as $key => $row){
             $result[$key]->total_price = custom_money_format($row->total_price);
+            $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created , true);
             $result[$key]->status = convert_order_status($row->status , true);
         }
@@ -238,6 +239,8 @@ class Products extends CI_Controller{
 
         foreach($result as $key => $row){
             $result[$key]->total_price = custom_money_format($row->total_price);
+            $result[$key]->gst_price = custom_money_format($row->gst_price);
+            $result[$key]->total_price_with_gst = custom_money_format($row->total_price_with_gst);
             $result[$key]->created = convert_timezone($row->created , true);
             $result[$key]->status = convert_order_status($row->status , true);
         }

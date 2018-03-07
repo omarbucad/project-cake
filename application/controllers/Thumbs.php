@@ -34,27 +34,27 @@ class Thumbs extends CI_Controller {
             $this->image_lib->initialize($config);
             $this->image_lib->resize();
 
-            $this->image_lib->clear();
-            $config = array();
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = 'public/upload/'.$type.'/'.$path.'/thumbnail/'.$width.'x'.$height.'_'.$img;
+            // $this->image_lib->clear();
+            // $config = array();
+            // $config['image_library'] = 'gd2';
+            // $config['source_image'] = 'public/upload/'.$type.'/'.$path.'/thumbnail/'.$width.'x'.$height.'_'.$img;
 
-            $imgdata = exif_read_data('public/upload/'.$type.'/'.$path.'/'.$img , 'IFD0');
+            // $imgdata = exif_read_data('public/upload/'.$type.'/'.$path.'/'.$img , 'IFD0');
 
-            switch($imgdata['Orientation']) {
-                case 3:
-                    $config['rotation_angle'] = '180';
-                break;
-                case 6:
-                    $config['rotation_angle'] = '270';
-                break;
-                case 8:
-                    $config['rotation_angle'] = '90';
-                break;
-            }
+            // switch($imgdata['Orientation']) {
+            //     case 3:
+            //         $config['rotation_angle'] = '180';
+            //     break;
+            //     case 6:
+            //         $config['rotation_angle'] = '270';
+            //     break;
+            //     case 8:
+            //         $config['rotation_angle'] = '90';
+            //     break;
+            // }
 
-            $this->image_lib->initialize($config); 
-            $this->image_lib->rotate();
+            // $this->image_lib->initialize($config); 
+            // $this->image_lib->rotate();
 
         }
         header('Content-Type: image/jpg');
