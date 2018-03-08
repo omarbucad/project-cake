@@ -14,10 +14,10 @@
 	<br>
 	<p>If the button above doesn't work, paste this into your browser: </p>
 
-	<p><?php echo site_url("login/code/".$activation_code); ?></p>
+	<p><a href="<?php echo site_url("login/code/".$activation_code); ?>"><?php echo site_url("login/code/".$activation_code); ?></a></p>
 
 	<p>For additional help, visit our Support Center . </p>
 
-	<p>Happy Cake! </p>
+	<p>YOU CAN'T BUY HAPPINESS BUT YOU CAN BUY A CAKE & THAT'S KIND OF THE SAME THING!</p>
 </body>
 </html>

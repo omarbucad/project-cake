@@ -191,7 +191,7 @@
                                         <tbody>
                                             <?php foreach($row->product_list as $r) : ?>
                                                 <tr>
-                                                    <td >
+                                                    <td>
                                                         <div class="row">
                                                             <div class="col-xs-6 col-lg-2 no-margin-bottom">
                                                                 <img src="<?php echo site_url("thumbs/images/product/".$r->images[0]->image_path."/80/80/".$r->images[0]->image_name); ?>" class="img img-responsive thumbnail no-margin-bottom">
@@ -210,37 +210,45 @@
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
-                                            <tr>
-                                                <th>Driver</th>
-                                                <td><?php echo $row->name; ?> </td>
-                                                <th>Signature</th>
-                                                <td>
-                                                    <?php if($row->image) : ?>
-                                                        <small>Reciever name : <?php echo $row->customer_name; ?></small><br>
-                                                        <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
-                                                    <?php endif; ?>
-                                                    <?php if($row->delivered_date != "NA") : ?>
-                                                        <br>
-                                                        <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
-                                                        <br>
-                                                        <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
-                                                        <small>notes : <i><?php echo $row->notes; ?></i></small>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
+                                            <?php if($row->name) : ?>
+                                                <tr>
+                                                    <th>Driver</th>
+                                                    <th colspan="3">Signature</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo $row->name; ?> </td>
+                                                    <td colspan="3">
+                                                        <?php if($row->image) : ?>
+                                                            <small>Receiver name : <?php echo $row->customer_name; ?></small><br>
+                                                            <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
+                                                        <?php endif; ?>
+                                                        <?php if($row->delivered_date != "NA") : ?>
+                                                            <br>
+                                                            <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
+                                                            <br>
+                                                            <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
+                                                            <small>notes : <i><?php echo $row->notes; ?></i></small>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
                                             <?php if($row->item_image) : ?>
                                                 <tr>
-                                                    <th>BEFORE DELIVERY</th>
-                                                    <td colspan="3">
-                                                        <?php foreach($row->item_image["BEFORE"] as $r) : ?>
+                                                    <th colspan="4">BEFORE DELIVERY</th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <?php foreach(@$row->item_image["BEFORE"] as $r) : ?>
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                         <?php endforeach; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>AFTER DELIVERY</th>
-                                                    <td colspan="3">
-                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
+                                                    <th colspan="4">AFTER DELIVERY</th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <?php foreach(@$row->item_image["AFTER"] as $r) : ?>
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                         <?php endforeach; ?>
                                                     </td>

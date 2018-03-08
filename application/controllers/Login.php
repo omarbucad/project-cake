@@ -123,7 +123,8 @@ class Login extends MY_Controller {
 	public function code($code){
 		$this->data['title_page'] = "Activate Your Account";
 		$this->data['main_page'] = "frontend/pages/activation";
-
+		$this->data['shop_list']  = $this->product->get_category();
+		
 		if($code){
 			$result = $this->db->where("activation_code" , $code)->get("customer")->row();
 

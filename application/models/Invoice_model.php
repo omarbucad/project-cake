@@ -26,10 +26,6 @@ class Invoice_model extends CI_Model {
             }
             $this->db->where("co.status" , $status);
 
-        }else{
-            if(!$this->input->get("name")){
-                $this->db->where_not_in("co.status" , [ 0 ]);
-            }
         }
 
         if($date = $this->input->get("date")){
@@ -80,6 +76,10 @@ class Invoice_model extends CI_Model {
 
             foreach($item_image as $key => $row){
                 $result[$k]->item_image[$row->i_type][] = $row;
+            }
+
+            if(!isset($result[$k]->item_image["AFTER"]) AND $result[$k]->item_image){
+                $result[$k]->item_image["AFTER"] = array();
             }
         }
 
