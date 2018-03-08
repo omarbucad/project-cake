@@ -7,6 +7,13 @@ class Order extends MY_Controller {
        parent::__construct();
 
        $this->load->model("Product_model" , "product");
+
+       if(!$this->session->userdata("customer")){
+       		redirect("/login" , "refresh");
+       }
+       elseif($this->session->userdata("customer")->status == 2){
+       		redirect("/login/resend_activation_email", "refresh");
+       }
     }
 	public function index(){
 		$this->data['title_page'] = "Welcome to Gravybaby Cake Ordering";
