@@ -9,7 +9,6 @@ class Login extends MY_Controller {
     }
 
 	public function index(){
-
 		if($this->input->get("action") == "login"){
 
 			$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required');
@@ -49,8 +48,9 @@ class Login extends MY_Controller {
 				
 				if($result){
 					if($result->status == 2){
+						$this->session->set_userdata("customer" , $result);
 
-						redirect("/welcome?status=unactivate" , "refresh");
+						redirect("login/resend_activation_email" , "refresh");
 						
 					}else{
 						$this->session->set_userdata("customer" , $result);
@@ -108,7 +108,10 @@ class Login extends MY_Controller {
 		            	"name"				=> $this->input->post("name") ,
 		            ]);
 
-		            redirect("/welcome?status=unactivate" , "refresh");
+		            $this->data["email"] = $this->input->post("username");
+		            $this->data['title_page'] = "Registered Successfully";
+					$this->data['main_page'] = "frontend/pages/register_success";
+		            $this->load->view('frontend/master' , $this->data);
 		            //redirect("/login/code/".$activation_code);
 		        }
 			}
@@ -160,4 +163,46 @@ class Login extends MY_Controller {
 
 		$this->email->send();
 	}
+
+	public function resend_activation_email(){
+		$email = ($this->input->get("email")) ? $this->input->get("email") : $this->session->userdata("customer")->email;
+
+		if ($this->form_validation->run() == FALSE){ 
+
+			$this->data['customer_email'] = $email;
+			$this->data['title_page'] = "Resend Activation Email";
+			$this->data['main_page'] = "/frontend/pages/resend_activation";
+
+			$this->load->view('frontend/master' , $this->data);
+
+		}else{
+
+			$data['email_address'] = $this->input->post('email');
+			$data['activation_code'] = $this->hash->encrypt(time().'_'.$this->input->post("email"));
+
+			if($email == $this->input->get("email")){
+				$this->db->select('display_name');
+				$this->db->where('email',$data['email_address']);
+				$name = $this->db->get('customer')->row();
+
+				$data['name'] = $name->display_name;
+			}
+			else{
+				$data['name'] = $this->session->userdata("customer")->display_name;
+			}
+			
+
+			$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
+			$this->email->to($email_address);
+
+			$this->email->subject('Gravybaby Cake Ordering account activation');
+			$this->email->message($this->load->view('frontend/pages/email' , $data , TRUE));
+			$this->email->set_mailtype('html');
+
+			$this->email->send();
+
+			redirect("/login/resend_activation_email?success=email_sent" , "refresh");
+		}
+	}
+
 }

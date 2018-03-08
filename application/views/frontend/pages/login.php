@@ -16,27 +16,34 @@
 		<div class="col-lg-6 col-xs-12">
 			<form action="<?php echo site_url("login/?action=login"); ?>" method="POST">
 				<legend>LOGIN</legend>
-					<?php if($this->input->get("error")) :?>
-						<div class="alert alert-danger alert-dismissible">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Wrong Password!</div>
-					<?php endif; ?>
-					<div class="form-group">
-						<label for="username">Email Address *</label>
-						<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
+
+				<div class="panel-group">
+					<div class="panel panel-default">
+					<div class="panel-body">
+						<?php if($this->input->get("error")) :?>
+							<div class="alert alert-danger alert-dismissible">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Wrong Password!</div>
+						<?php endif; ?>
+						<div class="form-group">
+							<label for="username">Email Address *</label>
+							<input type="text" name="username" class="form-control" placeholder="Email Address" id="username" required="true">
+						</div>
+						<div class="form-group">
+							<label for="password">Password *</label>
+							<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
+						</div>
+						<div class="text-left">
+							<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
+							<a href="javascript:void(0);">Lost your Password?</a>
+						</div>
+						<div class="checkbox">
+						    <label>
+						      <input type="checkbox" name="remember_me"> Remember Me
+						    </label>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="password">Password *</label>
-						<input type="password" name="password" class="form-control" placeholder="Password" id="username" required="true">
 					</div>
-					<div class="text-left">
-						<input type="submit" name="submit" class="btn btn-primary btn-block" value="Login">
-						<a href="javascript:void(0);">Lost your Password?</a>
-					</div>
-					<div class="checkbox">
-					    <label>
-					      <input type="checkbox" name="remember_me"> Remember Me
-					    </label>
-					</div>
+				</div>
 			</form>
 		</div>
 		<div class="col-lg-6 col-xs-12">
