@@ -143,12 +143,11 @@ class Login extends MY_Controller {
 	}
 
 	public function logout(){
-		if(isset($_SESSION["user"]) && isset($_SESSION["customer"])){
+		if($this->input->get("from") == "customer"){
 			unset($_SESSION["customer"]);
 			redirect("/welcome" , "refresh");
-		}
-		else{
-			unset($_SESSION["customer"]);
+		}else{
+			unset($_SESSION["user"]);
 			redirect("/app/login" , "refresh");
 		}		
 	}

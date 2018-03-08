@@ -36,7 +36,7 @@
                     <li><a href="<?php echo site_url("profile"); ?>">My Account</a></li>
                     <li><a href="<?php echo site_url("order/"); ?>">My Orders</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?php echo site_url("login/logout"); ?>">Logout</a></li>
+                    <li><a href="<?php echo site_url("login/logout/?from=customer"); ?>">Logout</a></li>
                   </ul>
                 </li>
             <?php else : ?>

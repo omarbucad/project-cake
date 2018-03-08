@@ -36,6 +36,7 @@
   <body>
     <?php $this->load->view("frontend/header"); ?>
     <?php $this->load->view($main_page); ?>
+    <?php $this->load->view("frontend/footer"); ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     
   </body>

@@ -27,14 +27,6 @@
 					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
-
-	<hr class="featurette-divider">
-	<!-- FOOTER -->
-    <footer>
-        <p>&copy; <?php echo $year; ?> Copyright. <?php echo $company_name; ?> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
-
 </div>

@@ -119,9 +119,6 @@
       
 
       <!-- FOOTER -->
-      <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; <?php echo $year; ?> Copyright. <?php echo $company_name; ?> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-      </footer>
+     
 
     </div><!-- /.container -->
