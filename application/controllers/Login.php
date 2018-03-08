@@ -6,6 +6,7 @@ class Login extends MY_Controller {
        parent::__construct();
 
        $this->load->model("Product_model" , "product");
+       $this->data['shop_list'] = $this->product->get_category();
     }
 
 	public function index(){
@@ -166,6 +167,9 @@ class Login extends MY_Controller {
 	}
 
 	public function resend_activation_email(){
+		if(!$this->session->userdata("customer")){
+			redirect("login","refresh");
+		}
 		$email = ($this->input->get("email")) ? $this->input->get("email") : $this->session->userdata("customer")->email;
 
 		if ($this->form_validation->run() == FALSE){ 
