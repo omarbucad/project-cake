@@ -211,8 +211,6 @@ class Login extends MY_Controller {
 
 	public function register(){
 
-
-
 		$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|is_unique[customer.email]');
 		$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
