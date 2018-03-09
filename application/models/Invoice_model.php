@@ -8,9 +8,10 @@ class Invoice_model extends CI_Model {
         $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "co.order_id";
         $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
 
-        $this->db->select("co.* , c.display_name , c.company_name , c.email, u.name ");
+        $this->db->select("co.* , c.display_name , c.company_name , c.email, u.name, a.*");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
+        $this->db->join("address a" , "a.address_id = co.address_id");
 
         if($name = $this->input->get("name")){
             $this->db->like("c.display_name" , $name);
@@ -70,6 +71,14 @@ class Invoice_model extends CI_Model {
 
             $result[$k]->delivered_date = convert_timezone($r->delivered_date , true);
             $result[$k]->place_delivery_date = convert_timezone($r->place_delivery_date , true);
+
+
+            $result[$k]->address = $result[$k]->street1;
+            $result[$k]->address .= ($result[$k]->street2) ? ",<br>".$result[$k]->street2 : "";
+            $result[$k]->address .= ($result[$k]->suburb) ? ",<br>".$result[$k]->suburb : "";
+            $result[$k]->address .= ($result[$k]->state) ? ",<br>".$result[$k]->state : "";
+            $result[$k]->address .= ($result[$k]->postcode) ? ",<br>".$result[$k]->postcode : "";
+            $result[$k]->address .= ($result[$k]->city) ? ",<br>".$result[$k]->city : "";
 
             $item_image = $this->db->where("order_no" , $r->order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
             

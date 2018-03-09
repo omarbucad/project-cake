@@ -217,13 +217,14 @@
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
-                                            <?php if($row->name) : ?>
                                                 <tr>
                                                     <th colspan="3">Shipping Address</th>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3"><?php echo "test";?></td>
+                                                    <td colspan="3"><?php echo $row->address;?></td>
                                                 </tr>
+                                            <?php if($row->name) : ?>
+                                                
                                                 <tr>
                                                     <th>Driver</th>
                                                     <th colspan="3">Signature</th>
