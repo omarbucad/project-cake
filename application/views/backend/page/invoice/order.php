@@ -78,6 +78,12 @@
         modal.data("click" , $(this));
         modal.find(".btn-click").data("id" , $(this).data("id"));
     });
+
+    $(document).ready(function() {
+        $('.animated-thumbnail').lightGallery({
+            thumbnail:true
+        });
+    });
 </script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -238,9 +244,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
+                                                        <div class="animated-thumbnail">
                                                         <?php foreach(@$row->item_image["BEFORE"] as $r) : ?>
+                                                            <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                            </a>
                                                         <?php endforeach; ?>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -248,9 +258,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
+                                                        <div class="animated-thumbnail">
                                                         <?php foreach(@$row->item_image["AFTER"] as $r) : ?>
+                                                            <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
+                                                            </a>
                                                         <?php endforeach; ?>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endif; ?>
