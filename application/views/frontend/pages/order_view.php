@@ -46,6 +46,10 @@
 						<?php endif; ?>
 					</td>
 				</tr>
+				<tr>
+					<th>Address</th>
+					<td><?php echo $order_data->address; ?></td>
+				</tr>
 			</table>
 
 			<table class="table table-bordered">

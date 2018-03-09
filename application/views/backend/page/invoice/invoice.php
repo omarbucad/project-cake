@@ -285,6 +285,7 @@
                                                 <td width="30%;">
                                                     <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
                                                     <small class="help-block"><?php echo $row->email; ?></small>
+                                                    <small class="help-block"><?php echo $row->address; ?></small>
                                                 </td>
                                                 <th width="20%;">Items</th>
                                                 <td width="30%;"><?php echo $row->items; ?> </td>
@@ -295,15 +296,16 @@
                                                 <th>Signature</th>
                                                 <td>
                                                     <?php if($row->image) : ?>
-                                                        <small>Reciever name : <?php echo $row->customer_name; ?></small><br>
+                                                        <small>Receiver Name : <?php echo $row->customer_name; ?></small><br>
                                                         <img src="<?php echo site_url("public/upload/signature/".$row->image); ?>" style="height: 100px;">
                                                     <?php endif; ?>
                                                     <?php if($row->delivered_date != "NA") : ?>
                                                         <br>
-                                                        <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
+                                                        <small>Assigned : <?php echo $row->place_delivery_date; ?></small>
                                                         <br>
                                                         <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
-                                                        <small>notes : <i><?php echo $row->notes; ?></i></small>
+                                                        <small>Shipping Address: <?php echo $row->shipping_address; ?></small><br>
+                                                        <small>Notes : <i><?php echo $row->notes; ?></i></small>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

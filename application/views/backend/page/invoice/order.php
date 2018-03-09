@@ -110,10 +110,10 @@
                 <div class="card-body no-padding-left no-padding-right">
                     <form action="<?php echo site_url("app/invoice/order"); ?>" method="GET">
                         <div class="row">
-                            <div class="col-xs-12 col-lg-3">
+                            <div class="col-xs-12 col-lg-4">
                                 <div class="form-group">
-                                    <label for="s_name">Search by name or email or order #</label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get("name"); ?>" id="s_name" placeholder="Search by name , email , order #">
+                                    <label for="s_name">Search by name or company name or email or order #</label>
+                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get("name"); ?>" id="s_name" placeholder="Search by name , company name , email , order #">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-3">
@@ -135,7 +135,7 @@
                                     <input type="text" name="date" class="form-control daterange" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-3  text-right">
+                            <div class="col-xs-12 col-lg-2  text-right">
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>
@@ -218,6 +218,12 @@
                                                 </tr>
                                             <?php endforeach; ?>
                                             <?php if($row->name) : ?>
+                                                <tr>
+                                                    <th colspan="3">Shipping Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3"><?php echo "test";?></td>
+                                                </tr>
                                                 <tr>
                                                     <th>Driver</th>
                                                     <th colspan="3">Signature</th>

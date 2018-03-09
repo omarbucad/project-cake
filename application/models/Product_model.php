@@ -231,6 +231,24 @@ class Product_model extends CI_Model {
             4 - Delivered
         */
 
+        if($this->input->post('is_same') == 0){
+            $this->db->insert("address", [
+                "street1"   => $this->input->post('street1') ,
+                "street2"   => $this->input->post('street2') ,
+                "suburb"    => $this->input->post('suburb')  ,
+                "city"      => $this->input->post('city')    ,
+                "postcode"  => $this->input->post('postcode'),
+                "state"     => $this->input->post('state')   
+            ]);
+            $address_id = $this->db->insert_id();
+        }
+        else{
+            $this->db->select('physical_address_id');
+            $address = $this->db->where("customer_id", $this->session->userdata("customer")->customer_id)->get("customer")->row();
+            $address_id = $address->physical_address_id;
+        }
+
+
         $order = array(
             "customer_id"    => $this->session->userdata("customer")->customer_id ,
             "status"         => 1 ,
@@ -271,7 +289,8 @@ class Product_model extends CI_Model {
             "total_price"           => $total_price ,
             "total_price_with_gst"  => $total_price + $gst_price,
             "gst_price"             => $gst_price ,
-            "items"                 => $items
+            "items"                 => $items,
+            "address_id"            => $address_id
         ]);
 
         $this->db->trans_complete();
@@ -328,7 +347,7 @@ class Product_model extends CI_Model {
     public function get_order_by_id($order_number , $raw = false){
         $this->db->select("co.* , a.* , c.display_name , c.company_name");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
-        $this->db->join("address a" , "a.address_id = c.physical_address_id");
+        $this->db->join("address a" , "a.address_id = co.address_id");
         $result = $this->db->where("order_number" , $order_number)->get("customer_order co")->row();
 
         if($result){

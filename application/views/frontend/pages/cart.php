@@ -41,10 +41,40 @@
 		
 		if(payment_method == ""){
 			alert("Please select a payment method");
-		}else{
+		}
+		else{
 			var c = confirm("Are you sure?");
 			if(c == true){
 				form.submit();
+			}
+		}
+	});
+	$(document).on("click" , "#is_same" , function(){
+		if($('#is_same').is(':checked')){
+			if($('#address-div').hasClass("in")){
+				$('#address-div').removeClass("in");
+				$("#street1").removeAttr("required");
+				$("#street2").removeAttr("required");
+				$("#city").removeAttr("required");
+				$("#suburb").removeAttr("required");
+				$("#postcode").removeAttr("required");
+				$("#state").removeAttr("required");
+
+				if($('#is_same').val() == 0){
+					$('#is_same').val(1);
+				}
+			}
+		}else{
+			$('#address-div').addClass("in");
+			$("#street1").attr("required","true");
+			$("#street2").attr("required","true");
+			$("#city").attr("required","true");
+			$("#suburb").attr("required","true");
+			$("#postcode").attr("required","true");
+			$("#state").attr("required","true");
+
+			if($('#is_same').val() == 1){
+				$('#is_same').val(0);
 			}
 		}
 	});
@@ -52,6 +82,9 @@
 <style type="text/css">
 	section{
 		margin-top: 20px;
+	}
+	input[type=checkbox]{
+		cursor: pointer;
 	}
 </style>
 <div style="margin-top: 100px;"></div>
@@ -73,7 +106,6 @@
 		</div>
 		<div class="col-lg-8">
 			<h2 class="page-header">MY CART</h2>
-
 			<?php if($cart_list["list"]) : ?>
 				<form action="<?php echo site_url("cart/checkout"); ?>" method="POST" id="checkout_form">
 					<table class="table table-bordered">
@@ -131,6 +163,40 @@
 							</tr>
 						</tbody>
 					</table>
+					<div class="form-group">
+						<span><input type="checkbox" name="is_same" id="is_same" checked="true" value="1"> Shipping Address is the same as Billing Address</span>
+					</div>
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">Shipping Address *</div>
+							<div class="panel-body collapse" id="address-div">
+								<div class="form-group">
+				                    <label for="street1">Street 1 *</label>
+				                    <input type="text" name="street1" class="form-control" id="street1" placeholder="Street 1" autocomplete="off">
+				                </div>
+				                <div class="form-group">
+				                    <label for="street2">Street 2 *</label>
+				                    <input type="text" name="street2" class="form-control" id="street2" placeholder="Street 2" autocomplete="off">
+				                </div>
+				                <div class="form-group">
+				                    <label for="suburb">Suburb *</label>
+				                    <input type="text" name="suburb" class="form-control" id="suburb" placeholder="Suburb" autocomplete="off">
+				                </div>
+				                <div class="form-group">
+				                    <label for="city">City *</label>
+				                    <input type="text" name="city" class="form-control" id="city" placeholder="City" autocomplete="off">
+				                </div>
+				                <div class="form-group">
+				                    <label for="postcode">Post Code *</label>
+				                    <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Post Code" autocomplete="off">
+				                </div>
+				                <div class="form-group">
+				                    <label for="state">State *</label>
+				                    <input type="text" name="state" class="form-control" id="state" placeholder="State" autocomplete="off">
+				                </div>
+							</div>
+						</div>
+					</div>
 					<div class="form-group">
 						<label for="payment_method">Payment Method *</label>
 						<select class="form-control" name="payment_method" id="payment_method">

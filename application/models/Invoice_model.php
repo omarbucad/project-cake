@@ -14,6 +14,7 @@ class Invoice_model extends CI_Model {
 
         if($name = $this->input->get("name")){
             $this->db->like("c.display_name" , $name);
+            $this->db->or_like("c.company_name" , $name);
             $this->db->or_like("c.email" , $name);
             $this->db->or_where("co.order_number" , $name);
         }
@@ -131,9 +132,12 @@ class Invoice_model extends CI_Model {
         $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "i.invoice_date";
         $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
         
-        $this->db->select("co.*, i.* , co.created as ordered_date , c.display_name , c.company_name , c.email , u.name , u2.name as updated_by , u3.name as created_by");
+        $this->db->select("co.*, i.* , co.created as ordered_date , c.display_name , c.company_name , c.email, c.physical_address_id , u.name , u2.name as updated_by , u3.name as created_by, a.address_id as shipping_address_id, a.street1 as shipping_address_street1, a.street2 as shipping_address_street2, a.suburb as shipping_address_suburb, a.city as shipping_address_city, a.postcode as shipping_address_postcode, a.state as shipping_address_state ,a2.*");
+
         $this->db->join("customer_order co" , "co.order_id = i.order_id");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
+        $this->db->join("address a" , "a.address_id = co.address_id");
+        $this->db->join("address a2" , "a2.address_id = c.physical_address_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
         $this->db->join("users u2" , "u2.user_id = i.updated_by" , "LEFT");
         $this->db->join("users u3" , "u3.user_id = i.created_by" , "LEFT");
@@ -206,6 +210,20 @@ class Invoice_model extends CI_Model {
             $result[$key]->payment_type = convert_invoice_status($row->payment_type);
             $result[$key]->status_raw = convert_order_status($row->status,true);
             $result[$key]->status = convert_order_status($row->status);
+
+            $result[$key]->shipping_address = $result[$key]->shipping_address_street1;
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_street2) ? ",<br>".$result[$key]->shipping_address_street2 : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_suburb) ? ",<br>".$result[$key]->shipping_address_suburb : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_city) ? ",<br>".$result[$key]->shipping_address_city : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_postcode) ? ",<br>".$result[$key]->shipping_address_postcode : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_state) ? ",<br>".$result[$key]->shipping_address_state : "";
+
+            $result[$key]->address = $result[$key]->street1;
+            $result[$key]->address .= ($result[$key]->street2) ? ",<br>".$result[$key]->street2 : "";
+            $result[$key]->address .= ($result[$key]->suburb) ? ",<br>".$result[$key]->suburb : "";
+            $result[$key]->address .= ($result[$key]->city) ? ",<br>".$result[$key]->city : "";
+            $result[$key]->address .= ($result[$key]->postcode) ? ",<br>".$result[$key]->postcode : "";
+            $result[$key]->address .= ($result[$key]->state) ? ",<br>".$result[$key]->state : "";
 
             $item_image = $this->db->where("order_no" , $row->order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
             $result[$key]->item_image = array();
