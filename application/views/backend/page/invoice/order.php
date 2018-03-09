@@ -79,6 +79,7 @@
         modal.find(".btn-click").data("id" , $(this).data("id"));
     });
 </script>
+
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
@@ -238,7 +239,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
-                                                        <?php foreach(@$row->item_image["BEFORE"] as $r) : ?>
+                                                        <?php foreach($row->item_image["BEFORE"] as $r) : ?>
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                         <?php endforeach; ?>
                                                     </td>
@@ -248,7 +249,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
-                                                        <?php foreach(@$row->item_image["AFTER"] as $r) : ?>
+                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                         <?php endforeach; ?>
                                                     </td>
