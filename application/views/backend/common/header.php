@@ -77,7 +77,7 @@
                             <p><?php echo $session_data->email; ?></p>
                             <div class="btn-group margin-bottom-2x" role="group">
                                 <a href="<?php echo site_url('app/users/view_user_info/').$this->hash->encrypt($session_data->user_id);?>" class="btn btn-default"><i class="fa fa-user"></i> Profile</button>
-                                <a href="<?php echo site_url('Login/logout'); ?>"  class="btn btn-default" ><i class="fa fa-sign-out"></i> Logout </a>
+                                <a href="<?php echo site_url('Login/logout/?from=admin'); ?>"  class="btn btn-default" ><i class="fa fa-sign-out"></i> Logout </a>
                             </div>
                         </div>
                     </li>

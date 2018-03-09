@@ -3,7 +3,14 @@
 <script type="text/javascript" src="<?php echo 'https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js' ?>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(".table").DataTable();
+		$(".table").DataTable( {
+            "order": [],
+            "columnDefs": [ {
+              "targets"  : [0],
+              "orderable": false,
+            }]
+        });
+
 	});
 
 	$(document).on("click" , ".pay_invoice" , function(){
