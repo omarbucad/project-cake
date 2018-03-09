@@ -211,15 +211,24 @@ class Login extends MY_Controller {
 
 	public function register(){
 
+
+
 		$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|is_unique[customer.email]');
 		$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
-		$this->form_validation->set_rules('name'			, 'Manager Name'	, 'trim|required');
-		$this->form_validation->set_rules('company_name'	, 'Company Name'	, 'trim|required');
+
+		if($this->input->post('account_type') == 'personal'){
+			$this->form_validation->set_rules('fullname'	, 'Full Name'	, 'trim|required');
+		}else{
+			$this->form_validation->set_rules('manager_name', 'Manager Name'	, 'trim|required');
+			$this->form_validation->set_rules('company_name', 'Company Name'	, 'trim|required');
+		}
+
 		$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
 		$this->form_validation->set_rules('street1'			, 'Street 1'    	, 'trim|required');
 		$this->form_validation->set_rules('street2'			, 'Street 2'    	, 'trim|required');
 		$this->form_validation->set_rules('city'			, 'City'    		, 'trim|required');
+		$this->form_validation->set_rules('suburb'			, 'Suburb'    		, 'trim|required');
 		$this->form_validation->set_rules('postcode'		, 'Post Code'    	, 'trim|required');
 		$this->form_validation->set_rules('state'			, 'State'    		, 'trim|required');
 
@@ -238,17 +247,32 @@ class Login extends MY_Controller {
 
 			$activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));
 
-			$this->db->insert("customer" , [
+			if($this->input->post('account_type') == 'personal'){
+				$this->db->insert("customer" , [
+					"password"				=> $this->input->post("password") ,
+					"email"					=> $this->input->post("username") ,
+					"phone_number"			=> $this->input->post("phone_number") ,
+					"activation_code" 		=> $activation_code,
+					"physical_address_id" 	=> $address_id ,
+					"display_name"			=> $this->input->post("fullname"),
+					"status"				=> 2 ,
+					"created"				=> time()
+				]);
+			}
+			else{
+				$this->db->insert("customer" , [
 				"password"				=> $this->input->post("password") ,
 				"email"					=> $this->input->post("username") ,
 				"phone_number"			=> $this->input->post("phone_number") ,
 				"activation_code" 		=> $activation_code,
 				"physical_address_id" 	=> $address_id ,
-				"display_name"			=> $this->input->post("name"),
+				"display_name"			=> $this->input->post("manager_name"),
 				"company_name"			=> $this->input->post("company_name") ,
 				"status"				=> 2 ,
 				"created"				=> time()
 			]);
+			}
+			
 
 			$this->db->where("address_id", $address_id);
 			$this->db->update("address", [

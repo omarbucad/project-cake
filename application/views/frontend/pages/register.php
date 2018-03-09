@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("div.company").addClass("hidden");
+		$('#fullname').attr("required", "true");
 	});
 	$(document).on("click","input#personal" , function(){
 		$("div.company").addClass("hidden");
@@ -48,16 +49,13 @@
 	<h2 class="page-header">REGISTER</h2>
 			
 	<div class="row">
-		<div class="col-lg-6 form-group radio-group">
-			<label class="group-label">Choose account type:</label>
-			<input type="radio" name="account_type" id="personal" checked="checked"><label>Personal</label>
-			<input type="radio" name="account_type" id="company"><label>Company</label>
+		<form action="<?php echo site_url("login/register"); ?>" method="POST">
+		<div class="col-lg-12 form-group radio-group">
+			<label class="group-label">Account type:</label>
+			<input type="radio" name="account_type" id="personal" checked="checked" value="personal"><label>Personal</label>
+			<input type="radio" name="account_type" id="company" value="company"><label>Company</label>
 		</div>
-		<div class="col-lg-6 form-group radio-group">
-			<label class="group-label">Shipping Address is the same as Billing Address</label>
-			<input type="checkbox" name="same_address" id="same_address">
-		</div>
-		<form action="<?php echo site_url("login/?action=register"); ?>" method="POST">
+		
 
 			<div class="col-lg-6 col-xs-12">
 				<div class="panel-group">
@@ -70,7 +68,7 @@
 							</div>
 							<div class="form-group personal">
 								<label for="name">Full Name *</label>
-								<input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" required="true" autocomplete="off">
+								<input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" autocomplete="off">
 							</div>
 							<div class="form-group company">
 								<label for="company_name">Company Name *</label>
@@ -99,11 +97,7 @@
 			<div class="col-lg-6 col-xs-12">
 				<div class="panel-group">
 					<div class="panel panel-default">
-						<div class="panel-heading">Billing Address *
-							<a href="#billing-address-div" data-toggle="collapse" class="pull-right">
-								<i class="fa fa-caret-down" aria-hidden="true"></i>
-							</a>
-						</div>
+						<div class="panel-heading">Billing Address *</div>
 						<div class="panel-body collapse in" id="billing-address-div">
 							<div class="form-group">
 			                    <label for="street1">Street 1 *</label>
