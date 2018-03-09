@@ -85,6 +85,7 @@
         });
     });
 </script>
+
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
@@ -245,7 +246,7 @@
                                                 <tr>
                                                     <td colspan="4">
                                                         <div class="animated-thumbnail">
-                                                        <?php foreach(@$row->item_image["BEFORE"] as $r) : ?>
+                                                        <?php foreach($row->item_image["BEFORE"] as $r) : ?>
                                                             <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                             </a>
@@ -259,7 +260,7 @@
                                                 <tr>
                                                     <td colspan="4">
                                                         <div class="animated-thumbnail">
-                                                        <?php foreach(@$row->item_image["AFTER"] as $r) : ?>
+                                                        <?php foreach($row->item_image["AFTER"] as $r) : ?>
                                                             <a href="<?php echo site_url("thumbs/images/items/".$r->image_path."/850/850/".$r->image_name); ?>">
                                                              <img src="<?php echo site_url("thumbs/images/items/".$r->image_path."/80/80/".$r->image_name); ?>">
                                                             </a>
