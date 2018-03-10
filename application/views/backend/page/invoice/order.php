@@ -164,8 +164,8 @@
                         <?php foreach($result as $key => $row) : ?>
                             <tr class="customer-row">
                                 <td>
-                                    <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->company_name; ?> )</a><br>
-                                    <small class="help-block"><?php echo $row->display_name; ?><br><?php echo $row->email; ?></small>
+                                    <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
+                                    <small class="help-block"><?php echo $row->company_name; ?><br><?php echo $row->email; ?></small>
                                 </td>
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>

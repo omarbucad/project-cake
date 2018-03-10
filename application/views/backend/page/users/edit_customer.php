@@ -35,6 +35,7 @@
         $("#company_name").attr("required","true");
         $("#manager_name").attr("required","true");
     });
+
 </script>
 <style type="text/css">
     input[type=radio], input[type=checkbox]{
@@ -103,6 +104,10 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" id="email" value="<?php echo $customer_info->email; ?>" class="form-control" placeholder="name@email.com" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_number">Phone number *</label>
+                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off" value="<?php echo $customer_info->phone_number;?>">
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>
