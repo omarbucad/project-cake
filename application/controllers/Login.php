@@ -130,6 +130,9 @@ class Login extends MY_Controller {
 
 			$this->email->send();
 
+			$this->session->set_flashdata('status' , 'success');	
+			$this->session->set_flashdata('message' , 'Successfully Sent Activation Email');
+
 			redirect("/login/resend_activation_email/?success=email_sent" , "refresh");
 		}
 	}
@@ -181,8 +184,8 @@ class Login extends MY_Controller {
 		if($code){
 			$email = $this->hash->decrypt($code);
 
-			$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
-			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
+			$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|min_length[5]');
+			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[password]');
 
 			if ($this->form_validation->run() == FALSE){ 
 				$this->data['code'] = $code;
@@ -199,9 +202,12 @@ class Login extends MY_Controller {
 
 				if($result){
 					$this->db->where("email" , $result->email)->update("customer" , [
-						"password" => $this->input->post("password")
+						"password" => md5($this->input->post("password"))
 					]);
-					redirect("/login/?success=change_password", "refresh");
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Successfully Changed Password');
+
+					redirect("/login/change_password/?success=change_password", "refresh");
 				}			
 			}
 		}else{
@@ -212,10 +218,10 @@ class Login extends MY_Controller {
 	public function register(){
 
 		$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|is_unique[customer.email]');
-		$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|md5');
-		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|md5|matches[password]');
+		$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|min_length[5]');
+		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[password]');
 
-		if($this->input->post('account_type') == 'personal'){
+		if($this->input->post('account_type') == 'PERSONAL'){
 			$this->form_validation->set_rules('fullname'	, 'Full Name'	, 'trim|required');
 		}else{
 			$this->form_validation->set_rules('manager_name', 'Manager Name'	, 'trim|required');
@@ -224,10 +230,7 @@ class Login extends MY_Controller {
 
 		$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
 		$this->form_validation->set_rules('street1'			, 'Street 1'    	, 'trim|required');
-		$this->form_validation->set_rules('street2'			, 'Street 2'    	, 'trim|required');
 		$this->form_validation->set_rules('city'			, 'City'    		, 'trim|required');
-		$this->form_validation->set_rules('suburb'			, 'Suburb'    		, 'trim|required');
-		$this->form_validation->set_rules('postcode'		, 'Post Code'    	, 'trim|required');
 		$this->form_validation->set_rules('state'			, 'State'    		, 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
@@ -247,7 +250,7 @@ class Login extends MY_Controller {
 
 			if($this->input->post('account_type') == 'PERSONAL'){
 				$this->db->insert("customer" , [
-					"password"				=> $this->input->post("password") ,
+					"password"				=> md5($this->input->post("password") ),
 					"email"					=> $this->input->post("username") ,
 					"phone_number"			=> $this->input->post("phone_number") ,
 					"activation_code" 		=> $activation_code,
@@ -292,12 +295,21 @@ class Login extends MY_Controller {
 	            redirect("/login/register/?error=register" , "refresh");
 
 	        }else{
-
-	            $this->send_activation_email([
-	            	"email_address"		=> $this->input->post("username") ,
-	            	"activation_code"	=> $activation_code ,
-	            	"name"				=> $this->input->post("name") ,
-	            ]);
+	        	if($this->input->post('account_type') == 'PERSONAL'){
+	        		$this->send_activation_email([
+		            	"email_address"		=> $this->input->post("username") ,
+		            	"activation_code"	=> $activation_code ,
+		            	"name"				=> $this->input->post("fullname") 
+		            ]);
+	        	}
+	        	else{
+	        		$this->send_activation_email([
+		            	"email_address"		=> $this->input->post("username") ,
+		            	"activation_code"	=> $activation_code ,
+		            	"name"				=> $this->input->post("company_name") 
+		            ]);
+	        	}
+	            
 
 	            $this->data["email"] = $this->input->post("username");
 	            $this->data['title_page'] = "Registered Successfully";

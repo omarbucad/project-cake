@@ -207,12 +207,24 @@ class Users_model extends CI_Model {
         $this->db->where('address_id', $post['physical_address_id']);
         $this->db->update("address" , $this->input->post("physical"));
 
-        $this->db->where('customer_id' , $customer_id);
-        $this->db->update("customer" , [
-            "display_name"          => $post["display_name"],
-            "company_name"          => $post["company_name"],
-            "status"                => $post['status']
-        ]);
+        if($post['account_type'] == 'PERSONAL'){
+            $this->db->update("customer", [
+                "display_name"  => $post["fullname"] ,
+                "phone_number"  => $post["phone_number"] ,
+                "company_name"  => IS NULL ,
+                "account_type"  => $post['account_type'] ,
+                "status"        => $post['status']
+            ]);
+        }
+        else{
+            $this->db->update("customer", [
+                "display_name"  => $post["manager_name"] ,
+                "company_name"  => $post["company_name"] ,
+                "phone_number"  => $post["phone_number"] ,
+                "account_type"  => $post['account_type'] ,
+                "status"        => $post['status']
+            ]);
+        }
 
         $this->db->trans_complete();
 
@@ -224,13 +236,15 @@ class Users_model extends CI_Model {
     }
 
     public function get_user_information($user_id){
-        $user_id = $this->hash->decrypt($user_id);
 
         $result = $this->db->where("user_id" , $user_id)->get("users")->row();
+        $result->user_id = $this->hash->encrypt($result->user_id);
+        
         return $result;
     }
 
     public function update($user_id){
+
         $this->db->trans_start();
 
         $post = $this->input->post();
@@ -268,7 +282,7 @@ class Users_model extends CI_Model {
 
         $this->db->where("user_id", $user_id);
         $this->db->update("users", [
-            "password"  => $this->input->post("password")
+            "password"  => md5($this->input->post("password"))
         ]);
         $this->db->trans_complete();
 
@@ -322,6 +336,7 @@ class Users_model extends CI_Model {
         $this->db->trans_start();
 
         $this->db->join("users u", "u.user_id = i.created_by", "INNER");
+        $this->db->where("i.created_by",$user_id);
 
         $confirmed = $this->db->get("invoice i")->num_rows();
 
@@ -367,5 +382,52 @@ class Users_model extends CI_Model {
         }else{
            return true;
         }      
+    }
+
+    public function customer_edit_profile($customer_id){
+        $this->db->trans_start();
+
+        $this->db->where("customer_id", $customer_id);
+
+        if($this->session->userdata("customer")->account_type == 'PERSONAL'){
+            $this->db->update("customer", [
+                "display_name"  => $this->input->post("fullname") ,
+                "phone_number"  => $this->input->post("phone_number")
+            ]);
+        }
+        else{
+            $this->db->update("customer", [
+                "display_name"  => $this->input->post("manager_name") ,
+                "company_name"  => $this->input->post("company_name") ,
+                "phone_number"  => $this->input->post("phone_number")
+            ]);
+        }
+        
+
+        $this->db->trans_complete();
+
+        if($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+           return true;
+        }      
+    }
+
+    public function change_customer_password($customer_id){
+        
+        $this->db->trans_start();
+
+        $this->db->where("customer_id", $customer_id);
+        $this->db->update("customer", [
+            "password"  => md5($this->input->post("password"))
+        ]);
+        $this->db->trans_complete();
+
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $customer_id;
+        }
     }
 }

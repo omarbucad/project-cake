@@ -10,7 +10,7 @@
     <div class="side-body padding-top">
         <div class="container">
             <ol class="breadcrumb">
-                <li><a href="<?php echo site_url('app/products'); ?>">Users</a></li>
+                <li><a href="<?php echo site_url('app/users'); ?>">Users</a></li>
                 <li class="active">User Details</li>
             </ol>
         </div>

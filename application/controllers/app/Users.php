@@ -99,14 +99,17 @@ class Users extends MY_Controller {
 	}
 
 	public function edit_customer($customer_id){
-		$this->form_validation->set_rules('company_name'		, 'Company Name'    , 'trim|required');
-		$this->form_validation->set_rules('display_name'		, 'Manager Name'    , 'trim|required');
+		if($this->input->post('account_type') == 'PERSONAL'){
+			$this->form_validation->set_rules('fullname'		, 'Full Name'    , 'trim|required');
+		}
+		else{
+			$this->form_validation->set_rules('company_name'		, 'Company Name'    , 'trim|required');
+			$this->form_validation->set_rules('manager_name'		, 'Manager Name'    , 'trim|required');
+		}
+		
 		$this->form_validation->set_rules('physical[street1]'	, 'Street 1'   		, 'trim|required');
-		$this->form_validation->set_rules('physical[street2]'	, 'Street 2'   		, 'trim|required');
-		$this->form_validation->set_rules('physical[suburb]'	, 'Suburb'   		, 'trim|required');
 		$this->form_validation->set_rules('physical[city]'		, 'City'   			, 'trim|required');
-		$this->form_validation->set_rules('physical[postcode]'	, 'Post Code'   	, 'trim|required');
-		$this->form_validation->set_rules('physical[state]'	, 'State'   		, 'trim|required');
+		$this->form_validation->set_rules('physical[state]'		, 'State'   		, 'trim|required');
 
 
 		if ($this->form_validation->run() == FALSE){ 
@@ -136,6 +139,7 @@ class Users extends MY_Controller {
 	}
 
 	public function edit_user($user_id){
+		$id = $this->hash->decrypt($user_id);
 
 		$this->form_validation->set_rules('display_name'		, 'Name'			        , 'trim|required');
 
@@ -144,11 +148,11 @@ class Users extends MY_Controller {
 			$this->data['page_name'] = "Edit User";
 			$this->data['main_page'] = "backend/page/users/update";
 
-			$this->data['user_info'] = $this->users->get_user_information($user_id);
+			$this->data['user_info'] = $this->users->get_user_information($id);
 			
 			$this->load->view('backend/master' , $this->data);
 		}else{
-			if($last_id = $this->users->update($user_id)){
+			if($last_id = $this->users->update($id)){
 				$this->session->set_flashdata('status' , 'success');	
 				$this->session->set_flashdata('message' , 'Successfully Updated User');	
 
@@ -164,11 +168,13 @@ class Users extends MY_Controller {
 	}
 
 	public function view_user_info($user_id){
+		$id = $this->hash->decrypt($user_id);
+
 		$this->data['page_name'] = "User Details";
 		$this->data['main_page'] = "backend/page/users/user_info";
 
-		$this->data['user_info'] = $this->users->get_user_information($user_id);
-		$this->data['total_confirmed_orders'] = $this->users->get_user_total_confirmed_orders($user_id);
+		$this->data['user_info'] = $this->users->get_user_information($id);
+		$this->data['total_confirmed_orders'] = $this->users->get_user_total_confirmed_orders($id);
 		
 		$this->load->view('backend/master' , $this->data);
 	}
@@ -176,15 +182,21 @@ class Users extends MY_Controller {
 
 	public function change_user_password($user_id){
 
-		$this->form_validation->set_rules('password'		    , 'Password'			    , 'trim|required|md5');
-		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	    , 'trim|required|matches[password]|md5');
+        $id = $this->hash->decrypt($user_id);
+
+		$this->form_validation->set_rules('password'		    , 'Password'			    , 'trim|required|min_length[5]');
+		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	    , 'trim|required|matches[password]');
 
 		if ($this->form_validation->run() == FALSE){ 
 
-			$this->session->set_flashdata('status' , 'error');
-			$this->session->set_flashdata('message' , 'Password Mismatch');	
+			$this->data['page_name'] = "User Details";
+			$this->data['main_page'] = "backend/page/users/user_info";
 
-			redirect("app/users/view_user_info/".$this->hash->encrypt($user_id) , 'refresh');
+			$this->data['user_info'] = $this->users->get_user_information($id);
+			$this->data['total_confirmed_orders'] = $this->users->get_user_total_confirmed_orders($id);
+			
+			$this->load->view('backend/master' , $this->data);
+
 
 		}else{
 

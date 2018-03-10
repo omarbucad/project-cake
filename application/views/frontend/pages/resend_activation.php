@@ -10,6 +10,22 @@
 				</div>
 			</div>
 		</div>
+	<?php else : ?>
+		<div id="alert_container_remove">
+			<div class="side-body padding-top">
+				<?php if($this->session->userdata("status") == 'success') : ?>
+				<div class="alert alert-success alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close" id="closed_alert"><span aria-hidden="true">×</span></button>
+					<?php echo $this->session->userdata("message"); ?>
+				</div>
+				<?php elseif($this->session->userdata("status") == 'error') : ?>
+					<div class="alert alert-danger alert-dismissible fade in" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" id="closed_alert"><span aria-hidden="true">×</span></button>
+						<?php echo $this->session->userdata("message"); ?>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
 	<?php endif; ?>
 	<h2 class="page-header">MY ACCOUNT</h2>
 	<div class="row">

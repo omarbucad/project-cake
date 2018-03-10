@@ -7,7 +7,49 @@
             window.location.href = $(this).data("href");
         }
     });
+
+    $(document).ready(function(){
+        var type = "<?php echo $customer_info->account_type; ?>";
+        if(type == "PERSONAL"){
+            $("div.company").addClass("hidden");
+            $('#fullname').attr("required", "true");
+        }
+        else{
+            $("div.personal").addClass("hidden");
+            $('#company_name').attr("required", "true");
+            $('#manager_name').attr("required", "true");
+        }
+        
+    });
+    $(document).on("click","input#personal" , function(){
+        $("div.company").addClass("hidden");
+        $("div.personal").removeClass("hidden");
+        $("#company_name").removeAttr("required");
+        $("#manager_name").removeAttr("required");
+        $("#fullname").attr("required","true");
+    });
+    $(document).on("click","input#company" , function(){
+        $("div.company").removeClass("hidden");
+        $("div.personal").addClass("hidden");
+        $("#fullname").removeAttr("required");
+        $("#company_name").attr("required","true");
+        $("#manager_name").attr("required","true");
+    });
+    $(document).on("click","input#same_address" , function(){
+
+    });
 </script>
+<style type="text/css">
+    input[type=radio], input[type=checkbox]{
+        cursor: pointer;
+    }
+    .radio-group input[type=radio]{
+        margin-right: 5px;
+    }
+    .radio-group label{
+        margin-right: 10px;
+    }
+</style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
@@ -37,16 +79,29 @@
                     <h3>Profile</h3>
                     <div class="row">
                         <div class="col-xs-12 col-lg-4">
-                            <p>Personal and contact information for this user.</p>
+                            <p>Customer Account Details.</p>
                         </div>
                         <div class="col-xs-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="display_name">Manager Name</label>
-                                <input type="text" name="display_name" id="display_name" value="<?php echo $customer_info->display_name; ?>" class="form-control" placeholder="Manager Name">
+                            <div class="form-group radio-group">
+                                <label class="group-label">Account type:</label>
+                                <input type="radio" name="account_type" id="personal" 
+                                <?php echo ($customer_info->account_type=='PERSONAL') ? "checked='checked'" : ""; ?> value="PERSONAL"><label>Personal</label>
+
+                                <input type="radio" name="account_type" id="company" 
+                                <?php echo ($customer_info->account_type=='COMPANY') ? "checked='checked'" : ""; ?>
+                                value="COMPANY"><label>Company</label>
                             </div>
-                            <div class="form-group">
-                                <label for="company_name">Company Name</label>
-                                <input type="text" name="company_name" id="company_name" value="<?php echo $customer_info->company_name; ?>"  class="form-control" placeholder="Company Name">
+                            <div class="form-group company">
+                                <label for="name">Manager Name *</label>
+                                <input type="text" name="manager_name" class="form-control" placeholder="Manager Name" id="manager_name" autocomplete="off" value="<?php echo $customer_info->display_name;?>">
+                            </div>
+                            <div class="form-group personal">
+                                <label for="name">Full Name *</label>
+                                <input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" autocomplete="off" value="<?php echo $customer_info->display_name;?>">
+                            </div>
+                            <div class="form-group company">
+                                <label for="company_name">Company Name *</label>
+                                <input type="text" name="company_name" class="form-control" placeholder="Company Name" id="company_name" autocomplete="off"  value="<?php echo $customer_info->company_name;?>">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -76,11 +131,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Street 2</label>
-                                <input type="text" name="physical[street2]" value="<?php echo $customer_address->street2; ?>" class="form-control" required="true">
+                                <input type="text" name="physical[street2]" value="<?php echo $customer_address->street2; ?>" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Suburb</label>
-                                <input type="text" name="physical[suburb]" value="<?php echo $customer_address->suburb; ?>" class="form-control" required="true">
+                                <input type="text" name="physical[suburb]" value="<?php echo $customer_address->suburb; ?>" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>City</label>
@@ -88,7 +143,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Post Code</label>
-                                <input type="text" name="physical[postcode]" value="<?php echo $customer_address->postcode; ?>" class="form-control" required="true">
+                                <input type="text" name="physical[postcode]" value="<?php echo $customer_address->postcode; ?>" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>State</label>

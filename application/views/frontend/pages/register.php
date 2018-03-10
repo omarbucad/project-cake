@@ -50,13 +50,12 @@
 			
 	<div class="row">
 		<form action="<?php echo site_url("login/register"); ?>" method="POST">
-		<div class="col-lg-12 form-group radio-group">
-			<label class="group-label">Account type:</label>
-			<input type="radio" name="account_type" id="personal" checked="checked" value="PERSONAL"><label>Personal</label>
-			<input type="radio" name="account_type" id="company" value="COMPANY"><label>Company</label>
-		</div>
-		
-
+			<div class="col-lg-12 form-group radio-group">
+				<label class="group-label">Account type:</label>
+				<input type="radio" name="account_type" id="personal" checked="checked" value="PERSONAL"><label>Personal</label>
+				<input type="radio" name="account_type" id="company" value="COMPANY"><label>Company</label>
+			</div>
+			
 			<div class="col-lg-6 col-xs-12">
 				<div class="panel-group">
 					<div class="panel panel-default">
@@ -64,23 +63,23 @@
 						<div class="panel-body" id="">
 							<div class="form-group company">
 								<label for="name">Manager Name *</label>
-								<input type="text" name="manager_name" class="form-control" placeholder="Manager Name" id="manager_name" autocomplete="off">
+								<input type="text" name="manager_name" class="form-control" placeholder="Manager Name" id="manager_name" autocomplete="off" value="<?php echo set_value('manager_name');?>">
 							</div>
 							<div class="form-group personal">
 								<label for="name">Full Name *</label>
-								<input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" autocomplete="off">
+								<input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" autocomplete="off" value="<?php echo set_value('fullname');?>">
 							</div>
 							<div class="form-group company">
 								<label for="company_name">Company Name *</label>
-								<input type="text" name="company_name" class="form-control" placeholder="Company Name" id="company_name" autocomplete="off">
+								<input type="text" name="company_name" class="form-control" placeholder="Company Name" id="company_name" autocomplete="off"  value="<?php echo set_value('company_name');?>">
 							</div>
 							<div class="form-group">
 								<label for="username">Email Address *</label>
-								<input type="email" name="username" class="form-control" placeholder="Email Address" id="username" required="true" autocomplete="off">
+								<input type="email" name="username" class="form-control" placeholder="Email Address" id="username" required="true" autocomplete="off" value="<?php echo set_value('username');?>">
 							</div>
 							<div class="form-group">
 								<label for="phone_number">Phone number *</label>
-								<input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off">
+								<input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off" value="<?php echo set_value('phone_number');?>">
 							</div>
 							<div class="form-group">
 								<label for="password">Password *</label>
@@ -101,27 +100,27 @@
 						<div class="panel-body collapse in" id="billing-address-div">
 							<div class="form-group">
 			                    <label for="street1">Street 1 *</label>
-			                    <input type="text" name="street1" class="form-control" id="billing_street1" placeholder="Street 1" autocomplete="off" required="true">
+			                    <input type="text" name="street1" class="form-control" id="billing_street1" placeholder="Street 1" autocomplete="off" required="true" value="<?php echo set_value('street1');?>">
 			                </div>
 			                <div class="form-group">
-			                    <label for="street2">Street 2 *</label>
-			                    <input type="text" name="street2" class="form-control" id="billing_street2" placeholder="Street 2" autocomplete="off" required="true">
+			                    <label for="street2">Street 2 </label>
+			                    <input type="text" name="street2" class="form-control" id="billing_street2" placeholder="Street 2" autocomplete="off" value="<?php echo set_value('street2');?>">
 			                </div>
 			                <div class="form-group">
-			                    <label for="suburb">Suburb *</label>
-			                    <input type="text" name="suburb" class="form-control" id="billing_suburb" placeholder="Suburb" autocomplete="off" required="true">
+			                    <label for="suburb">Suburb </label>
+			                    <input type="text" name="suburb" class="form-control" id="billing_suburb" placeholder="Suburb" autocomplete="off" value="<?php echo set_value('suburb');?>">
 			                </div>
 			                <div class="form-group">
 			                    <label for="city">City *</label>
-			                    <input type="text" name="city" class="form-control" id="billing_city" placeholder="City" autocomplete="off" required="true">
+			                    <input type="text" name="city" class="form-control" id="billing_city" placeholder="City" autocomplete="off" required="true" value="<?php echo set_value('city');?>">
 			                </div>
 			                <div class="form-group">
-			                    <label for="postcode">Post Code *</label>
-			                    <input type="text" name="postcode" class="form-control" id="billing_postcode" placeholder="Post Code" autocomplete="off"  required="true">
+			                    <label for="postcode">Post Code </label>
+			                    <input type="text" name="postcode" class="form-control" id="billing_postcode" placeholder="Post Code" autocomplete="off" value="<?php echo set_value('postcode');?>">
 			                </div>
 			                <div class="form-group">
 			                    <label for="state">State *</label>
-			                    <input type="text" name="state" class="form-control" id="billing_state" placeholder="State" autocomplete="off"  required="true">
+			                    <input type="text" name="state" class="form-control" id="billing_state" placeholder="State" autocomplete="off"  required="true" value="<?php echo set_value('state');?>">
 			                </div>
 						</div>
 					</div>
