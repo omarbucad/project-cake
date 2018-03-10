@@ -208,15 +208,18 @@ class Users_model extends CI_Model {
         $this->db->update("address" , $this->input->post("physical"));
 
         if($post['account_type'] == 'PERSONAL'){
+            $this->db->where("customer_id", $customer_id);
             $this->db->update("customer", [
                 "display_name"  => $post["fullname"] ,
                 "phone_number"  => $post["phone_number"] ,
-                "company_name"  => IS NULL ,
+                "company_name"  => NULL,
                 "account_type"  => $post['account_type'] ,
                 "status"        => $post['status']
             ]);
         }
         else{
+            
+            $this->db->where("customer_id", $customer_id);
             $this->db->update("customer", [
                 "display_name"  => $post["manager_name"] ,
                 "company_name"  => $post["company_name"] ,
