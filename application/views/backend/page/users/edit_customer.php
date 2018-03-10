@@ -35,9 +35,6 @@
         $("#company_name").attr("required","true");
         $("#manager_name").attr("required","true");
     });
-    $(document).on("click","input#same_address" , function(){
-
-    });
 </script>
 <style type="text/css">
     input[type=radio], input[type=checkbox]{
