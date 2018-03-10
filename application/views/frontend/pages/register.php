@@ -52,8 +52,8 @@
 		<form action="<?php echo site_url("login/register"); ?>" method="POST">
 		<div class="col-lg-12 form-group radio-group">
 			<label class="group-label">Account type:</label>
-			<input type="radio" name="account_type" id="personal" checked="checked" value="personal"><label>Personal</label>
-			<input type="radio" name="account_type" id="company" value="company"><label>Company</label>
+			<input type="radio" name="account_type" id="personal" checked="checked" value="PERSONAL"><label>Personal</label>
+			<input type="radio" name="account_type" id="company" value="COMPANY"><label>Company</label>
 		</div>
 		
 

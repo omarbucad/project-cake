@@ -245,7 +245,7 @@ class Login extends MY_Controller {
 
 			$activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));
 
-			if($this->input->post('account_type') == 'personal'){
+			if($this->input->post('account_type') == 'PERSONAL'){
 				$this->db->insert("customer" , [
 					"password"				=> $this->input->post("password") ,
 					"email"					=> $this->input->post("username") ,
@@ -254,7 +254,8 @@ class Login extends MY_Controller {
 					"physical_address_id" 	=> $address_id ,
 					"display_name"			=> $this->input->post("fullname"),
 					"status"				=> 2 ,
-					"created"				=> time()
+					"created"				=> time(),
+					"account_type"			=> $this->input->post('account_type')
 				]);
 			}
 			else{
@@ -267,7 +268,8 @@ class Login extends MY_Controller {
 				"display_name"			=> $this->input->post("manager_name"),
 				"company_name"			=> $this->input->post("company_name") ,
 				"status"				=> 2 ,
-				"created"				=> time()
+				"created"				=> time(),
+				"account_type"			=> $this->input->post('account_type')
 			]);
 			}
 			
