@@ -52,6 +52,10 @@ class Login extends CI_Controller {
 		if($this->post){
 
 			$display_name = $this->security->xss_clean( $this->post->display_name );
+			$company = $this->security->xss_clean( $this->post->company );
+			$account_type = $this->security->xss_clean( $this->post->account_type );
+			$phone_number = $this->security->xss_clean( $this->post->phone_number );
+
 			$email = $this->security->xss_clean( $this->post->email );
 			$password = md5($this->security->xss_clean( $this->post->password ));
 
@@ -68,6 +72,9 @@ class Login extends CI_Controller {
 				"activation_code" 		=> $activation_code,
 				"physical_address_id" 	=> $address_id ,
 				"display_name"			=> $display_name,
+				"company_name"			=> ($account_type == "COMPANY") ? $company : "",
+				"account_type"			=> $account_type,
+				"phone_number"			=> $phone_number,
 				"status"				=> 2 ,
 				"created"				=> time()
 			]);
@@ -85,13 +92,14 @@ class Login extends CI_Controller {
 				$this->send_activation_email([
 					"email_address"		=> $email ,
 					"activation_code"	=> $activation_code ,
-					"name"				=> $display_name,
+					"name"				=> ($account_type == "COMPANY") ? $company : $display_name ,
 				]);
 
 				$result = $this->db->where("email" , $email)->where("password" , $password)->get('customer')->row();
 
 				echo json_encode(["status" => true , "message" => "Please check you email to activate your account" , "data" => $result]);
 			}
+
 		}else{
 			echo json_encode(["status" => false , "message" => "Please Complete the form"]);
 		}
@@ -136,6 +144,17 @@ class Login extends CI_Controller {
 			echo json_encode(["status" => false , "message" => "Invalid Customer Id"]);	
 		}
 		
+	}
+
+	public function update_profile(){
+		if($this->post){
+			$this->db->where("customer_id" , $this->post->customer_id)->update("customer" , [
+				"display_name" => $this->post->name ,
+				"company_name" => $this->post->company ,
+				"phone_number" => $this->post->phone
+			]);
+			echo json_encode(["status" => true]);
+		}
 	}
 
 	public function update_address(){

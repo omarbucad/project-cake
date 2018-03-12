@@ -166,12 +166,20 @@ class Products extends CI_Controller{
 
 	        $order_number = date("mdY").'-'.sprintf('%05d', $order_id);
 
+	        if(!$this->post->is_same){
+	        	$this->db->insert("address" , $this->post->physical);
+				$address_id = $this->db->insert_id();
+	        }else{
+	        	$address_id = $this->post->address_id;
+	        }
+
 	        $this->db->where("order_id" , $order_id)->update("customer_order" , [
 	            "order_number"      	=> $order_number,
 	            "total_price"       	=> $total_price ,
 	            "items"             	=> $items ,
 	            "gst_price"				=> $total_price * 0.06,
-	            "total_price_with_gst" 	=> ($total_price * 0.06) + $total_price 
+	            "total_price_with_gst" 	=> ($total_price * 0.06) + $total_price ,
+	            "address_id"			=> $address_id
 	        ]);
 
 	        $this->notification->notify_admin([

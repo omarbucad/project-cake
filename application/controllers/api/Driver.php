@@ -32,7 +32,7 @@ class Driver extends CI_Controller{
         $this->db->select("co.order_number , co.order_id , co.driver_note , co.created , co.items , co.status , c.display_name");
         $this->db->select("a.street1 , a.street2 , a.suburb , a.city , a.postcode , a.state ");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
-        $this->db->join("address a" , "a.address_id = c.physical_address_id");
+        $this->db->join("address a" , "a.address_id = co.address_id");
 
         if($active){
         	$this->db->where("co.status" , 3)->where("co.delivered_date IS NULL");
@@ -51,6 +51,7 @@ class Driver extends CI_Controller{
             $result[$key]->address .= ($row->postcode) ? $row->postcode.",<br>" : "";
             $result[$key]->address .= ($row->city) ? $row->city : "";
 		}
+
 
 		echo json_encode($result);
 	}
