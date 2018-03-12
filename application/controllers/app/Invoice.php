@@ -63,10 +63,25 @@ class Invoice extends MY_Controller {
 		$btn = $this->input->post("btn_click");
 		$order_id = $this->input->post("order_id");
 
+		$this->db->select("email");
+		$email = $this->db->join("customer c", "c.customer_id = co.customer_id")->where("order_id",$order_id)->get("customer_order co")->row();
+
+		$data['order_no'] = $order_id;
+
+		$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
+		$this->email->to($email->email);
+		$this->email->set_mailtype("html");
+		$this->email->subject('Gravybaby Cake Ordering - Order Status');
+
 		switch ($btn) {
 			case 'cancel':
 
 				$this->db->where("order_id" , $order_id)->update("customer_order" , ["status" => 0]);
+
+				//SEND ORDER STATUS EMAIL
+				$data['status'] = "Cancelled";					
+				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->send();
 
 				echo json_encode(["status" => true , "message" => "<span class='label label-danger'>Cancelled</span>"]);
 
@@ -84,7 +99,12 @@ class Invoice extends MY_Controller {
 
 					$this->db->where("order_id" , $order_id)->update("customer_order" , ["status" => 2]);
 
-					echo json_encode(["status" => true , "message" => "<span class='label label-success'>Confirmed Ordered</span>"]);
+					//SEND ORDER STATUS EMAIL
+					$data['status'] = "Confirmed";					
+					$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+					$this->email->send();
+
+					echo json_encode(["status" => true , "message" => convert_order_status(2)]);
 				}else{
 					echo json_encode(["status" => false , "message" => "Creating Invoice Failed"]);
 				}
@@ -102,7 +122,12 @@ class Invoice extends MY_Controller {
 
 				$this->send_push_notification($this->input->post("selected_driver"));
 
-				echo json_encode(["status" => true , "message" => "<span class='label label-success'>On Delivery</span>"]);
+				//SEND ORDER STATUS EMAIL
+				$data['status'] = "On-Delivery";					
+				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->send();
+
+				echo json_encode(["status" => true , "message" => convert_order_status(3)]);
 
 				break;
 			
@@ -110,7 +135,12 @@ class Invoice extends MY_Controller {
 
 				$this->db->where("order_id" , $order_id)->update("customer_order" , ["status" => 4]);
 
-				echo json_encode(["status" => true , "message" => "<span class='label label-success'>Delivered</span>"]);
+				//SEND ORDER STATUS EMAIL
+				$data['status'] = "Delivered";					
+				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->send();
+
+				echo json_encode(["status" => true , "message" => convert_order_status(4)]);
 
 				break;
 			

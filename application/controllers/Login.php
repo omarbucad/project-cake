@@ -34,6 +34,8 @@ class Login extends MY_Controller {
 
 					redirect("/login/resend_activation_email" , "refresh");
 					
+				}elseif($result->status == 0){
+					redirect("/login/?error=inactive_account" , "refresh");
 				}else{
 					$this->session->set_userdata("customer" , $result);
 				
@@ -169,11 +171,17 @@ class Login extends MY_Controller {
 
 					$this->email->send();
 
-					//redirect('/login/forgot_password/?status=forgottenpasswordsend', 'refresh');
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Change Password Email Sent. Please check your email.');
+
+					redirect('/login/forgot_password/?status=emailsent', 'refresh');
 
 			}else{
 
-					redirect('/login');
+					$this->session->set_flashdata('status' , 'error');	
+					$this->session->set_flashdata('message' , 'The email doesn\'t exist.');
+
+					redirect('/login/forgot_password/?error=email_doesnt_exist', 'refresh');
 			}
 
 		}
@@ -207,11 +215,14 @@ class Login extends MY_Controller {
 					$this->session->set_flashdata('status' , 'success');	
 					$this->session->set_flashdata('message' , 'Successfully Changed Password');
 
-					redirect("/login/change_password/?success=change_password", "refresh");
+					redirect("/login/change_password/$code?success=change_password", "refresh");
 				}			
 			}
 		}else{
-			redirect("/login/forgot_password/$code?error=invalid_emailaddress", "refresh");
+			$this->session->set_flashdata('status' , 'error');	
+			$this->session->set_flashdata('message' , 'Expired Link. Please Enter Your Email Address to Receive a Change Password Email');
+
+			redirect("/login/forgot_password/?error=expired_link", "refresh");
 		}
 	}
 

@@ -115,7 +115,7 @@ if( ! function_exists('convert_order_status')){
                     return "Processing";
                     break;
                 case 2:
-                    return "Confirmed Ordered";
+                    return "Confirmed Order";
                     break;
                 case 3:
                     return "On Delivery";

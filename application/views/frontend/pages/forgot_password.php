@@ -10,6 +10,22 @@
 				</div>
 			</div>
 		</div>
+	<?php else : ?>
+		<div id="alert_container_remove">
+			<div class="side-body padding-top">
+				<?php if($this->session->userdata("status") == 'success') : ?>
+				<div class="alert alert-success alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close" id="closed_alert"><span aria-hidden="true">×</span></button>
+					<?php echo $this->session->userdata("message"); ?>
+				</div>
+				<?php elseif($this->session->userdata("status") == 'error') : ?>
+					<div class="alert alert-danger alert-dismissible fade in" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" id="closed_alert"><span aria-hidden="true">×</span></button>
+						<?php echo $this->session->userdata("message"); ?>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
 	<?php endif; ?>
 	<h2 class="page-header">MY ACCOUNT</h2>
 	<div class="row">
@@ -20,7 +36,7 @@
 						<form action="<?php echo site_url("login/forgot_password"); ?>" method="POST">
 							<legend>FORGOTTEN PASSWORD</legend>
 							<div class="form-group">
-								<p class="help-block text-center">Enter your email address that you used to register. We'll send you an email with your username and a link to reset your password.</p>
+								<p class="help-block text-center">Enter your email address that you used to register. We'll send you an email with a link to reset your password.</p>
 								<input type="text" name="email" class="form-control" placeholder="Email Address" id="email" required="true">
 							</div>
 							<div class="text-left">
