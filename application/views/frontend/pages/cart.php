@@ -54,10 +54,7 @@
 			if($('#address-div').hasClass("in")){
 				$('#address-div').removeClass("in");
 				$("#street1").removeAttr("required");
-				$("#street2").removeAttr("required");
 				$("#city").removeAttr("required");
-				$("#suburb").removeAttr("required");
-				$("#postcode").removeAttr("required");
 				$("#state").removeAttr("required");
 
 				if($('#is_same').val() == 0){
@@ -67,10 +64,7 @@
 		}else{
 			$('#address-div').addClass("in");
 			$("#street1").attr("required","true");
-			$("#street2").attr("required","true");
 			$("#city").attr("required","true");
-			$("#suburb").attr("required","true");
-			$("#postcode").attr("required","true");
 			$("#state").attr("required","true");
 
 			if($('#is_same').val() == 1){
@@ -175,11 +169,11 @@
 				                    <input type="text" name="street1" class="form-control" id="street1" placeholder="Street 1" autocomplete="off">
 				                </div>
 				                <div class="form-group">
-				                    <label for="street2">Street 2 *</label>
+				                    <label for="street2">Street 2 </label>
 				                    <input type="text" name="street2" class="form-control" id="street2" placeholder="Street 2" autocomplete="off">
 				                </div>
 				                <div class="form-group">
-				                    <label for="suburb">Suburb *</label>
+				                    <label for="suburb">Suburb </label>
 				                    <input type="text" name="suburb" class="form-control" id="suburb" placeholder="Suburb" autocomplete="off">
 				                </div>
 				                <div class="form-group">
@@ -187,7 +181,7 @@
 				                    <input type="text" name="city" class="form-control" id="city" placeholder="City" autocomplete="off">
 				                </div>
 				                <div class="form-group">
-				                    <label for="postcode">Post Code *</label>
+				                    <label for="postcode">Post Code </label>
 				                    <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Post Code" autocomplete="off">
 				                </div>
 				                <div class="form-group">
