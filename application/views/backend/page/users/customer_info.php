@@ -9,7 +9,7 @@
    
     <div class="side-body padding-top">
         <div class="container" >
-            <a href="<?php echo site_url('app/users'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> <?php echo $customer_info->display_name; ?></h1>
+            <a href="<?php echo site_url('app/users/customer'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> <?php echo ($customer_info->account_type == "COMPANY") ? $customer_info->company_name : $customer_info->display_name; ?></h1>
         </div>
         <div class="grey-bg ">
             <div class="container ">
@@ -18,7 +18,7 @@
                         <span></span>
                     </div>
                     <div class="col-xs-12 col-lg-4 text-right no-margin-bottom">
-                        <a href="<?php echo site_url("app/users"); ?>" class="btn btn-success btn-same-size submit-form" >Back to Users List</a>
+                        <a href="<?php echo site_url("app/users/customer"); ?>" class="btn btn-success btn-same-size submit-form" >Back to Customers List</a>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,12 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">Details</div>
                                 <div class="panel-body">
+                                    <?php if($customer_info->account_type == "COMPANY") :?>
                                     <p><label>Company Name: </label> <?php echo $customer_info->company_name; ?></p>
+                                    <p><label>Manager Name: </label> <?php echo $customer_info->display_name; ?></p>
+                                    <?php else : ?>
+                                    <p><label>Full Name: </label> <?php echo $customer_info->display_name; ?></p>
+                                    <?php endif; ?>
                                     <p><label>Email Address: </label> <?php echo $customer_info->email; ?></p>
                                     <p><label>Status: </label> <?php echo convert_status($customer_info->status); ?></p>
                                 </div>

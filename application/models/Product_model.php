@@ -377,9 +377,9 @@ class Product_model extends CI_Model {
             $result->address = $result->street1;
             $result->address .= ($result->street2) ? ",<br>".$result->street2 : "";
             $result->address .= ($result->suburb) ? ",<br>".$result->suburb : "";
-            $result->address .= ($result->state) ? ",<br>".$result->state : "";
+            $result->address .= ($result->city) ? ",<span>".$result->city : "";
             $result->address .= ($result->postcode) ? ",<br>".$result->postcode : "";
-            $result->address .= ($result->city) ? ",<br>".$result->city : "";
+            $result->address .= ($result->state) ? " <span>".$result->state : "";
         }
 
         return $result;

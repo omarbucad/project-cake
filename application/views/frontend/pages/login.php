@@ -18,9 +18,12 @@
 					<div class="panel panel-default">
 						<div class="panel-heading text-center">LOGIN</div>
 						<div class="panel-body">
-							<?php if($this->input->get("error")) :?>
+							<?php if($this->input->get("error") == "wrong_password") :?>
 								<div class="alert alert-danger alert-dismissible">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Wrong Password!</div>
+							<?php elseif($this->input->get("error") == "inactive_account") : ?>
+								<div class="alert alert-danger alert-dismissible">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Inactive Account!</div>
 							<?php endif; ?>
 							<div class="form-group">
 								<label for="username">Email Address *</label>

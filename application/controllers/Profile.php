@@ -82,8 +82,12 @@ class Profile extends MY_Controller {
 			$this->load->view('frontend/master' , $this->data);
 		}else{
 			if($last_id = $this->users->customer_edit_profile($customer_id)){
+				$result = $this->db->where("customer_id",$customer_id)->get("customer")->row();
+
+				$this->session->set_userdata("customer" , $result);
 				$this->session->set_flashdata('status' , 'success');	
 				$this->session->set_flashdata('message' , 'Successfully Updated Account Details');	
+
 
 				redirect("profile/?customer_id=".$this->hash->encrypt($customer_id).'?submit=submit' , 'refresh');
 				
