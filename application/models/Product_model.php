@@ -385,25 +385,8 @@ class Product_model extends CI_Model {
         return $result;
     }
 
-    public function get_wishlist () {
-        $result = $this->db->select("u.name , p.product_name , p.short_description ,p.price  ,pi.* ")->from('customer_wish_product w ')
-        ->join('users u' , 'u.user_id = w.customer_id')
-        ->join('products p' , 'p.product_id = w.product_id')
-        ->join('products_images pi' , 'pi.product_id = p.product_id')
-        ->where("pi.primary_image" , 1)
-        ->where('w.customer_id' , $this->session->userdata("customer")->customer_id)
-        ->group_by('product_id')
-        ->get("customer_wish_product")->result();
-        
-        return $result;
-    }
 
-    public function remove_wish ($id) {
 
-        $this->db->where('product_id' , $id);
-        $this->db->delete('customer_wish_product'); 
-
-    }
 
     public function view_productsbyid ($id) {
         $this->db->join('products_images pi' , 'p.product_id = pi.product_id');

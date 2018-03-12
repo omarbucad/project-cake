@@ -259,33 +259,18 @@ class Login extends MY_Controller {
 
 			$activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));
 
-			if($this->input->post('account_type') == 'PERSONAL'){
-				$this->db->insert("customer" , [
-					"password"				=> md5($this->input->post("password") ),
-					"email"					=> $this->input->post("username") ,
-					"phone_number"			=> $this->input->post("phone_number") ,
-					"activation_code" 		=> $activation_code,
-					"physical_address_id" 	=> $address_id ,
-					"display_name"			=> $this->input->post("fullname"),
-					"status"				=> 2 ,
-					"created"				=> time(),
-					"account_type"			=> $this->input->post('account_type')
-				]);
-			}
-			else{
-				$this->db->insert("customer" , [
+			$this->db->insert("customer" , [
 				"password"				=> $this->input->post("password") ,
 				"email"					=> $this->input->post("username") ,
 				"phone_number"			=> $this->input->post("phone_number") ,
 				"activation_code" 		=> $activation_code,
 				"physical_address_id" 	=> $address_id ,
 				"display_name"			=> $this->input->post("manager_name"),
-				"company_name"			=> $this->input->post("company_name") ,
+				"company_name"			=> ($this->input->post("account_type") == "COMPANY") ? $this->input->post("company_name") : "" ,
 				"status"				=> 2 ,
 				"created"				=> time(),
 				"account_type"			=> $this->input->post('account_type')
 			]);
-			}
 			
 
 			$this->db->where("address_id", $address_id);
@@ -306,26 +291,19 @@ class Login extends MY_Controller {
 	            redirect("/login/register/?error=register" , "refresh");
 
 	        }else{
-	        	if($this->input->post('account_type') == 'PERSONAL'){
-	        		$this->send_activation_email([
-		            	"email_address"		=> $this->input->post("username") ,
-		            	"activation_code"	=> $activation_code ,
-		            	"name"				=> $this->input->post("fullname") 
-		            ]);
-	        	}
-	        	else{
-	        		$this->send_activation_email([
-		            	"email_address"		=> $this->input->post("username") ,
-		            	"activation_code"	=> $activation_code ,
-		            	"name"				=> $this->input->post("company_name") 
-		            ]);
-	        	}
+	        	$this->send_activation_email([
+	        		"email_address"		=> $this->input->post("username") ,
+	        		"activation_code"	=> $activation_code ,
+	        		"name"				=> $this->input->post("account_type") == "COMPANY" ? $this->input->post("company_name") : $this->input->post("fullname") 
+	        	]);
 	            
 
-	            $this->data["email"] = $this->input->post("username");
-	            $this->data['title_page'] = "Registered Successfully";
-				$this->data['main_page'] = "frontend/pages/register_success";
+	            $this->data["email"] 		= $this->input->post("username");
+	            $this->data['title_page'] 	= "Registered Successfully";
+				$this->data['main_page'] 	= "frontend/pages/register_success";
+
 	            $this->load->view('frontend/master' , $this->data);
+
 	            //redirect("/login/code/".$activation_code);
 	        }
 		}
