@@ -39,6 +39,25 @@
         $('#_pdfViewer').html(object);  
     });
 
+    $(document).on('click' , '.send_invoice_email' , function(){
+
+        var c = confirm("Are you sure you want to send an invoice email?");
+
+        if(c == true){
+            $.ajax({
+                url : $(this).data("href") ,
+                success : function(response){
+                    var json = jQuery.parseJSON(response);
+                    if(json.status){
+                        $.notify(json.message , { className:  "success" , position : "top center"});
+                    }else{
+                        $.notify(json.message , { className:  "error" , position : "top center"});
+                    }
+                }
+            });
+        }
+    });
+
     $(document).on("click" , ".pay_invoice" , function(){
         var invoice_id = $(this).data("id");
         var invoice_no = $(this).data("invoiceno");
@@ -265,6 +284,7 @@
                                              <li><a href="javascript:void(0);" class="view_logs" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Logs</a></li>
                                         <?php endif; ?>
                                         <li role="separator" class="divider"></li>
+                                        <li><a href="javascript:void(0);" data-href="<?php echo site_url('app/invoice/send_invoice_email_ajax/'.$row->invoice_id);?>" data-id="<?php echo $row->invoice_id; ?>" class="send_invoice_email">Send Invoice Email</a></li>
                                         <li><a href="javascript:void(0);" data-pdf="<?php echo $row->invoice_pdf; ?>" class="view_invoice_pdf" data-id="<?php echo $row->invoice_id; ?>">View Invoice</a></li>
                                         <li><a href="javascript:void(0);" data-pdf="<?php echo $row->delivery_order_pdf; ?>" class="view_invoice_pdf" data-id="<?php echo $row->invoice_id; ?>">View Delivery Order</a></li>
                                       </ul>

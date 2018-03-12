@@ -80,7 +80,7 @@ class Invoice extends MY_Controller {
 
 				//SEND ORDER STATUS EMAIL
 				$data['status'] = "Cancelled";					
-				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
 				echo json_encode(["status" => true , "message" => "<span class='label label-danger'>Cancelled</span>"]);
@@ -101,7 +101,7 @@ class Invoice extends MY_Controller {
 
 					//SEND ORDER STATUS EMAIL
 					$data['status'] = "Confirmed";					
-					$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+					$this->email->message($this->load->view('backend/email//order_status_email', $data , true));
 					$this->email->send();
 
 					echo json_encode(["status" => true , "message" => convert_order_status(2)]);
@@ -124,7 +124,7 @@ class Invoice extends MY_Controller {
 
 				//SEND ORDER STATUS EMAIL
 				$data['status'] = "On-Delivery";					
-				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
 				echo json_encode(["status" => true , "message" => convert_order_status(3)]);
@@ -137,7 +137,7 @@ class Invoice extends MY_Controller {
 
 				//SEND ORDER STATUS EMAIL
 				$data['status'] = "Delivered";					
-				$this->email->message($this->load->view('backend/page/invoice/order_status_email', $data , true));
+				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
 				echo json_encode(["status" => true , "message" => convert_order_status(4)]);
@@ -183,17 +183,25 @@ class Invoice extends MY_Controller {
 
 	}
 
-	private function send_email_invoice($invoice_information , $pdf_file){
+	private function send_email_invoice($invoice_information , $pdf_file , $ajax = false){
 
-		// $this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
-		// $this->email->to($invoice_information->email);
+		$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
+		$this->email->to($invoice_information->email);
 
-		// $this->email->subject('Gravybaby Bill Statement');
-		// $this->email->message($this->load->view('backend/email/send_invoice' , $invoice_information , TRUE));
-		// $this->email->attach($pdf_file);
-		// $this->email->set_mailtype('html');
+		$this->email->subject('Gravybaby Bill Statement');
+		$this->email->message($this->load->view('backend/email/send_invoice' , $invoice_information , TRUE));
+		$this->email->attach($pdf_file);
+		$this->email->set_mailtype('html');
 
-		// $this->email->send();
+		if($ajax){
+			if($this->email->send()){
+				echo json_encode(["status" => true , "message" => "Email has been sent"]);
+			}else{
+				echo json_encode(["status" => false , "message" => "Sending Failed"]);
+			}
+		}else{
+			$this->email->send();
+		}
 	}
 
 
@@ -268,6 +276,15 @@ class Invoice extends MY_Controller {
 
 		download_send_headers('order_' . date("Y-m-d") . ".csv");
 		echo array2csv($export);
+	}
+
+	public function send_invoice_email_ajax($invoice_id){
+
+		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
+
+		$this->send_email_invoice($invoice_information , FCPATH.$invoice_information->invoice_pdf , true);
+
+		
 	}
 
 }
