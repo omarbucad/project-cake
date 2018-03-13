@@ -441,8 +441,11 @@ class Product_model extends CI_Model {
         
         $this->db->select('image_path, image_name, primary_image, product_id');
         $imageinfo = $this->db->where('image_id', $image_id)->get("products_images")->row();
+        if(is_file("./public/upload/product/".$imageinfo->image_path."/".$imageinfo->image_name)){
+
+            unlink("./public/upload/product/".$imageinfo->image_path."/".$imageinfo->image_name);
+        }
         
-        unlink("./public/upload/product/".$imageinfo->image_path."/".$imageinfo->image_name);
 
         $this->db->where('image_id',$image_id);
         $this->db->delete("products_images");
@@ -525,4 +528,70 @@ class Product_model extends CI_Model {
            return true;
         }      
     }
+
+    public function get_product_cards_info($product_id){
+        $result = array();
+
+        //TODAY
+        $start  = strtotime("today midnight");
+        $end    = strtotime("today 23:59:59");
+        
+        $result["day"]["current"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id ]);
+        $result["day"]["current"]["date"]  = date("d M Y");
+
+        //YESTERDAY
+        $start  = strtotime("yesterday midnight");
+        $end    = strtotime("today midnight - 1 seconds");
+        
+        $result["day"]["previous"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id]);
+        $result["day"]["previous"]["date"]  = date("d M Y" , strtotime("yesterday"));
+
+
+        //WEEKLY
+        $start  = strtotime("monday this week 00:00:00");
+        $end    = strtotime("monday next week -1 seconds");
+
+        $result["week"]["current"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id]);
+        $result["week"]["current"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        //WEEK PREVIOUS
+        $start  = strtotime("monday last week 00:00:00");
+        $end    = strtotime("monday this week -1 seconds");
+
+        $result["week"]["previous"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id]);
+        $result["week"]["previous"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+
+        //MONTHLY 
+        $start  = strtotime("first day of this month 00:00:00");
+        $end    = strtotime("last day of this month 23:59:59");
+
+        $result["month"]["current"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id]);
+        $result["month"]["current"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        //MONTHLY PREVIOUS
+        $start  = strtotime("first day of last month 00:00:00");
+        $end    = strtotime("last day of last month 23:59:59");
+
+        $result["month"]["previous"]["sales"] = $this->get_product_sales(["start" => $start , "end" => $end, "product_id" => $product_id]);
+        $result["month"]["previous"]["date"]  = date("d M Y" , $start).' - '.date("d M Y" , $end);
+
+        return $result;
+
+    }
+
+    private function get_product_sales($q){
+
+        $this->db->select("i.*, cp.* ");
+        $this->db->join("customer_order_product cp","cp.order_id = i.order_id");
+        $this->db->where("i.invoice_date >= " , $q['start']);
+        $this->db->where("i.invoice_date <= " , $q['end']);
+        $this->db->where("cp.product_id",$q['product_id']);
+
+        $this->db->select_sum("cp.quantity");
+        $q = $this->db->get("invoice i")->row()->quantity;
+        return ($q) ? $q : 0;
+       //return $this->db->get("invoice i")->result();
+    }
+
 }

@@ -240,6 +240,10 @@ class Invoice_model extends CI_Model {
             foreach($item_image as $k => $r){
                 $result[$key]->item_image[$r->i_type][] = $r;
             }
+
+            if($result[$key]->item_image AND !isset($result[$key]->item_image['AFTER'])){
+                $result[$key]->item_image['AFTER'] = array();
+            }
         }
 
         return $result;

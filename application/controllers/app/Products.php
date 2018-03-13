@@ -24,6 +24,7 @@ class Products extends MY_Controller {
 
 		$this->data['result']	 = $this->product->get_products();
 		$this->data['category_list'] = $this->product->get_category();
+
 		$this->load->view('backend/master' , $this->data);
 	}
 
@@ -153,6 +154,8 @@ class Products extends MY_Controller {
 		$this->data['main_page'] = "backend/page/products/product_info";
 		$this->data['page_name'] = "Product Details";
 		$this->data['category_list'] = $this->product->get_category();
+		$this->data['card_info'] = $this->product->get_product_cards_info($product_id);
+		//print_r_die($this->data['card_info']);
 
 		$this->load->view("backend/master", $this->data);
 	}
