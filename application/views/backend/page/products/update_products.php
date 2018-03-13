@@ -165,7 +165,7 @@
                                 <dt>Position</dt>
                                 <dd>
                                     <div class="form-group">
-                                        <input type="number" name="product_position" value="1" class="form-control">
+                                        <input type="number" name="product_position" value="<?php echo $result->product_position; ?>" class="form-control">
                                     </div>
                                 </dd>
                                 <dt>Category</dt>
