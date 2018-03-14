@@ -165,11 +165,10 @@
 								
 								<address>
 									<?php echo $this->session->userdata("customer")->display_name; ?><br>
-									<?php echo $profile_information->street1; ?> , <?php echo $profile_information->street2; ?>,<br>
-									<?php echo $profile_information->suburb; ?>,<br>
-									<?php echo $profile_information->city; ?>,<br>
-									<?php echo $profile_information->state; ?>,<br>
-									<?php echo $profile_information->postcode; ?>
+									<?php echo $profile_information->street1; ?>, <?php echo $profile_information->street2; ?>,<br>
+									<?php echo $profile_information->suburb; ?>, <?php echo $profile_information->city; ?>,<br>
+									<?php echo $profile_information->postcode; ?>, <?php echo $profile_information->state; ?>,
+									
 								</address>
 							</div>
 						</div>
