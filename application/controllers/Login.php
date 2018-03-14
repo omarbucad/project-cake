@@ -265,7 +265,7 @@ class Login extends MY_Controller {
 				"phone_number"			=> $this->input->post("phone_number") ,
 				"activation_code" 		=> $activation_code,
 				"physical_address_id" 	=> $address_id ,
-				"display_name"			=> $this->input->post("manager_name"),
+				"display_name"			=> ($this->input->post("account_type") == "COMPANY") ? $this->input->post("manager_name") : $this->input->post("fullname") ,
 				"company_name"			=> ($this->input->post("account_type") == "COMPANY") ? $this->input->post("company_name") : "" ,
 				"status"				=> 2 ,
 				"created"				=> time(),

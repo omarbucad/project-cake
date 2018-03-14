@@ -1,8 +1,41 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("div.company").addClass("hidden");
+        $('#fullname').attr("required", "true");
+    });
+    $(document).on("click","input#personal" , function(){
+        $("div.company").addClass("hidden");
+        $("div.personal").removeClass("hidden");
+        $("#company_name").removeAttr("required");
+        $("#manager_name").removeAttr("required");
+        $("#fullname").attr("required","true");
+    });
+    $(document).on("click","input#company" , function(){
+        $("div.company").removeClass("hidden");
+        $("div.personal").addClass("hidden");
+        $("#fullname").removeAttr("required");
+        $("#company_name").attr("required","true");
+        $("#manager_name").attr("required","true");
+    });
+</script>
+<style type="text/css">
+    input[type=radio], input[type=checkbox]{
+        cursor: pointer;
+    }
+    .radio-group input[type=radio]{
+        margin-right: 5px;
+    }
+    .radio-group label{
+        margin-right: 10px;
+    }
+
+</style>
+
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
 
         <div class="container" >
-        	<a href="<?php echo site_url('app/users'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> Create a Customer</h1>
+        	<a href="<?php echo site_url('app/users/customer'); ?>" style="display:inline-block;position: relative;left: -10px;"><i class="fa fa-arrow-left fa-3x"  aria-hidden="true"></i> </a> <h1 style="display:inline-block;"> Create a Customer</h1>
         </div>
         <div class="grey-bg ">
             <div class="container ">
@@ -24,20 +57,33 @@
                     <h3>Profile</h3>
                     <div class="row">
                         <div class="col-xs-12 col-lg-4">
-                            <p>Personal and contact information for this user.</p>
+                            <p>Account Information.</p>
+                        </div>
+                        <div class="col-lg-12 form-group radio-group">
+                            <label class="group-label">Account type:</label>
+                            <input type="radio" name="account_type" id="personal" checked="checked" value="PERSONAL"><label>Personal</label>
+                            <input type="radio" name="account_type" id="company" value="COMPANY"><label>Company</label>
                         </div>
                         <div class="col-xs-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="display_name">Display Name</label>
-                                <input type="text" name="display_name" id="display_name" value="<?php echo set_value("display_name"); ?>" class="form-control" placeholder="Display Name">
+                            <div class="form-group company">
+                                <label for="name">Manager Name *</label>
+                                <input type="text" name="manager_name" class="form-control" placeholder="Manager Name" id="manager_name" autocomplete="off" value="<?php echo set_value('manager_name');?>">
                             </div>
-                            <div class="form-group">
-                                <label for="company_name">Company Name</label>
-                                <input type="text" name="company_name" id="company_name" value="<?php echo set_value("company_name"); ?>" class="form-control" placeholder="Company Name">
+                            <div class="form-group personal">
+                                <label for="name">Full Name *</label>
+                                <input type="text" name="fullname" class="form-control" placeholder="Full Name" id="fullname" autocomplete="off" value="<?php echo set_value('fullname');?>">
+                            </div>
+                            <div class="form-group company">
+                                <label for="company_name">Company Name *</label>
+                                <input type="text" name="company_name" class="form-control" placeholder="Company Name" id="company_name" autocomplete="off"  value="<?php echo set_value('company_name');?>">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" id="email" value="<?php echo set_value("email"); ?>" class="form-control" placeholder="name@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_number">Phone number *</label>
+                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off" value="<?php echo set_value('phone_number');?>">
                             </div>
                         </div>
                     </div>

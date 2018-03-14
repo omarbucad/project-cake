@@ -70,10 +70,19 @@ class Users extends MY_Controller {
 
 	public function add_customer(){
 		$this->form_validation->set_rules('email'				, 'Email'			    , 'trim|required|is_unique[customer.email]');
-		$this->form_validation->set_rules('display_name'		, 'Name'			    , 'trim|required');
-		$this->form_validation->set_rules('company_name'		, 'Company'			    , 'trim|required');
-		$this->form_validation->set_rules('password'		    , 'Password'			, 'trim|required|md5');
-		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	, 'trim|required|matches[password]|md5');
+		if($this->input->post('account_type') == 'PERSONAL'){
+			$this->form_validation->set_rules('fullname'	, 'Full Name'	, 'trim|required');
+		}else{
+			$this->form_validation->set_rules('manager_name', 'Manager Name'	, 'trim|required');
+			$this->form_validation->set_rules('company_name', 'Company Name'	, 'trim|required');
+		}
+		$this->form_validation->set_rules('phone_number'	, 'Phone Number'    , 'trim|required');
+		$this->form_validation->set_rules('password'		    , 'Password'			, 'trim|required|min_length[5]');
+		$this->form_validation->set_rules('confirm_password'    , 'Confirm Password'	, 'trim|required|matches[password]');
+
+		$this->form_validation->set_rules('physical[street1]'			, 'Street 1'    	, 'trim|required');
+		$this->form_validation->set_rules('physical[city]'			, 'City'    		, 'trim|required');
+		$this->form_validation->set_rules('physical[state]'			, 'State'    		, 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){ 
 

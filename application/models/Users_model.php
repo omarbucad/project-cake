@@ -170,10 +170,11 @@ class Users_model extends CI_Model {
         $this->db->insert("customer" , [
             "password"              => $this->input->post("password") ,
             "email"                 => $this->input->post("email") ,
+            "phone_number"          => $this->input->post("phone_number") ,
             "activation_code"       => $activation_code,
             "physical_address_id"   => $address_id ,
-            "display_name"          => $this->input->post("display_name"),
-            "company_name"          => $this->input->post("company_name"),
+            "display_name"          => ($this->input->post("account_type") == "COMPANY") ? $this->input->post("manager_name") : $this->input->post("fullname"),
+            "company_name"          => ($this->input->post("account_type") == "COMPANY") ? $this->input->post("company_name") : "" ,
             "status"                => 1 ,
             "created"               => time()
         ]);
