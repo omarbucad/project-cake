@@ -3,7 +3,7 @@
 
 	<h2>Welcome to Gravybaby Cake Ordering - Order Status</h2>
 
-	<p>Hey There,</p>
+	<p>Dear Valued Customer,</p>
 
 	<p class="help-block">The status of your order with Order NO:<?php echo $order_no; ?> has been updated. 
 	<br>STATUS: <?php echo $status; ?>.</p>
