@@ -59,6 +59,14 @@
       
   });
 
+  $(document).on("keypress keyup blur", "#_qty", function(e) {
+      $(this).val($(this).val().replace(/[^\d].+/, ""));
+      if ((e.which < 48 || e.which > 57)) {
+          e.preventDefault();
+      }
+  });
+  
+
 </script>
 <style type="text/css">
   .cropper{
@@ -219,7 +227,7 @@
         <form>
           <div class="form-group">
             <label>Quantity</label>
-            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control" value="1" min="1">
+            <input type="number" name="qty" id="_qty" placeholder="Quantity" class="form-control" value="1" min="1" step="1" pattern="[0-9]">
           </div>
         </form>
       </div>

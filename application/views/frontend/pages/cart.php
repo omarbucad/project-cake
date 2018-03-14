@@ -72,6 +72,7 @@
 			}
 		}
 	});
+
 </script>
 <style type="text/css">
 	section{
@@ -196,7 +197,7 @@
 						<select class="form-control" name="payment_method" id="payment_method">
 							<option value="">- Select Payment Method -</option>
 							<option value="COD">Cash on Delivery</option>
-							<option value="CHEQUE">Pay by Cheque</option>
+							<option value="CHEQUE" selected>Pay by Cheque</option>
 						</select>
 					</div>
 					<div class="text-right">
