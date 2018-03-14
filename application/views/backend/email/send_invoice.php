@@ -3,7 +3,7 @@
 
 	<h2>Welcome to Gravybaby Cake Ordering - Bill Statement</h2>
 
-	<p>Dear Valued Customer,</p>
+	<p>Dear valued customer,</p>
 
 	<p class="help-block">Thank you for your order from Gravybaby Cake Ordering. Attached is a bill statement of your order.</p>
 

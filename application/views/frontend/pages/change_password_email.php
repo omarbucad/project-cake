@@ -5,7 +5,7 @@
 </head>
 <body>
 
-	<p>Hey There,</p>
+	<p>Dear valued customer,</p>
 	<p>Someone requested a new password for your Gravybaby Cake Ordering account.</p>
 	<p>Please use the following link to <a href="<?php echo $link; ?>"><?php echo $link; ?></a>. this link will expire 24 hours after you received this email.</p>
 	<p>If you did not request this password change please feel free to ignore it.</p>
