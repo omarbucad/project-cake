@@ -210,6 +210,14 @@ class Driver extends CI_Controller{
 		echo json_encode(["status" => true]);
 	}
 
+	public function start_driving(){
+		if($this->post){
+			$this->db->where("order_number" , $this->post->order_number)->update("customer_order" , [
+				"start_driving" => time()
+			]);
+		}
+	}
+
 	private function save_image($order_number , $signature = true){
 		$image = $this->post->image;
 
