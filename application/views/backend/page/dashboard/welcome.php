@@ -17,9 +17,28 @@
         var invoice_id = $(this).data("id");
         var invoice_no = $(this).data("invoiceno");
         var modal = $('#invoice_pay').modal("show");
-        modal.find(".modal-title").html("Invoice #"+invoice_no);
-        modal.find('#_invoice_id').val(invoice_id);
-        modal.find('#_invoice_no').val(invoice_no);
+        var href = $(this).data("href");
+
+        $.ajax({
+            url : href ,
+            method : 'get' ,
+            success : function(response){
+                var json = jQuery.parseJSON(response);
+                var info = json.data;
+                console.log(json.data);
+                if(info.payment_method == "COD"){
+                    modal.find('#_paymethod option[value=COD]').attr('selected', true);
+                }else{
+                    modal.find('#_paymethod option[value=CHEQUE]').attr('selected', true);
+                }
+
+                modal.find(".modal-title").html("Invoice #"+ invoice_no);
+                modal.find('#_invoice_id').val(invoice_id);
+                modal.find('#_invoice_no').val(invoice_no);
+                
+                
+            }
+        });
     });
 
 	$(document).on("change" , "#_paymethod" , function(){
@@ -37,6 +56,7 @@
         var c = confirm("Are you sure?");
         
         if(c == true){
+            $('#_paymethod').attr("disabled",false);
             form.submit();
         }
 
@@ -206,7 +226,7 @@
 						   						</td>
 						   						<td>
 						   							<span>
-						   								<a href="<?php echo site_url("app/invoice/order?name=$row->order_number"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+						   								<a href="<?php echo site_url("app/invoice/order?order_no=$row->order_number"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
 						   								<small><?php echo $row->created; ?></small>
 						   							</span>
 						   						</td>
@@ -237,7 +257,7 @@
 							   					<td><span><?php echo $row->total_price; ?></span></td>
 							   					<td><span><?php echo $row->invoice_date; ?></span></td>
 							   					<td>
-							   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>
+							   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-href="<?php echo site_url('app/invoice/get_invoice_info/').$row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>
 							   					</td>
 							   				</tr>
 						   				<?php endforeach; ?>
@@ -361,7 +381,7 @@
                     <input type="hidden" name="invoice_no" id="_invoice_no">
                     <div class="form-group">
                        <label>Payment Method</label>
-                       <select class="form-control" name="payment_method" id="_paymethod">
+                       <select class="form-control" name="payment_method" id="_paymethod" readonly="true" disabled="true">
                            <option value="COD">Cash on Delivery</option>
                            <option value="CHEQUE">Pay by Cheque</option>
                        </select>
