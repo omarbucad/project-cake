@@ -216,7 +216,12 @@
                             <tr class="customer-row">
                                 <td>
                                     <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
-                                    <small class="help-block"><?php echo $row->company_name; ?><br><?php echo $row->email; ?></small>
+                                    <small class="help-block">
+                                        <?php if($row->company_name) : ?>
+                                            <?php echo $row->company_name; ?><br>
+                                        <?php endif; ?>
+                                        <?php echo $row->email; ?>
+                                    </small>
                                 </td>
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
@@ -294,6 +299,7 @@
                                                             <br>
                                                             <small>Placed Delivered : <?php echo $row->place_delivery_date; ?></small>
                                                             <br>
+                                                            <small>Start Driving : <?php echo $row->start_driving; ?></small><br>
                                                             <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
                                                             <small>notes : <i><?php echo $row->notes; ?></i></small>
                                                         <?php endif; ?>

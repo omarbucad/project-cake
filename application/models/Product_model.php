@@ -364,6 +364,7 @@ class Product_model extends CI_Model {
             $result->order_images = $this->db->where("order_no" , $result->order_number)->get("customer_order_images")->num_rows();
 
             $result->created = convert_timezone($result->created , true);
+            $result->start_driving = convert_timezone($result->start_driving , true);
             $result->delivered_date = convert_timezone($result->delivered_date , true);
             $result->total_price = custom_money_format($result->total_price );
             $result->gst_price = custom_money_format($result->gst_price );

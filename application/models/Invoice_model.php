@@ -77,6 +77,7 @@ class Invoice_model extends CI_Model {
 
             $result[$k]->created = convert_timezone($r->created , true);
             $result[$k]->total_price = custom_money_format($r->total_price );
+            $result[$k]->start_driving = convert_timezone($r->start_driving , true);
             $result[$k]->gst_price = custom_money_format($r->gst_price );
             $result[$k]->total_price_with_gst = custom_money_format( $r->total_price_with_gst );
 
@@ -216,6 +217,7 @@ class Invoice_model extends CI_Model {
         foreach($result as $key => $row){
             $result[$key]->invoice_date = convert_timezone($row->invoice_date , true);
             $result[$key]->ordered_date = convert_timezone($row->ordered_date , true);
+            $result[$key]->start_driving = convert_timezone($row->start_driving , true);
             $result[$key]->paid_date = convert_timezone($row->paid_date);
             $result[$key]->delivered_date = convert_timezone($row->delivered_date , true);
             $result[$key]->place_delivery_date = convert_timezone($row->place_delivery_date , true);

@@ -327,6 +327,9 @@
                                                 <th width="20%;">Customer</th>
                                                 <td width="30%;">
                                                     <a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
+                                                    <?php if($row->company_name) : ?>
+                                                        <small class="help-block"><?php echo $row->company_name; ?></small>
+                                                    <?php endif; ?>
                                                     <small class="help-block"><?php echo $row->email; ?></small>
                                                     <small class="help-block"><?php echo $row->address; ?></small>
                                                 </td>
@@ -346,6 +349,7 @@
                                                         <br>
                                                         <small>Assigned : <?php echo $row->place_delivery_date; ?></small>
                                                         <br>
+                                                        <small>Start Driving : <?php echo $row->start_driving; ?></small><br>
                                                         <small>Delivered : <?php echo $row->delivered_date; ?></small><br>
                                                         <small>Shipping Address: <?php echo $row->shipping_address; ?></small><br>
                                                         <small>Notes : <i><?php echo $row->notes; ?></i></small>
