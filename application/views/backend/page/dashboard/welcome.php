@@ -287,7 +287,7 @@
                                                 <td><span><?php echo $row->payment_method; ?></span></td>
                                                 <td>
                                                     <span>
-                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <a href="<?php echo site_url("app/invoice/order?order_no=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
                                                         <small><?php echo $row->invoice_date; ?></small>
                                                     </span>
                                                 </td>
@@ -319,7 +319,7 @@
                                                 <td><span><?php echo $row->payment_method; ?></span></td>
                                                 <td>
                                                     <span>
-                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <a href="<?php echo site_url("app/invoice/order?order_no=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
                                                         <small><?php echo $row->invoice_date; ?></small>
                                                     </span>
                                                 </td>
@@ -351,7 +351,7 @@
                                                 <td><span><?php echo $row->payment_method; ?></span></td>
                                                 <td>
                                                     <span>
-                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <a href="<?php echo site_url("app/invoice/order?order_no=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
                                                         <small><?php echo $row->invoice_date; ?></small>
                                                     </span>
                                                 </td>
