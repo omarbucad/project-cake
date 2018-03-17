@@ -151,6 +151,17 @@
     });
      
 </script>
+<style type="text/css">
+    .daterangepicker.dropdown-menu {
+        z-index: 100001 !important;
+    }
+    .lg-backdrop{
+        z-index: 999999!important;
+    }
+    .lg-outer{
+        z-index: 999999!important;
+    }
+</style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
     	<div class="card">
