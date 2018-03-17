@@ -8,26 +8,21 @@ class Invoice_model extends CI_Model {
         $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "co.order_id";
         $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
 
-        $this->db->select("co.* , c.display_name , c.company_name , c.email, u.name, a.*");
+        $this->db->select("c.display_name , c.company_name , c.email, u.name, a.*, co.*, co.pay_method");
         $this->db->join("customer c" , "c.customer_id = co.customer_id");
         $this->db->join("users u" , "u.user_id = co.driver_id" , "LEFT");
         $this->db->join("address a" , "a.address_id = co.address_id");
+
+        // SEARCH
 
         if($name = $this->input->get("name")){
             $this->db->like("c.display_name" , $name);
             $this->db->or_like("c.company_name" , $name);
             $this->db->or_like("c.email" , $name);
-            $this->db->or_where("co.order_number" , $name);
         }
 
-
-        if($status = $this->input->get("status")){
-            
-            if($status == "C"){
-                $status = 0;
-            }
-            $this->db->where("co.status" , $status);
-
+        if($order_no = $this->input->get("order_no")){
+            $this->db->where("co.order_number" , $order_no);
         }
 
         if($date = $this->input->get("date")){
@@ -35,8 +30,28 @@ class Invoice_model extends CI_Model {
             $start = strtotime(trim($date[0].' 00:00'));
             $end   = strtotime(trim($date[1].' 23:59'));
 
+
             $this->db->where("co.created >= " , $start);
             $this->db->where("co.created <= " , $end);
+        }   
+
+        if($pay_method = $this->input->get("payment_method")){
+           
+            $this->db->where("co.pay_method" , $pay_method);   
+                    
+        }
+
+        if($order_status = $this->input->get("order_stat")){
+            if($order_status == ""){
+
+            }
+            else if($order_status == "C"){
+                $this->db->where("co.status" , 0);
+            }
+            else{
+                $this->db->where("co.status" , $order_status);
+            }
+            
         }
         
         $this->db->order_by($sort_by , $sort);
@@ -68,6 +83,7 @@ class Invoice_model extends CI_Model {
             $result[$k]->status_raw_number = $r->status;
             $result[$k]->status_raw = convert_order_status($r->status , true);
             $result[$k]->status = convert_order_status($r->status);
+            $result[$k]->pay_method = convert_payment_status($r->pay_method);
 
             $result[$k]->delivered_date = convert_timezone($r->delivered_date , true);
             $result[$k]->place_delivery_date = convert_timezone($r->place_delivery_date , true);
@@ -495,5 +511,43 @@ class Invoice_model extends CI_Model {
         $this->db->where("invoice_date >= " , $q['start']);
         $this->db->where("invoice_date <= " , $q['end']);
         return custom_money_format($this->db->get("invoice")->row()->total_price);
+    }
+
+
+    public function get_sales_data(){
+        //TODAY
+        $start  = strtotime("today midnight");
+        $end    = strtotime("today 23:59:59");
+
+        $this->db->where("invoice_date >= " , $start);
+        $this->db->where("invoice_date <= " , $end);
+        $result["today"] = $this->db->get("invoice")->result();
+
+        //WEEKLY
+        $weekstart  = strtotime("monday this week 00:00:00");
+        $weekend    = strtotime("monday next week -1 seconds");
+
+        $this->db->where("invoice_date >= " , $weekstart);
+        $this->db->where("invoice_date <= " , $weekend);
+        $result["week"] = $this->db->get("invoice")->result();
+        
+
+        //MONTHLY 
+        $monthstart  = strtotime("first day of this month 00:00:00");
+        $monthend    = strtotime("last day of this month 23:59:59");
+
+        $this->db->where("invoice_date >= " , $monthstart);
+        $this->db->where("invoice_date <= " , $monthend);
+        $result["month"] = $this->db->get("invoice")->result();
+
+
+        foreach ($result["month"] as $key => $value) {
+           $result["month"][$key]->invoice_date = convert_timezone($value->invoice_date, true);
+           $result["month"][$key]->total_price = custom_money_format($value->total_price);
+           $result["month"][$key]->payment_method = convert_payment_status($value->payment_method);
+           $result["month"][$key]->price = custom_money_format($value->price);
+        }
+
+        return $result;
     }
 }

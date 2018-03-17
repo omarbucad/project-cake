@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
        <span><h5><?php echo $card_info["day"]["current"]["date"]; ?></h5></span>
-           <a href="#">
+           <a href="#" id="panel-today">
             <div class="card red summary-inline">
                 <div class="card-body">
                     <i class="icon fa fa-tags fa-4x"></i>
@@ -21,7 +21,7 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
        <span><h5><?php echo $card_info["week"]["current"]["date"]; ?></h5></span>
-           <a href="#">
+           <a href="#" id="panel-week">
             <div class="card yellow summary-inline">
                 <div class="card-body">
                     <i class="icon fa fa-truck fa-4x"></i>
@@ -40,7 +40,7 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
        <span><h5><?php echo $card_info["month"]["current"]["date"]; ?></h5></span>
-           <a href="#">
+           <a href="#" id="panel-month">
             <div class="card green summary-inline">
                 <div class="card-body">
                     <i class="icon fa fa-check-circle fa-4x"></i>

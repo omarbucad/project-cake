@@ -20,6 +20,7 @@ class Dashboard extends MY_Controller {
 		$this->data['unpaid_invoice'] = $this->invoice->get_dashboard_invoice();
 		$this->data['total_confirmed_order'] = count($this->data['unpaid_invoice']);
 		$this->data['card_info'] = $this->invoice->get_dashboard_cards_info();
+		$this->data['sales_data'] = $this->invoice->get_sales_data();
 		$this->load->view('backend/master' , $this->data);
 	}
 

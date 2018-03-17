@@ -59,12 +59,34 @@
     });
 
     $(document).on("click" , ".pay_invoice" , function(){
+
+        var href = $(this).data("href");
         var invoice_id = $(this).data("id");
         var invoice_no = $(this).data("invoiceno");
-        var modal = $('#invoice_pay').modal("show");
-        modal.find(".modal-title").html("Invoice #"+invoice_no);
-        modal.find('#_invoice_id').val(invoice_id);
-        modal.find('#_invoice_no').val(invoice_no);
+
+        $.ajax({
+                url : href ,
+                method : 'get' ,
+                success : function(response){
+                    var json = jQuery.parseJSON(response);
+                    var modal = $('#invoice_pay').modal("show");
+                    var info = json.data;
+                    console.log(json.data);
+                    if(info.payment_method == "COD"){
+                        modal.find('#_paymethod option[value=COD]').attr('selected', true);
+                    }else{
+                        modal.find('#_paymethod option[value=CHEQUE]').attr('selected', true);
+                    }
+
+                    modal.find(".modal-title").html("Invoice #"+ invoice_no);
+                    modal.find('#_invoice_id').val(invoice_id);
+                    modal.find('#_invoice_no').val(invoice_no);
+                    
+                    
+                }
+            });
+        
+       
     });
 
     $(document).on("click" , ".view_logs" , function(){
@@ -125,6 +147,7 @@
         var c = confirm("Are you sure?");
         
         if(c == true){
+            $('#_paymethod').attr("disabled",false);
             form.submit();
         }
 
@@ -218,7 +241,7 @@
                                      <select class="form-control" name="payment_method" id="s_brand">
                                         <option value="">All Payment Method</option>
                                         <option value="COD" <?php echo ($this->input->get("payment_method") == "COD") ? "selected" : "" ; ?>>Cash On Delivery</option>
-                                        <option value="PAYCHEQUE" <?php echo ($this->input->get("payment_method") == "PAYCHEQUE") ? "selected" : "" ; ?>>Pay By Cheque</option>
+                                        <option value="CHEQUE" <?php echo ($this->input->get("payment_method") == "CHEQUE") ? "selected" : "" ; ?>>Pay By Cheque</option>
                                     </select>
                                 </div>
                             </div>
@@ -279,7 +302,7 @@
                                       </button>
                                       <ul class="dropdown-menu dropdown-menu-right">
                                         <?php if($row->payment_type_raw == "UNPAID") : ?>
-                                            <li><a href="javascript:void(0);" class="pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Pay Invoice</a></li>
+                                            <li><a href="javascript:void(0);" class="pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-href="<?php echo site_url('app/invoice/get_invoice_info/').$row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Pay Invoice</a></li>
                                         <?php else : ?>
                                              <li><a href="javascript:void(0);" class="view_logs" data-id="<?php echo $row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Logs</a></li>
                                         <?php endif; ?>
@@ -430,9 +453,9 @@
                     <input type="hidden" name="invoice_no" id="_invoice_no">
                     <div class="form-group">
                        <label>Payment Method</label>
-                       <select class="form-control" name="payment_method" id="_paymethod">
+                       <select class="form-control" name="payment_method" id="_paymethod" readonly="true" disabled="true">
                            <option value="COD">Cash on Delivery</option>
-                           <option value="PAYCHEQUE">Paycheque</option>
+                           <option value="CHEQUE">Pay by Cheque</option>
                        </select>
                     </div>
                     <div class="form-group _cheque hide">

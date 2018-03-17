@@ -83,6 +83,9 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Cancelled an Order');	
+
 				echo json_encode(["status" => true , "message" => "<span class='label label-danger'>Cancelled</span>"]);
 
 				break;
@@ -101,8 +104,11 @@ class Invoice extends MY_Controller {
 
 					//SEND ORDER STATUS EMAIL
 					$data['status'] = "Confirmed";					
-					$this->email->message($this->load->view('backend/email//order_status_email', $data , true));
+					$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 					$this->email->send();
+
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Successfully Updated Status to Confirmed Ordered');	
 
 					echo json_encode(["status" => true , "message" => convert_order_status(2)]);
 				}else{
@@ -127,6 +133,9 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Updated Status to On-Delivery');	
+
 				echo json_encode(["status" => true , "message" => convert_order_status(3)]);
 
 				break;
@@ -140,6 +149,9 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
+				$this->session->set_flashdata('status' , 'success');	
+				$this->session->set_flashdata('message' , 'Successfully Updated Status to Delivered');
+
 				echo json_encode(["status" => true , "message" => convert_order_status(4)]);
 
 				break;
@@ -151,6 +163,7 @@ class Invoice extends MY_Controller {
 	}
 
 	public function pay_invoice(){
+
 		if($response = $this->invoice->pay_invoice()){
 
 			$this->session->set_flashdata('status' , 'success');	
@@ -285,6 +298,14 @@ class Invoice extends MY_Controller {
 		$this->send_email_invoice($invoice_information , FCPATH.$invoice_information->invoice_pdf , true);
 
 		
+	}
+
+	public function get_invoice_info($invoice_id){
+		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
+
+
+		//print_r_die(json_encode(["status" => true, "data" => $invoice_information ]));
+		echo json_encode(["status" => true, "data" => $invoice_information ]);
 	}
 
 }

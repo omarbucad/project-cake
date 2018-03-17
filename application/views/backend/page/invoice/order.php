@@ -56,12 +56,15 @@
                             var a = $("<a>" , {href : "javascript:void(0);" , class : "btn btn-success btn-xs btn-click" , "data-type" : "delivered" , "data-id" : id , text : "Delivered"});
                             click.parent().html(a);
 
-                            $me.closest(".modal").modal("hide");
+                            $me.closest(".modal").modal("hide");                            
 
                         }else if(type == "delivered"){
                             $me.closest("tr").find(".status-here").html(json.message);
                             $me.parent().html("");
                         }
+                        $.notify("<?php echo $this->session->flashdata("message"); ?>" , { className:  "<?php echo $this->session->flashdata("status"); ?>" , position : "top center"});
+
+                            location.reload();
                     }else{
                         alert(json.message);
                     }
@@ -84,6 +87,24 @@
             thumbnail:true
         });
     });
+
+    $(document).on('click' , '.more-filter' , function(){
+        var val = $(this).data('value');
+
+        if(val == "hidden"){
+            $(this).data("value" , "show");
+            $('#view_advance_search').removeClass("hide");
+            $(this).text("Less Filter");
+            $('#_advance_search_value').val("true");
+        }else{
+            $(this).data("value" , "hidden");
+            $('#view_advance_search').addClass("hide");
+            $(this).text("More Filter");
+             $('#_advance_search_value').val("false");
+        }
+    });
+   
+
 </script>
 <style type="text/css">
     .daterangepicker.dropdown-menu {
@@ -120,44 +141,64 @@
                 <div class="card-body no-padding-left no-padding-right">
                     <form action="<?php echo site_url("app/invoice/order"); ?>" method="GET">
                         <div class="row">
-                            <div class="col-xs-12 col-lg-4">
+                            <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_name">Search by name or company name or email or order #</label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get("name"); ?>" id="s_name" placeholder="Search by name , company name , email , order #">
+                                    <label for="s_name">Order #</label>
+                                    <input type="text" name="order_no" value="<?php echo $this->input->get("invoice_no"); ?>" class="form-control" id="s_name" placeholder="Search by Order #">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="s_name">Search by Name , Company Name or Email</label>
+                                    <input type="text" name="name" value="<?php echo $this->input->get("name"); ?>" class="form-control" id="s_name" placeholder="Search by Name , Company Name or Email">
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="col-xs-12 col-lg-3 text-right">
+                                <button type="button" class="btn btn-link btn-vertical-center btn-same-size more-filter" data-value="hidden">More filter</button>
+                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
+                            </div>
+                        </div>
+                        <div class="row hide" id="view_advance_search">
+
+                            <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_name">Date period</label>
+                                    <input type="text" name="date" class="form-control daterange" autocomplete="off" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_roles">Status</label>
-                                    <select class="form-control " name="status" id="s_roles">
-                                        <option value="">- Select Status-</option>
-                                        <option value="C" <?php echo ($this->input->get("status") == "C") ? "selected" : "" ; ?> >Cancelled Order</option>
-                                        <option value="1"  <?php echo ($this->input->get("status") == "1") ? "selected" : "" ; ?>>Placed Order</option>
-                                        <option value="2"  <?php echo ($this->input->get("status") == "2") ? "selected" : "" ; ?>>Admin Confirm</option>
-                                        <option value="3"  <?php echo ($this->input->get("status") == "3") ? "selected" : "" ; ?>>On Delivery</option>
-                                        <option value="4"  <?php echo ($this->input->get("status") == "4") ? "selected" : "" ; ?>>Delivered</option>
+                                    <label for="s_brand">Payment Method</label>
+                                     <select class="form-control" name="payment_method" id="s_brand">
+                                        <option value="">All Payment Method</option>
+                                        <option value="COD" <?php echo ($this->input->get("payment_method") == "COD") ? "selected" : "" ; ?>>Cash On Delivery</option>
+                                        <option value="CHEQUE" <?php echo ($this->input->get("payment_method") == "CHEQUE") ? "selected" : "" ; ?>>Pay By Cheque</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_name">Date period</label>
-                                    <input type="text" name="date" class="form-control daterange" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
+                                    <label for="s_roles">Order Status</label>
+                                    <select class="form-control" name="order_stat" id="s_roles">
+                                        <option value="">- Select Order Status-</option>
+                                        <option value="C"  <?php echo ($this->input->get("order_stat") == "0") ? "selected" : "" ; ?>>Cancelled</option>
+                                        <option value="1"  <?php echo ($this->input->get("order_stat") == "1") ? "selected" : "" ; ?>>Processing</option>
+                                        <option value="2"  <?php echo ($this->input->get("order_stat") == "2") ? "selected" : "" ; ?>>Admin Confirm</option>
+                                        <option value="3"  <?php echo ($this->input->get("order_stat") == "3") ? "selected" : "" ; ?>>On Delivery</option>
+                                        <option value="4"  <?php echo ($this->input->get("order_stat") == "4") ? "selected" : "" ; ?>>Delivered</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-2  text-right">
-                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
-                            </div>
                         </div>
-                        
-                        
                     </form>
                 </div>
             </div>
         </div>
         <div class="container ">
 
-            <table class="customer-table">
+            <table class="customer-table" id="order">
                 <thead>
                     <tr>
                         <th width="20%">Name</th>
@@ -180,7 +221,10 @@
                                 <td ><span ><?php echo $row->items; ?></span></td>
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
                                 <td ><span ><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span></td>
-                                <td class="status-here"><?php echo $row->status; ?></td>
+                                <td class="status-here">
+                                    <span><?php echo $row->pay_method; ?></span>
+                                    <br><?php echo $row->status; ?>
+                                </td>
                                 <td ><span ><?php echo $row->created; ?></span></td>
                                 <td class="text-right">
                                     <span>

@@ -228,7 +228,7 @@ class Login extends MY_Controller {
 
 	public function register(){
 
-		$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|is_unique[customer.email]');
+		$this->form_validation->set_rules('username'		, 'Email Address'	, 'trim|required|valid_email|min_length[3]|callback_check_unique_active');
 		$this->form_validation->set_rules('password'		, 'Password'	    , 'trim|required|min_length[5]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[password]');
 
@@ -306,6 +306,16 @@ class Login extends MY_Controller {
 
 	            //redirect("/login/code/".$activation_code);
 	        }
+		}
+	}
+
+	public function check_unique_active($email){
+		$exist = $this->db->get_where('customer', array('email' => $email, 'deleted' => 'IS NULL'));
+		if ($exist) {
+			$this->form_validation->set_message('check_unique_active', 'Email already exists');
+            return FALSE;
+		}else{
+			return true;
 		}
 	}
 }

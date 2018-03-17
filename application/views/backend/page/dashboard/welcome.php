@@ -44,11 +44,92 @@
 
     $(document).on("click" , "#pending-order" , function(){
     	$(".panel-pending").toggle();
+
+        $(".panel-confirmed").attr("style", "display: none");
+        $(".panel-month").attr("style", "display: none");
+        $(".panel-week").attr("style", "display: none");
+        $(".panel-today").attr("style", "display: none");
+
+        $(".panel-confirmed").parent().addClass("hidden");
+        $(".panel-month").parent().addClass("hidden");
+        $(".panel-week").parent().addClass("hidden");
+        $(".panel-today").parent().addClass("hidden");
+
+        if($(".panel-pending").parent().hasClass("hidden")){
+            $(".panel-pending").parent().removeClass("hidden");
+        }
+
     });
 
     $(document).on("click" , "#confirmed-order" , function(){
     	$(".panel-confirmed").toggle();
+        $(".panel-month").attr("style", "display: none");
+        $(".panel-pending").attr("style", "display: none");
+        $(".panel-week").attr("style", "display: none");
+        $(".panel-today").attr("style", "display: none");
+
+        $(".panel-month").parent().addClass("hidden");
+        $(".panel-pending").parent().addClass("hidden");
+        $(".panel-week").parent().addClass("hidden");
+        $(".panel-today").parent().addClass("hidden");
+
+        if($(".panel-confirmed").parent().hasClass("hidden")){
+            $(".panel-confirmed").parent().removeClass("hidden");
+        }  
     });
+
+    $(document).on("click" , "#panel-month" , function(){
+        $(".panel-month").toggle();
+        $(".panel-confirmed").attr("style", "display: none");
+        $(".panel-pending").attr("style", "display: none");
+        $(".panel-week").attr("style", "display: none");
+        $(".panel-today").attr("style", "display: none");
+
+        $(".panel-confirmed").parent().addClass("hidden");
+        $(".panel-pending").parent().addClass("hidden");
+        $(".panel-week").parent().addClass("hidden");
+        $(".panel-today").parent().addClass("hidden");
+
+
+        if($(".panel-month").parent().hasClass("hidden")){
+            $(".panel-month").parent().removeClass("hidden");
+        }
+    });
+
+    $(document).on("click" , "#panel-week" , function(){
+        $(".panel-week").toggle();
+        $(".panel-confirmed").attr("style", "display: none");
+        $(".panel-pending").attr("style", "display: none");
+        $(".panel-month").attr("style", "display: none");
+        $(".panel-today").attr("style", "display: none");
+
+        $(".panel-confirmed").parent().addClass("hidden");
+        $(".panel-pending").parent().addClass("hidden");
+        $(".panel-month").parent().addClass("hidden");
+        $(".panel-today").parent().addClass("hidden");
+
+        if($(".panel-week").parent().hasClass("hidden")){
+            $(".panel-week").parent().removeClass("hidden");
+        }
+    });
+
+    $(document).on("click" , "#panel-today" , function(){
+        $(".panel-today").toggle();
+        $(".panel-confirmed").attr("style", "display: none");
+        $(".panel-pending").attr("style", "display: none");
+        $(".panel-month").attr("style", "display: none");
+        $(".panel-week").attr("style", "display: none");
+
+        $(".panel-confirmed").parent().addClass("hidden");
+        $(".panel-pending").parent().addClass("hidden");
+        $(".panel-month").parent().addClass("hidden");
+        $(".panel-week").parent().addClass("hidden");
+
+        if($(".panel-today").parent().hasClass("hidden")){
+            $(".panel-today").parent().removeClass("hidden");
+        }
+    });
+     
 </script>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -93,9 +174,9 @@
           </div>
 
     			<div class="row">
-    				<div class="col-lg-6 col-xs-12">
-	    				<div class="panel panel-success panel-pending" style="display: none;">
-						  	<div class="panel-heading">New Order</div>
+    				<div class="col-lg-12 col-xs-12">
+	    				<div class="panel panel-info panel-pending" style="display: none;">
+						  	<div class="panel-heading">New Orders</div>
 						  	<div class="panel-body">
 						  		<table class="table">
 						   			<thead>
@@ -136,14 +217,14 @@
 						  	</div>
 						</div>
 	    			</div>
-	    			<div class="col-lg-6 col-xs-12">
+	    			<div class="col-lg-12 col-xs-12">
 	    				<div class="panel panel-danger panel-confirmed" style="display: none;">
 						   	<div class="panel-heading">Unpaid Invoices</div>
 						   	<div class="panel-body">
 						   		<table class="table">
 						   			<thead>
 						   				<tr>
-						   					<th>Invoice Number</th>
+						   					<th>Invoice #</th>
 						   					<th>Price</th>
 						   					<th>Date Invoice</th>
 						   					<th></th>
@@ -165,6 +246,102 @@
 						   	</div>
 						</div>
 	    			</div>
+                    <div class="col-lg-12 col-xs-12">
+                        <div class="panel panel-success panel-month" style="display: none;">
+                            <div class="panel-heading">Monthly Sales <span class="pull-right"><?php echo $card_info["month"]["current"]["date"]; ?></span></div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice #</th>
+                                            <th>Price w/ GST</th>
+                                            <th>Payment Method</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($sales_data['month'] as $row) : ?>
+                                            <tr>
+                                                <td><span><?php echo $row->invoice_no; ?></span></td>
+                                                <td><span><?php echo $row->total_price; ?></span></td>
+                                                <td><span><?php echo $row->payment_method; ?></span></td>
+                                                <td>
+                                                    <span>
+                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <small><?php echo $row->invoice_date; ?></small>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-xs-12">
+                        <div class="panel panel-warning panel-week" style="display: none;">
+                            <div class="panel-heading">Weekly Sales <span class="pull-right"><?php echo $card_info["week"]["current"]["date"]; ?></span></div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice #</th>
+                                            <th>Price w/ GST</th>
+                                            <th>Payment Method</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($sales_data['week'] as $row) : ?>
+                                            <tr>
+                                                <td><span><?php echo $row->invoice_no; ?></span></td>
+                                                <td><span><?php echo $row->total_price; ?></span></td>
+                                                <td><span><?php echo $row->payment_method; ?></span></td>
+                                                <td>
+                                                    <span>
+                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <small><?php echo $row->invoice_date; ?></small>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-xs-12">
+                        <div class="panel panel-danger panel-today" style="display: none;">
+                            <div class="panel-heading">Today Sales <span class="pull-right"><?php echo $card_info["day"]["current"]["date"]; ?></span></div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice #</th>
+                                            <th>Price w/ GST</th>
+                                            <th>Payment Method</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($sales_data['today'] as $row) : ?>
+                                            <tr>
+                                                <td><span><?php echo $row->invoice_no; ?></span></td>
+                                                <td><span><?php echo $row->total_price; ?></span></td>
+                                                <td><span><?php echo $row->payment_method; ?></span></td>
+                                                <td>
+                                                    <span>
+                                                        <a href="<?php echo site_url("app/invoice/order?name=$row->invoice_no"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+                                                        <small><?php echo $row->invoice_date; ?></small>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
     			</div>
     		</div>
     	</div>
@@ -186,7 +363,7 @@
                        <label>Payment Method</label>
                        <select class="form-control" name="payment_method" id="_paymethod">
                            <option value="COD">Cash on Delivery</option>
-                           <option value="PAYCHEQUE">Paycheque</option>
+                           <option value="PAYCHEQUE">Pay by Cheque</option>
                        </select>
                     </div>
                     <div class="form-group _cheque hide">
