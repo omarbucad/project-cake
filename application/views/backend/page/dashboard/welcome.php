@@ -363,7 +363,7 @@
                        <label>Payment Method</label>
                        <select class="form-control" name="payment_method" id="_paymethod">
                            <option value="COD">Cash on Delivery</option>
-                           <option value="PAYCHEQUE">Pay by Cheque</option>
+                           <option value="CHEQUE">Pay by Cheque</option>
                        </select>
                     </div>
                     <div class="form-group _cheque hide">

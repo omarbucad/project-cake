@@ -37,12 +37,13 @@
                     if(json.status){
 
                         if(type == "cancel"){
-                           $me.closest("tr").find(".status-here").html(json.message);
-                           $me.parent().html(" ");
+
+                           $me.closest("tr").find(".status-here > span:last-child").remove();
 
                         }else if(type == "confirm"){
 
-                            $me.closest("tr").find(".status-here").html(json.message);
+                            $me.closest("tr").find(".status-here > span:last-child").remove();
+                            $me.closest("tr").find(".status-here").append(json.message);
 
                             var a = $("<a>" , {href : "javascript:void(0);" , class : "btn btn-success btn-xs btn-open-modal" , "data-id" : id , text : "Assign Driver"});
 
@@ -51,7 +52,8 @@
                         }else if(type == "on_delivery"){
 
                             var click = $me.closest(".modal").data("click");
-                            click.closest("tr").find(".status-here").html(json.message);
+                            click.closest("tr").find(".status-here > span:last-child").remove();
+                            click.closest("tr").find(".status-here").append(json.message);
 
                             var a = $("<a>" , {href : "javascript:void(0);" , class : "btn btn-success btn-xs btn-click" , "data-type" : "delivered" , "data-id" : id , text : "Delivered"});
                             click.parent().html(a);
@@ -59,14 +61,26 @@
                             $me.closest(".modal").modal("hide");                            
 
                         }else if(type == "delivered"){
-                            $me.closest("tr").find(".status-here").html(json.message);
+                            $me.closest("tr").find(".status-here > span:last-child").remove();
+                            $me.closest("tr").find(".status-here").append(json.message);
                             $me.parent().html("");
                         }
-                        $.notify("<?php echo $this->session->flashdata("message"); ?>" , { className:  "<?php echo $this->session->flashdata("status"); ?>" , position : "top center"});
 
+                        // EDIT :: sa json_encode nilagyan ko ng new element na "response" bale dun mo lalagay ung mga message mo sa notify
+                        $.notify(json.response , { className:  "success" , position : "top center"});
+                        
+
+                        /* 
+                            EDIT :: wag mo i reload dito sayang ung pagka ajax . para magamit ung notify mag return ka lang ng additional field dun sa echo json_encode sa
+                            invoice controller update_status_order 
+
+                            $.notify("<?php echo $this->session->flashdata("message"); ?>" , { className:  "<?php echo $this->session->flashdata("status"); ?>" , position : "top center"});
                             location.reload();
+                        */ 
+
                     }else{
-                        alert(json.message);
+
+                        $.notify(json.message , { className:  "danger" , position : "top center"});
                     }
                 }
             });
@@ -227,7 +241,7 @@
                                 <td ><span ><?php echo $row->total_price; ?></span></td>
                                 <td ><span ><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span></td>
                                 <td class="status-here">
-                                    <span><?php echo $row->pay_method; ?></span>
+                                    <?php echo $row->pay_method; ?>
                                     <br><?php echo $row->status; ?>
                                 </td>
                                 <td ><span ><?php echo $row->created; ?></span></td>

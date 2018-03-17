@@ -34,7 +34,7 @@
             </button>
             <li><a href="<?php echo site_url(); ?>">Go To Customer Panel</a></li>
             <li class="dropdown danger">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comment"></i> <?php echo count($notification_list); ?></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comment"></i> <?php echo $notification_list_count; ?></a>
                 <ul class="dropdown-menu danger  animated fadeInDown" style="width: 450px;">
                     <li class="title">
                         Notification

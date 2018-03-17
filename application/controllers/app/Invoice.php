@@ -83,10 +83,20 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
-				$this->session->set_flashdata('status' , 'success');	
-				$this->session->set_flashdata('message' , 'Successfully Cancelled an Order');	
 
-				echo json_encode(["status" => true , "message" => "<span class='label label-danger'>Cancelled</span>"]);
+				/*
+					EDIT :: since ajax request to kahit wag mo na gamitin tong set_flashdata gagana lang to sa next reload mo so ang magandang gawin i return mo nalang sa json mo ung response na gusto mo at un ung lagay sa notify sa script
+
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Successfully Cancelled an Order');	
+
+				*/
+				
+
+				// EDIT :: gamitin ang helper na convert_order_status 
+				//echo json_encode(["status" => true , "message" => "<span class='label label-danger'>Cancelled</span>"]);
+
+				echo json_encode(["status" => true , "message" => convert_order_status(0) , "response" => "Successfully Cancelled an Order"]);		
 
 				break;
 
@@ -107,10 +117,16 @@ class Invoice extends MY_Controller {
 					$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 					$this->email->send();
 
-					$this->session->set_flashdata('status' , 'success');	
-					$this->session->set_flashdata('message' , 'Successfully Updated Status to Confirmed Ordered');	
+					/*
+						EDIT :: since ajax request to kahit wag mo na gamitin tong set_flashdata gagana lang to sa next reload mo so ang magandang gawin i return mo nalang sa json mo ung response na gusto mo at un ung lagay sa notify sa script
 
-					echo json_encode(["status" => true , "message" => convert_order_status(2)]);
+						$this->session->set_flashdata('status' , 'success');	
+						$this->session->set_flashdata('message' , 'Successfully Updated Status to Confirmed Ordered');	
+					*/
+
+					
+
+					echo json_encode(["status" => true , "message" => convert_order_status(2) , "response" => 'Successfully Updated Status to Confirmed Ordered']);
 				}else{
 					echo json_encode(["status" => false , "message" => "Creating Invoice Failed"]);
 				}
@@ -133,8 +149,13 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
-				$this->session->set_flashdata('status' , 'success');	
-				$this->session->set_flashdata('message' , 'Successfully Updated Status to On-Delivery');	
+				/*
+					EDIT :: since ajax request to kahit wag mo na gamitin tong set_flashdata gagana lang to sa next reload mo so ang magandang gawin i return mo nalang sa json mo ung response na gusto mo at un ung lagay sa notify sa script
+
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Successfully Updated Status to On-Delivery');	
+				*/
+				
 
 				echo json_encode(["status" => true , "message" => convert_order_status(3)]);
 
@@ -149,10 +170,16 @@ class Invoice extends MY_Controller {
 				$this->email->message($this->load->view('backend/email/order_status_email', $data , true));
 				$this->email->send();
 
-				$this->session->set_flashdata('status' , 'success');	
-				$this->session->set_flashdata('message' , 'Successfully Updated Status to Delivered');
 
-				echo json_encode(["status" => true , "message" => convert_order_status(4)]);
+				/*
+					EDIT :: since ajax request to kahit wag mo na gamitin tong set_flashdata gagana lang to sa next reload mo so ang magandang gawin i return mo nalang sa json mo ung response na gusto mo at un ung lagay sa notify sa script
+
+					$this->session->set_flashdata('status' , 'success');	
+					$this->session->set_flashdata('message' , 'Successfully Updated Status to Delivered');
+				*/
+				
+
+				echo json_encode(["status" => true , "message" => convert_order_status(4) , "response" => 'Successfully Updated Status to Delivered']);
 
 				break;
 			

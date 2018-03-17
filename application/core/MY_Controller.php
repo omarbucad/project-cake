@@ -23,6 +23,7 @@ class MY_Controller extends CI_Controller {
             }else if($this->session->userdata("user")){
                 $this->data['session_data'] = $this->session->userdata("user");
                 $this->data['notification_list'] = $this->notification->notify_list();
+                $this->data['notification_list_count'] = count($this->notification->notify_list(false , true));
             }
         }
 
