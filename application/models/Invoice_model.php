@@ -550,6 +550,22 @@ class Invoice_model extends CI_Model {
            $result["month"][$key]->price = custom_money_format($value->price);
         }
 
+        foreach ($result["week"] as $key => $value) {
+           $result["week"][$key]->invoice_date = convert_timezone($value->invoice_date, true);
+           $result["week"][$key]->total_price = custom_money_format($value->total_price);
+           $result["week"][$key]->payment_method = convert_payment_status($value->payment_method);
+           $result["week"][$key]->price = custom_money_format($value->price);
+        }
+
+        foreach ($result["today"] as $key => $value) {
+           $result["today"][$key]->invoice_date = convert_timezone($value->invoice_date, true);
+           $result["today"][$key]->total_price = custom_money_format($value->total_price);
+           $result["today"][$key]->payment_method = convert_payment_status($value->payment_method);
+           $result["today"][$key]->price = custom_money_format($value->price);
+        }
+
+
+
         return $result;
     }
 }
