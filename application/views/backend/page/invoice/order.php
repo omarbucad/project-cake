@@ -170,7 +170,7 @@
                            
                            
                             <div class="col-xs-12 col-lg-3 text-right">
-                                <button type="button" class="btn btn-link btn-vertical-center btn-same-size more-filter" data-value="hidden">More filter</button>
+                                <button type="button" class="btn btn-link btn-vertical-center btn-same-size more-filter" data-value="hidden">More Filter</button>
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>
@@ -178,7 +178,7 @@
 
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
-                                    <label for="s_name">Date period</label>
+                                    <label for="s_name">Date Period</label>
                                     <input type="text" name="date" class="form-control daterange" autocomplete="off" value="<?php echo $this->input->get("date"); ?>" id="s_name" placeholder="Search by date">
                                 </div>
                             </div>
