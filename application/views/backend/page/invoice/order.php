@@ -251,7 +251,7 @@
                                             <tr>
                                                 <th>Product</th>
                                                 <th>Quantity</th>
-                                                <th colspan="2">Total Price</th>
+                                                <th colspan="2">Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -276,6 +276,21 @@
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Sub Total</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>GST 6%</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Total Price</td>
+                                                    <td></td>
+                                                </tr>
                                                 <tr>
                                                     <th colspan="3">Shipping Address</th>
                                                 </tr>
