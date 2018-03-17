@@ -239,16 +239,16 @@ class Invoice_model extends CI_Model {
             $result[$key]->status = convert_order_status($row->status);
 
             $result[$key]->shipping_address = $result[$key]->shipping_address_street1;
-            $result[$key]->shipping_address .= ($result[$key]->shipping_address_street2) ? ",<br>".$result[$key]->shipping_address_street2 : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_street2) ? ", <span>".$result[$key]->shipping_address_street2 : "";
             $result[$key]->shipping_address .= ($result[$key]->shipping_address_suburb) ? ",<br>".$result[$key]->shipping_address_suburb : "";
-            $result[$key]->shipping_address .= ($result[$key]->shipping_address_city) ? ",<br>".$result[$key]->shipping_address_city : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_city) ? ", <span>".$result[$key]->shipping_address_city : "";
             $result[$key]->shipping_address .= ($result[$key]->shipping_address_postcode) ? ",<br>".$result[$key]->shipping_address_postcode : "";
-            $result[$key]->shipping_address .= ($result[$key]->shipping_address_state) ? ",<br>".$result[$key]->shipping_address_state : "";
+            $result[$key]->shipping_address .= ($result[$key]->shipping_address_state) ? " <span>".$result[$key]->shipping_address_state : "";
 
             $result[$key]->address = $result[$key]->street1;
-            $result[$key]->address .= ($result[$key]->street2) ? ",<br>".$result[$key]->street2 : "";
+            $result[$key]->address .= ($result[$key]->street2) ? ", <span>".$result[$key]->street2 : "";
             $result[$key]->address .= ($result[$key]->suburb) ? ",<br>".$result[$key]->suburb : "";
-            $result[$key]->address .= ($result[$key]->city) ? ",<span>".$result[$key]->city : "";
+            $result[$key]->address .= ($result[$key]->city) ? ", <span>".$result[$key]->city : "";
             $result[$key]->address .= ($result[$key]->postcode) ? ",<br>".$result[$key]->postcode : "";
             $result[$key]->address .= ($result[$key]->state) ? " <span>".$result[$key]->state : "";
 
