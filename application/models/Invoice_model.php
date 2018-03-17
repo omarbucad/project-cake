@@ -91,11 +91,11 @@ class Invoice_model extends CI_Model {
 
 
             $result[$k]->address = $result[$k]->street1;
-            $result[$k]->address .= ($result[$k]->street2) ? ",<br>".$result[$k]->street2 : "";
+            $result[$k]->address .= ($result[$k]->street2) ? ", <span>".$result[$k]->street2 : "";
             $result[$k]->address .= ($result[$k]->suburb) ? ",<br>".$result[$k]->suburb : "";
-            $result[$k]->address .= ($result[$k]->state) ? ",<br>".$result[$k]->state : "";
+            $result[$k]->address .= ($result[$k]->state) ? ", <span>".$result[$k]->state : "";
             $result[$k]->address .= ($result[$k]->postcode) ? ",<br>".$result[$k]->postcode : "";
-            $result[$k]->address .= ($result[$k]->city) ? ",<br>".$result[$k]->city : "";
+            $result[$k]->address .= ($result[$k]->city) ? " <span>".$result[$k]->city : "";
 
             $item_image = $this->db->where("order_no" , $r->order_number)->where("deleted IS NULL")->get("customer_order_images")->result();
             
