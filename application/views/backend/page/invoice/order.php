@@ -279,17 +279,17 @@
                                                 <tr>
                                                     <td></td>
                                                     <td>Sub Total</td>
-                                                    <td></td>
+                                                    <td><?php echo $row->total_price; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td>GST 6%</td>
-                                                    <td></td>
+                                                    <td><?php echo $row->gst_price; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td>Total Price</td>
-                                                    <td></td>
+                                                    <td><?php echo $row->total_price_with_gst; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th colspan="3">Shipping Address</th>
