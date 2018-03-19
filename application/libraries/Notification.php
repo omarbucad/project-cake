@@ -40,7 +40,7 @@ class Notification {
 		foreach($result as $key => $row){
 			if($row->ref_type == "CUSTOMER"){
 				$result[$key]->sender = $this->CI->db->select("display_name as name")->where("customer_id" , $row->sender)->get("customer")->row();
-				$result[$key]->url    = $this->CI->config->site_url("app/invoice/order?name=".$row->ref_id);
+				$result[$key]->url    = $this->CI->config->site_url("app/invoice/order?order_no=".$row->ref_id);
 			}else{
 				$result[$key]->sender = $this->CI->db->select("name")->where("user_id" , $row->sender)->get("users")->row();
 				$result[$key]->url    = $this->CI->config->site_url("app/invoice?invoice_no=".$row->ref_id);
