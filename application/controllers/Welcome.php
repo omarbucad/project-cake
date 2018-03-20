@@ -42,9 +42,6 @@ class Welcome extends MY_Controller {
 			$this->data['result'] = $this->product->get_shop_list($s);
 		}
 
-
-
-
 		$this->load->view('frontend/master' , $this->data);
 	}
 

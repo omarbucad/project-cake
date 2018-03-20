@@ -23,7 +23,7 @@
 					<small><strong>Gravybaby Sdn. Bhd.</strong> (1147708-X)</small><br>
 					<small>M1-05-3A Menara 8trium, Level 5, Jalan Cempaka SD12/5,</small><br>
 					<small>Bandar Sri Damansara 52200 Kuala Lumpur, Malaysia.</small><br>
-					<small>Tel: +6012 212 2276 | Email: contact@travybaby.com</small><br>
+					<small>Tel: +6012 212 2276 | Email: contact@gravybaby.com</small><br>
 					<small>GST no.: 001963732992</small><br>
 				</td>
 				

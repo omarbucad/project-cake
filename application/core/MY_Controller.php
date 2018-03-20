@@ -37,6 +37,12 @@ class MY_Controller extends CI_Controller {
             ]);
         }
 
+        if($this->session->userdata("customer")){
+            $result = $this->db->where("customer_id" , $this->session->userdata("customer")->customer_id)->get("customer")->row();
+
+            $this->data['session_customer'] = $result;
+        }
+
         $config["per_page"] =  ($this->input->get("limit")) ? $this->input->get("limit") : 10;
         $config['reuse_query_string'] = true;
         $config["page_query_string"] = true;
@@ -653,34 +659,48 @@ class MY_Controller extends CI_Controller {
         $this->data['main_page'] = "backend/common/error/404";
     }
 
-    public function send_push_notification($driver_id){
-        $list = $this->db->where("user_id" , $driver_id)->get("push_token")->result();
+    public function send_push_notification($driver_id , $status = "ASSIGN"){
+        if($status == "ASSIGN"){
 
-        if($list){
-            $data['title'] = "You have got a new order for Delivery";
-            $data['body'] = "Click to view the job";
+            $list = $this->db->where("user_id" , $driver_id)->where("type" , "DRIVER")->get("push_token")->result();
 
-            $headers = array(
-                "Authorization:key=" . FIREBASE_SERVER_ID ,
-                "Content-Type:application/json" 
-            );
-
-            foreach($list as $row){
-                $fields = array("to" => $row->token , "notification" => $data);
-                $payload = json_encode($fields);
-
-                $curl_session = curl_init();
-                curl_setopt($curl_session, CURLOPT_URL, FCM_PATH );
-                curl_setopt($curl_session, CURLOPT_POST, true );
-                curl_setopt($curl_session, CURLOPT_HTTPHEADER, $headers );
-                curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, false );
-                curl_setopt($curl_session, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
-                curl_setopt($curl_session, CURLOPT_POSTFIELDS, $payload );
-
-                $result = curl_exec($curl_session);
-                curl_close($curl_session);
+            if($list){
+                $data['title'] = "You have got a new order for Delivery";
+                $data['body'] = "Click to view the job";
             }
+
+
+        }else if($status == "DELIVERY"){
+            $list = $this->db->where("user_id" , $driver_id['id'])->where("type" , "CUSTOMER")->get("push_token")->result();
+
+            if($list){
+                $data['title'] = "Order #".$driver_id['order_no'];
+                $data['body'] = "Will be delivered Today";
+            }
+
+        }
+
+        
+        $headers = array(
+            "Authorization:key=" . FIREBASE_SERVER_ID ,
+            "Content-Type:application/json" 
+        );
+
+        foreach($list as $row){
+            $fields = array("to" => $row->token , "notification" => $data);
+            $payload = json_encode($fields);
+
+            $curl_session = curl_init();
+            curl_setopt($curl_session, CURLOPT_URL, FCM_PATH );
+            curl_setopt($curl_session, CURLOPT_POST, true );
+            curl_setopt($curl_session, CURLOPT_HTTPHEADER, $headers );
+            curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, true );
+            curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, false );
+            curl_setopt($curl_session, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+            curl_setopt($curl_session, CURLOPT_POSTFIELDS, $payload );
+
+            $result = curl_exec($curl_session);
+            curl_close($curl_session);
         }
     }   
 

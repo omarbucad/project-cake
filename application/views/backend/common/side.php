@@ -34,10 +34,19 @@
                         </div>
                     </div>
                 </li>
-                <li class="<?php echo ($this->uri->segment(2) == "products") ? "active" : ""; ?>">
-                    <a href="<?php echo site_url('app/products'); ?>">
-                        <span class="icon fa fa-tags"></span><span class="title">Products</span>
+                <li class="panel panel-default dropdown <?php echo ($this->uri->segment(2) == "products") ? "active" : ""; ?>">
+                    <a data-toggle="collapse" href="#dropdown-element1">
+                        <span class="icon fa fa-tags"></span><span class="title">Catalogs</span>
                     </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-element1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a href="<?php echo site_url('app/products'); ?>">Products</a></li>
+                                <li><a href="<?php echo site_url('app/products/price'); ?>">Price Group</a></li>                               
+                            </ul>
+                        </div>
+                    </div>
                 </li>
                 <li class="<?php echo ($this->uri->segment(2) == "categories") ? "active" : ""; ?>">
                     <a href="<?php echo site_url('app/categories'); ?>">

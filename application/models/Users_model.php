@@ -109,6 +109,7 @@ class Users_model extends CI_Model {
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
 
+        $this->db->join("price_book pb" , "pb.price_book_id = c.price_book_id");
         $this->db->join("address a ", "a.address_id = c.physical_address_id");
         $this->db->where("c.deleted IS NULL");
 
@@ -133,6 +134,10 @@ class Users_model extends CI_Model {
                     # code...
                     break;
             }
+        }
+
+        if($group_id = $this->input->get("group_id")){
+            $this->db->where("c.price_book_id" , $this->hash->decrypt($group_id));
         }
 
         if($customer_id = $this->input->get("user_id")){
@@ -168,7 +173,7 @@ class Users_model extends CI_Model {
         $activation_code = $this->hash->encrypt(time().'_'.$this->input->post("email"));
 
         $this->db->insert("customer" , [
-            "password"              => $this->input->post("password") ,
+            "password"              => md5( $this->input->post("password") ) ,
             "email"                 => $this->input->post("email") ,
             "phone_number"          => $this->input->post("phone_number") ,
             "activation_code"       => $activation_code,
@@ -176,7 +181,9 @@ class Users_model extends CI_Model {
             "display_name"          => ($this->input->post("account_type") == "COMPANY") ? $this->input->post("manager_name") : $this->input->post("fullname"),
             "company_name"          => ($this->input->post("account_type") == "COMPANY") ? $this->input->post("company_name") : "" ,
             "status"                => 1 ,
-            "created"               => time()
+            "price_book_id"         => $this->hash->decrypt($this->input->post("price_group")),
+            "created"               => time(),
+            "account_type"          => $this->input->post("account_type")
         ]);
 
         $last_id = $this->db->insert_id();
@@ -192,6 +199,7 @@ class Users_model extends CI_Model {
 
     public function get_customer_information($customer_id){
         $result = $this->db->where("customer_id" , $customer_id)->get("customer")->row();
+        $result->price_book_id = $this->hash->encrypt($result->price_book_id);
         return $result;
     }
 
@@ -215,7 +223,8 @@ class Users_model extends CI_Model {
                 "phone_number"  => $post["phone_number"] ,
                 "company_name"  => NULL,
                 "account_type"  => $post['account_type'] ,
-                "status"        => $post['status']
+                "status"        => $post['status'] ,
+                "price_book_id" => $this->hash->decrypt($post['price_group'])
             ]);
         }
         else{
@@ -226,7 +235,8 @@ class Users_model extends CI_Model {
                 "company_name"  => $post["company_name"] ,
                 "phone_number"  => $post["phone_number"] ,
                 "account_type"  => $post['account_type'] ,
-                "status"        => $post['status']
+                "status"        => $post['status'] ,
+                "price_book_id" => $this->hash->decrypt($post['price_group'])
             ]);
         }
 

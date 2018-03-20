@@ -133,6 +133,7 @@ class Product_model extends CI_Model {
         foreach($result as $key => $row){
             $result[$key]->images     = $this->db->where("product_id" , $row->product_id)->where("primary_image" , 1)->get("products_images")->row();
             $result[$key]->product_id = $this->hash->encrypt($row->product_id);
+            $result[$key]->price_raw  = $row->price;
             $result[$key]->price      = custom_money_format($row->price);
             $result[$key]->status     = convert_status($row->status);
             $result[$key]->product_description = strlen($row->product_description) > 100 ? substr($row->product_description,0,100)."..." : $row->product_description;
@@ -156,7 +157,7 @@ class Product_model extends CI_Model {
         $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 12;
 
         $this->db->join("category c" , "c.category_id = p.category_id");
-
+        $this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
         if($search){
             if($category_id){
                 $this->db->like("p.product_name" , $category_id);
@@ -173,11 +174,12 @@ class Product_model extends CI_Model {
         if($count){
             return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
         }else{
-            $result = $this->db->limit($limit , $skip)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->result();
+            $result = $this->db->limit($limit , $skip)->where("pb.price_book_id" ,  $this->data['session_customer']->price_book_id)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->result();
         }
 
         $tmp = array();
         $tmp2 = array();
+
         foreach($result as $key => $row){
             $images = $this->db->where("product_id" , $row->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
             $result[$key]->images = $images;
@@ -198,6 +200,7 @@ class Product_model extends CI_Model {
             $tmp2[] = $tmp;
         }
 
+
         return $tmp2;
     }
 
@@ -214,6 +217,7 @@ class Product_model extends CI_Model {
     public function checkout(){
         
         $this->db->trans_start();
+
         $cart_data = $this->input->post("quantity");
         $product_id = array();
 
@@ -221,7 +225,9 @@ class Product_model extends CI_Model {
             $product_id[] = $id;
         }
 
-        $product_data = $this->db->where_in("product_id" , $product_id)->get("products")->result();
+        $this->db->select("pb.price , p.product_id , p.product_name");
+        $this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
+        $product_data = $this->db->where_in("p.product_id" , $product_id)->where("pb.price_book_id" ,  $this->data['session_customer']->price_book_id)->get("products p")->result();
 
         /*
             0 - cancelled Order
@@ -593,6 +599,138 @@ class Product_model extends CI_Model {
         $q = $this->db->get("invoice i")->row()->quantity;
         return ($q) ? $q : 0;
        //return $this->db->get("invoice i")->result();
+    }
+
+    public function get_price_group_select(){
+        $result = $this->db->where("deleted IS NULL")->order_by("group_name" , "ASC")->get("price_book")->result();
+
+        foreach($result as $r => $value){
+            $result[$r]->price_book_id = $this->hash->encrypt($value->price_book_id);
+            $result[$r]->status = convert_status($value->status);
+            $result[$r]->created = convert_timezone($value->created , true);
+        }
+
+        return $result;
+    }
+
+    public function get_price_group($count = false){
+        $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
+        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+
+        /*
+            TODO :: SEARCHING LOGIN HERE
+        */
+
+        if($name = $this->input->get("name")){
+            $this->db->like("group_name" , $name);
+        }
+
+        if($status = $this->input->get("status")){
+           switch ($status) {
+                case 'ACTIVE':
+                    $this->db->where("status" , 1);
+                    break;
+                 case 'INACTIVE':
+                    $this->db->where("status" , 0);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+
+        if($count){
+            return $result = $this->db->where("deleted IS NULL")->get("price_book")->num_rows();
+        }else if($id = $this->input->get("group_id")){
+            $result = $this->db->where("deleted IS NULL")->where("price_book_id" , $this->hash->decrypt($id))->get("price_book")->result();
+        }else{
+            $result = $this->db->where("deleted IS NULL")->limit($limit , $skip)->order_by("group_name" , "ASC")->get("price_book")->result();
+        }
+
+        foreach($result as $r => $value){
+            $result[$r]->price_book_id = $this->hash->encrypt($value->price_book_id);
+            $result[$r]->status = convert_status($value->status);
+            $result[$r]->created = convert_timezone($value->created , true);
+        }
+
+        return $result;
+    }
+
+    public function add_new_group(){
+
+        $this->db->trans_start();
+        
+        $this->db->insert("price_book" , [
+            "group_name"     => $this->input->post("category_name"),
+            "status"         => $this->input->post("category_status"),
+            "deletable"      => "YES" ,
+            "created"        => time()
+        ]);
+
+        $last_id = $this->db->insert_id();
+
+
+        $products = $this->get_products();
+        $products_batch = array();
+
+        foreach($products as $row){
+            $products_batch[] = array(
+                "price_book_id"     => $last_id,
+                "product_id"        => $this->hash->decrypt($row->product_id),
+                "price"             => $row->price_raw
+            );
+        }
+
+        $this->db->insert_batch("price_book_products" , $products_batch);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return $last_id;
+        }
+    }
+
+    public function get_group_price_by_id($id){
+        $result = $this->db->where("price_book_id" , $id)->get("price_book")->row();
+
+        $result->products = $this->db->where("price_book_id" , $id)->get("price_book_products")->result();
+
+        foreach($result->products as $key => $row){
+            $result->products[$key]->price = round($row->price , 2);
+            $result->products[$key]->product_id = $this->get_product_by_id($row->product_id);
+        }
+
+        return $result;
+    }
+
+    public function update_new_group($id){
+
+        $this->db->trans_start();
+
+        $this->db->where("price_book_id" , $id)->update("price_book",[
+            "group_name"    => $this->input->post("category_name"),
+            "status"        => $this->input->post("category_status")
+        ]);
+
+        $product = $this->input->post("product_id");
+
+        foreach($product as $product_id => $value){
+            $this->db->where([
+                "price_book_id" => $id ,
+                "product_id"    => $product_id
+            ])->update("price_book_products" , [
+                "price"         => $value
+            ]);
+        }
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

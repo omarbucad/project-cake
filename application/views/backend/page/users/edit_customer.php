@@ -74,21 +74,28 @@
             <form action="<?php echo site_url("app/users/edit/customer/".$customer_info->customer_id);?>" method="post" enctype="multipart/form-data" id="form_users">
                 <input type="hidden" name="<?php echo $csrf_token_name; ?>" value="<?php echo $csrf_hash; ?>">
                 <section class="sec_border_bottom">
-                    <h3>Profile</h3>
+                    <h3>Account Type</h3>
                     <div class="row">
                         <div class="col-xs-12 col-lg-4">
                             <p>Customer Account Details.</p>
                         </div>
                         <div class="col-xs-12 col-lg-4">
                             <div class="form-group radio-group">
-                                <label class="group-label">Account type:</label>
-                                <input type="radio" name="account_type" id="personal" 
-                                <?php echo ($customer_info->account_type=='PERSONAL') ? "checked='checked'" : ""; ?> value="PERSONAL"><label>Personal</label>
-
-                                <input type="radio" name="account_type" id="company" 
-                                <?php echo ($customer_info->account_type=='COMPANY') ? "checked='checked'" : ""; ?>
-                                value="COMPANY"><label>Company</label>
+                                <input type="radio" name="account_type" id="personal" <?php echo ($customer_info->account_type == 'PERSONAL') ? "checked='checked'" : ""; ?> value="PERSONAL"><label>Personal</label>
+                                <input type="radio" name="account_type" id="company" <?php echo ($customer_info->account_type == 'COMPANY') ? "checked='checked'" : ""; ?> value="COMPANY"><label>Company</label>
                             </div>
+                            
+                        </div>
+                    </div>
+                </section>
+                <section class="sec_border_bottom">
+                    <h3>Profile</h3>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <p>Customer Account Details.</p>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+
                             <div class="form-group company">
                                 <label for="name">Manager Name *</label>
                                 <input type="text" name="manager_name" class="form-control" placeholder="Manager Name" id="manager_name" autocomplete="off" value="<?php echo $customer_info->display_name;?>">
@@ -114,6 +121,40 @@
                                 <select name="status" id="status" class="form-control"> value="<?php echo $customer_info->status; ?>">
                                 	<option <?php echo ($customer_info->status == 1) ? "selected" : "" ; ?> value="1">Active</option>
                                 	<option <?php echo ($customer_info->status == 0) ? "selected" : "" ; ?> value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="sec_border_bottom">
+                    <h3>Price Group</h3>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <p>Customer Account Details.</p>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="form-group">
+ 
+                                <select class="form-control" name="price_group">
+                                    <?php foreach($price_group_list as $key => $row) : ?>
+                                            <option value="<?php echo $row->price_book_id; ?>" <?php echo ($row->price_book_id ==  $customer_info->price_book_id) ? "selected" : "" ;?>><?php echo $row->group_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="sec_border_bottom">
+                    <h3>Status</h3>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <p>Customer Account Details.</p>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="form-group">
+                                <select name="status" id="status" class="form-control"> value="<?php echo $customer_info->status; ?>">
+                                    <option <?php echo ($customer_info->status == 1) ? "selected" : "" ; ?> value="1">Active</option>
+                                    <option <?php echo ($customer_info->status == 0) ? "selected" : "" ; ?> value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>

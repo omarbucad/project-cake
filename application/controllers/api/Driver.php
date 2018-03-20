@@ -147,7 +147,8 @@ class Driver extends CI_Controller{
 		if($this->post){
 
 			$check = $this->db->where([
-				"device_id"	=> $this->post->device_id
+				"device_id"	=> $this->post->device_id ,
+				"type"		=> $this->post->type,
 			])->get("push_token")->row();
 
 			if(!$check){
@@ -155,6 +156,7 @@ class Driver extends CI_Controller{
 					"user_id"	=> $this->post->user_id ,
 					"token"		=> $this->post->token ,
 					"device_id" => $this->post->device_id ,
+					"type"		=> $this->post->type,
 					"updated"	=> time()
 				]);
 			}else{
@@ -175,7 +177,8 @@ class Driver extends CI_Controller{
 
 			$this->db->where([
 				"user_id"	=> $this->post->user_id ,
-				"device_id"	=> $this->post->device_id
+				"device_id"	=> $this->post->device_id ,
+				"type"		=> "DRIVER"
 			])->delete("push_token");
 
 			echo json_encode(["status" => true]);
@@ -215,6 +218,7 @@ class Driver extends CI_Controller{
 			$this->db->where("order_number" , $this->post->order_number)->update("customer_order" , [
 				"start_driving" => time()
 			]);
+			echo json_encode(["status" => true]);
 		}
 	}
 

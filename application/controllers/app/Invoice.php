@@ -63,7 +63,7 @@ class Invoice extends MY_Controller {
 		$btn = $this->input->post("btn_click");
 		$order_id = $this->input->post("order_id");
 
-		$this->db->select("email");
+		$this->db->select("email , c.customer_id , co.order_number");
 		$email = $this->db->join("customer c", "c.customer_id = co.customer_id")->where("order_id",$order_id)->get("customer_order co")->row();
 
 		$data['order_no'] = $order_id;
@@ -141,8 +141,15 @@ class Invoice extends MY_Controller {
 					"driver_note"			=> $this->input->post("note"),
 					"place_delivery_date"	=> time()
 				]);
-
+				
+				//PUSH FOR DRIVER
 				$this->send_push_notification($this->input->post("selected_driver"));
+
+				//PUSH FOR CUSTOMER
+				$this->send_push_notification([
+					"id" => $email->customer_id  ,
+					"order_no" => $email->order_number
+				], "DELIVERY");
 
 				//SEND ORDER STATUS EMAIL
 				$data['status'] = "On-Delivery";					

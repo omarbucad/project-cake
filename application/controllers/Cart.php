@@ -34,8 +34,17 @@ class Cart extends MY_Controller {
 		$data['items'] -= 1;
 		$data['price'] -= $a->price_raw;
 
-
-		$this->session->set_userdata("cart" , $data);
+		if(count($data['list']) == 0){
+			$this->session->set_userdata("cart" , [
+                "items" => 0 ,
+                "price" => 0 ,
+                "price_raw" => 0,
+                "list"  => array()
+            ]);
+		}else{
+			$this->session->set_userdata("cart" , $data);
+		}
+		
 
 		redirect("/cart" , "refresh");
 	}

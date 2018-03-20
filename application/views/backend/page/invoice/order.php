@@ -158,7 +158,7 @@
                             <div class="col-xs-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="s_name">Order #</label>
-                                    <input type="text" name="order_no" value="<?php echo $this->input->get("invoice_no"); ?>" class="form-control" id="s_name" placeholder="Search by Order #">
+                                    <input type="text" name="order_no" value="<?php echo $this->input->get("order_no"); ?>" class="form-control" id="s_name" placeholder="Search by Order #">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-6">

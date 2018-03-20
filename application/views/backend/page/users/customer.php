@@ -37,7 +37,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-3 col-lg-offset-3 text-right">
+                            <div class="col-xs-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="s_roles">Price Group</label>
+                                    <select class="form-control" id="s_roles" name="group_id">
+                                        <option value="">- Select Group -</option>
+                                        <?php foreach($price_group_list as $row) : ?>
+                                            <option value="<?php echo $row->price_book_id; ?>" <?php echo ($this->input->get("group_id") == $row->price_book_id) ? "selected" : ""; ?>><?php echo $row->group_name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-3  text-right">
                                 <input type="submit" name="submit" value="Search" class="btn btn-primary btn-vertical-center btn-same-size">
                             </div>
                         </div>
@@ -54,7 +65,8 @@
                     <tr>
                         <th width="20%">Name</th>
                         <th width="20%">Email</th>
-                        <th width="45%">Address</th>
+                        <th width="25%">Address</th>
+                        <th width="20%">Price Group</th>
                         <th width="10%">Status</th>
                         <th width="5%"></th>
                     </tr>
@@ -66,6 +78,7 @@
                                 <td><span><a href="<?php echo site_url("app/users/view/customer_info/$row->customer_id"); ?>"><?php echo $row->display_name; ?></a></span></td>
                                 <td><span><?php echo $row->email; ?></span></td>
                                 <td><span><?php echo $row->address; ?></span></td>
+                                <td><span><?php echo $row->group_name; ?></span></td>
                                 <td><span><?php echo $row->status; ?></span></td>
                                 <td><span><a class="btn btn-xs btn-success" href="<?php echo site_url("app/users/edit/customer/$row->customer_id"); ?>">Edit</a></span></td>
                             </tr>

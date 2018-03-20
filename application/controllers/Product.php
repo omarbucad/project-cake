@@ -47,6 +47,18 @@ class Product extends MY_Controller {
 			$data['items'] += 1;
 
 			$result = $this->product->get_product_by_id($product_id);
+
+			
+
+			if($result){
+				$price_book = $this->db->where([
+	                "price_book_id" =>  $this->data['session_customer']->price_book_id ,
+	                "product_id"    => $product_id
+	            ])->get("price_book_products")->row(); 
+
+	            $result->price_raw = $price_book->price;
+			}
+
 			$result->qty = $qty;
 
 			$data['price'] += ($result->price_raw * $result->qty);

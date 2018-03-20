@@ -173,6 +173,19 @@ class Login extends CI_Controller {
 			echo json_encode(["status" => true]);
 		}
 	}
+
+	public function customer_logout(){
+		if($this->post){
+
+			$this->db->where([
+				"user_id"	=> $this->post->user_id ,
+				"device_id"	=> $this->post->device_id ,
+				"type"		=> "CUSTOMER"
+			])->delete("push_token");
+
+			echo json_encode(["status" => true]);
+		}
+	}
 }
 
 

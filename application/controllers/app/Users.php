@@ -7,6 +7,7 @@ class Users extends MY_Controller {
        parent::__construct();
 
        $this->load->model("Users_model" , "users");
+       $this->load->model("Product_model" , "product");
     }
 
 
@@ -65,11 +66,14 @@ class Users extends MY_Controller {
 		$this->pagination->initialize($this->data['config']);
 		$this->data["links"] = $this->pagination->create_links();
 		$this->data['result']	 = $this->users->view_customer();
+		$this->data['price_group_list'] = $this->product->get_price_group_select();
+
 		$this->load->view('backend/master' , $this->data);
 	}
 
 	public function add_customer(){
 		$this->form_validation->set_rules('email'				, 'Email'			    , 'trim|required|is_unique[customer.email]');
+
 		if($this->input->post('account_type') == 'PERSONAL'){
 			$this->form_validation->set_rules('fullname'	, 'Full Name'	, 'trim|required');
 		}else{
@@ -88,10 +92,12 @@ class Users extends MY_Controller {
 
 			$this->data['page_name'] = "Add Customer";
 			$this->data['main_page'] = "backend/page/users/add_customer";
+			$this->data['price_group_list'] = $this->product->get_price_group_select();
 
 			$this->load->view('backend/master' , $this->data);
 
 		}else{
+
 			if($last_id = $this->users->add_customer()){
 				$this->session->set_flashdata('status' , 'success');	
 				$this->session->set_flashdata('message' , 'Successfully Added a Customer');	
@@ -126,8 +132,8 @@ class Users extends MY_Controller {
 			$this->data['main_page'] = "backend/page/users/edit_customer";
 			$this->data['customer_info'] = $this->users->get_customer_information($customer_id);
 			$this->data['customer_address'] = $this->users->get_customer_address($this->data['customer_info']->physical_address_id);
+			$this->data['price_group_list'] = $this->product->get_price_group_select();
 
-			//print_r_die($this->data['customer_address']);
 
 			$this->load->view('backend/master' , $this->data);
 		}else{
