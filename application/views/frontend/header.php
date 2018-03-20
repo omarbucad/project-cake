@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo site_url("/"); ?>">
+          <a class="navbar-brand" href="<?php echo ($this->session->userdata("customer")) ? site_url("/") :  site_url("/login"); ?>">
                <img alt="Brand" src="<?php echo site_url("public/img/GB.png"); ?>" width="150px;">
           </a>
         </div>

@@ -107,8 +107,8 @@
 				<tr>
 					<th style="padding: 5px;border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $key+1; ?> <?php echo $i->product_name;?></th>
 					<th style="padding: 5px;text-align: center;border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $i->quantity;?></th>
-					<th style="padding: 5px;text-align: center;border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $i->product_price;?></th>
-					<th style="padding: 5px;text-align: center;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $i->total_price;?></th>
+					<th style="padding: 5px;text-align: right;border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $i->product_price;?></th>
+					<th style="padding: 5px;text-align: right;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;"><?php echo $i->total_price;?></th>
 				</tr>
 			<?php endforeach; ?>
 
