@@ -8,6 +8,10 @@ class Welcome extends MY_Controller {
        parent::__construct();
 
        $this->load->model("Product_model" , "product");
+
+       if(!$this->session->userdata("customer")){
+			redirect("/login", "refresh");
+		}
     }
 
 	public function index(){

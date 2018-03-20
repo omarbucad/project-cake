@@ -42,11 +42,11 @@
 							      <input type="checkbox" name="remember_me"> Remember Me
 							    </label>
 							</div>
-							<hr>
+							<!-- <hr>
 							<div class="text-center">
-								<small><p class="help-block">Not Registered? <a href="<?php echo site_url('login/register');?>">Click Here</a>.</p></small>
+								<small><p class="help-block">Not Registered? <a href="<?php //echo site_url('login/register');?>">Click Here</a>.</p></small>
 								
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
