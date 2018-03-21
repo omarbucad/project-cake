@@ -151,7 +151,7 @@
                   </div>
                 </a>
                 <div class="card-body">
-                  <h4 class="card-title">
+                  <h4 class="card-title" style="min-height: 50px;">
                     <a href="<?php echo site_url("product/?id=$row->product_id"); ?>"><?php echo $row->product_name; ?></a>
                   </h4>
                   <h5><?php echo $row->price; ?></h5>

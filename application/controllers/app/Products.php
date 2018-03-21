@@ -164,6 +164,7 @@ class Products extends MY_Controller {
 		$this->data['main_page'] = "backend/page/products/price";
 		$this->data['page_name'] = "Price Group";
 		$this->data['result']	 = $this->product->get_price_group();
+
 		//PAGINATION
 		$this->data['config']["base_url"] = base_url("app/categories/") ;
 		$this->data['config']["total_rows"] = $this->product->get_price_group(true);

@@ -111,7 +111,9 @@
                                 
                                 <td ><span>
                                     <a href="<?php echo site_url("app/products/update_group/".$row->price_book_id); ?>" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</a>
-                                    <a href="javascript:void(0);" data-href="<?php echo site_url("app/products/remove_group/".$row->price_book_id); ?>" class="remove-row btn btn-xs btn-danger"><i class="fa fa-edit"></i> Remove</a>
+                                    <?php if($row->deletable == "YES") : ?>
+                                        <a href="javascript:void(0);" data-href="<?php echo site_url("app/products/remove_group/".$row->price_book_id); ?>" class="remove-row btn btn-xs btn-danger"><i class="fa fa-edit"></i> Remove</a>
+                                    <?php endif; ?>
                                 </span></td>
                             </tr>
                         <?php endforeach; ?>
