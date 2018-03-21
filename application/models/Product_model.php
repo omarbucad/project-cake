@@ -20,6 +20,20 @@ class Product_model extends CI_Model {
 
         $this->multiple_upload($last_id , true);
 
+        $price_book = $this->db->select("price_book_id")->where("deleted IS NULL")->get("price_book")->result();
+
+        $price_book_batch = array();
+
+        foreach($price_book as $b){
+            $price_book_batch[] = array(
+                "price_book_id" => $b->price_book_id ,
+                "product_id"    => $last_id ,
+                "price"         => $this->input->post("product_price")
+            );
+        }
+
+        $this->db->insert_batch("price_book_products" , $price_book_batch);
+
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE){
@@ -696,11 +710,13 @@ class Product_model extends CI_Model {
     public function get_group_price_by_id($id){
         $result = $this->db->where("price_book_id" , $id)->get("price_book")->row();
 
-        $result->products = $this->db->where("price_book_id" , $id)->get("price_book_products")->result();
+        $this->db->join("products p" , "p.product_id = pb.product_id");
+        $result->products = $this->db->where("price_book_id" , $id)->where("p.status" , 1)->where("p.deleted IS NULL")->get("price_book_products pb")->result();
 
         foreach($result->products as $key => $row){
             $result->products[$key]->price = round($row->price , 2);
             $result->products[$key]->product_id = $this->get_product_by_id($row->product_id);
+            $result->products[$key]->product_id->product_id = $this->hash->encrypt($result->products[$key]->product_id->product_id);
         }
 
         return $result;
@@ -720,7 +736,7 @@ class Product_model extends CI_Model {
         foreach($product as $product_id => $value){
             $this->db->where([
                 "price_book_id" => $id ,
-                "product_id"    => $product_id
+                "product_id"    => $this->hash->decrypt($product_id)
             ])->update("price_book_products" , [
                 "price"         => $value
             ]);

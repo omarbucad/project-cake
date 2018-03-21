@@ -44,14 +44,16 @@ class Products extends CI_Controller{
 	public function get_products($category_id) {
 
 		$category_id = $this->security->xss_clean($category_id);
+		$price_book_id = $this->getPriceBookId();
 
-		$this->db->select("product_id , product_name , price , category_id , short_description");
-
+		$this->db->select("p.product_id , p.product_name , pb.price , p.category_id , p.short_description");
+		$this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
+		
 		if($category_id != "all" AND is_numeric($category_id)){
 			$this->db->where("category_id" , $category_id);
 		}
 
-		$result = $this->db->where("status" , 1)->order_by("product_position" , "ASC")->get("products p")->result();
+		$result = $this->db->where("status" , 1)->where("pb.price_book_id" , $price_book_id)->where("p.deleted IS NULL")->order_by("product_position" , "ASC")->get("products p")->result();
 
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
@@ -75,7 +77,12 @@ class Products extends CI_Controller{
 
 	#get all products
 	public function get_products_by_name($product_name) {
-		$result = $this->db->like("product_name" , $product_name)->where("status" , 1)->order_by("product_name" , "ASC")->get("products")->result();
+
+		$price_book_id = $this->getPriceBookId();
+
+		$this->db->select("p.* , pb.price");
+		$this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
+		$result = $this->db->like("p.product_name" , $product_name)->where("pb.price_book_id" , $price_book_id)->where("p.status" , 1)->where("p.deleted IS NULL")->order_by("p.product_name" , "ASC")->get("products p")->result();
 
 		foreach($result as $key => $row){
 			$image = $this->db->where("primary_image" , 1)->where("product_id" , $row->product_id)->get("products_images")->row();
@@ -100,9 +107,11 @@ class Products extends CI_Controller{
 	public function get_product_by_id($product_id) {
 		
 		$product_id = $this->security->xss_clean($product_id);
+		$price_book_id = $this->getPriceBookId();
 
-		$this->db->select("product_id , product_name , product_description , price");
-		$result = $this->db->where("product_id" , $product_id)->where("status" , 1)->get("products p")->row();
+		$this->db->select("p.product_id , p.product_name , p.product_description , pb.price");
+		$this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
+		$result = $this->db->where("p.product_id" , $product_id)->where("pb.price_book_id" , $price_book_id)->where("p.status" , 1)->where("p.deleted IS NULL")->get("products p")->row();
 
 		if($result){
 			$images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
@@ -217,6 +226,11 @@ class Products extends CI_Controller{
         	echo json_encode(["status" => false , "message" => "No Results..."]);
         }
         
+	}
+
+	private function getPriceBookId(){
+		$customer_id = $this->post->customer_id;
+		return $this->db->select("price_book_id")->where("customer_id" , $customer_id)->get("customer")->row()->price_book_id;
 	}
 
 	#getting the order information

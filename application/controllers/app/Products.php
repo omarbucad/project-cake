@@ -254,7 +254,7 @@ class Products extends MY_Controller {
 
     	$this->db->select('p.price , p.product_name , pb.price as custom_price , pb.product_id');
     	$this->db->join("products p" , "p.product_id = pb.product_id");
-    	$result = $this->db->where("price_book_id" , $id)->order_by("product_name" , "ASC")->get("price_book_products pb")->result();	
+    	$result = $this->db->where("price_book_id" , $id)->where("p.status" , 1)->where("p.deleted IS NULL")->order_by("product_name" , "ASC")->get("price_book_products pb")->result();	
 
     	foreach ($result as $key => $value) {
     		$result[$key]->price = custom_money_format($value->price);
