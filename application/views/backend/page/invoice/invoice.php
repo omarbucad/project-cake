@@ -221,6 +221,7 @@
         window.location.assign(url);
     });
 
+
 </script>
 <style type="text/css">
     .daterangepicker.dropdown-menu {
@@ -232,6 +233,67 @@
     .lg-outer{
         z-index: 999999!important;
     }
+    .header-fixed{
+        width: 100%;
+    }
+    .header-fixed > thead,
+    .header-fixed > tbody,
+    .header-fixed > thead > tr,
+    .header-fixed > tbody > tr,
+    .header-fixed > thead > tr > th,
+    .header-fixed > tbody > tr > td {
+        display: block;
+    }
+    .header-fixed > tbody > tr:after,
+    .header-fixed > thead > tr:after {
+        content: ' ';
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+
+    .header-fixed > tbody {
+        overflow-y: auto;
+        height: 445px;
+    }
+
+    .header-fixed > tbody > tr > td,
+    .header-fixed > thead > tr > th {
+        width: 15%;
+        float: left;
+        border-bottom: 0;
+    }
+    .header-fixed > tbody > tr > td:nth-child(3){
+        padding-left: 10px;
+    }
+    .header-fixed > tbody > tr > td:nth-child(4){
+        padding-left: 14px;
+    }
+    .header-fixed > tbody > tr > td:nth-child(5){
+        padding-left: 17px;
+    }
+    .header-fixed > tbody > tr > td:nth-child(6){
+        padding-left: 18px;
+    }
+
+    .header-fixed > tbody > tr > td:nth-child(1),
+    .header-fixed > thead > tr > th:nth-child(1){
+        width: 5% !important;
+    }
+    .header-fixed > tbody > tr > td:nth-child(5),
+    .header-fixed > thead > tr > th:nth-child(5){
+        width: 15% !important;
+    }
+    .header-fixed > tbody > tr > td:nth-child(6),
+    .header-fixed > thead > tr > th:nth-child(6){
+        width: 25% !important;
+    }
+    .header-fixed > tbody > tr > td:nth-child(7),
+    .header-fixed > thead > tr > th:nth-child(7){
+        width: 10% !important;
+    }
+
+   
 </style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
@@ -344,10 +406,10 @@
         </div>
 
         <div class="container ">
-            <table class="customer-table">
+            <table class=" table header-fixed">
                 <thead>
                     <tr>
-                        <th><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
+                        <th style="width: "><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
                         <th width="25%">Invoice No</th>
                         <th width="10%">Price</th>
                         <th width="10%">Payment Method</th>
