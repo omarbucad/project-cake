@@ -157,7 +157,70 @@
         $('.animated-thumbnail').lightGallery({
             thumbnail:true
         });
+        
     });
+
+    $(document).on("click" , ".tr_invoice_price" , function(){
+        if($(this).attr("checked","true")){
+
+            var a = 0.00;
+            a = parseFloat(a);
+            
+            $(".tr_invoice_price:checked").each(function() {
+                var rmprice =  $(this).data("id");
+                var priceonly = rmprice.replace(/[^0-9\.]/g, '');
+                price = parseFloat(priceonly);
+                a = a + price;
+                a = parseFloat(Number(a).toFixed(2));
+            });
+            var totalselected = $(".tr_invoice_price:checked").length;
+            var checkboxes = $(".tr_invoice_price").length;
+
+            $("#totalinvoice").text("RM " + a);
+            $("#selected_of").text(totalselected + " of " + checkboxes + " Invoices Selected")
+        }
+        
+
+    });
+
+     $(document).on("click" , "#select_all" , function(){
+
+        if($(this).is(":checked")){
+            var a = 0.00;
+            a = parseFloat(a);
+
+            $(".tr_invoice_price").each(function() {
+                $(this).prop("checked", true);
+
+                var rmprice =  $(this).data("id");
+                var priceonly = rmprice.replace(/[^0-9\.]/g, '');
+                price = parseFloat(priceonly);
+                a = a + price;
+                a = parseFloat(Number(a).toFixed(2));
+            });
+
+            var totalselected = $(".tr_invoice_price:checked").length;
+            var checkboxes = $(".tr_invoice_price").length;
+
+            $("#totalinvoice").text("RM " + a);
+            $("#selected_of").text(totalselected + " of " + checkboxes + " Invoices Selected");
+        }else{
+            var checkboxes = $(".tr_invoice_price").length;
+            $(".tr_invoice_price:checked").each(function() {
+                $(this).prop("checked" , false);
+                 $("#totalinvoice").text("RM " + 0.00);
+                $("#selected_of").text("0 of " + checkboxes + " Invoices Selected");
+            });
+        }
+
+    });
+
+    $(document).on("change", "#selectlimit", function(){
+        var url = "<?php echo site_url('app/invoice/?limit='); ?>" + $("#selectlimit").find(":selected").val();
+
+        window.location.assign(url);
+    });
+
 </script>
 <style type="text/css">
     .daterangepicker.dropdown-menu {
@@ -172,10 +235,9 @@
 </style>
 <div class="container-fluid margin-bottom">
     <div class="side-body padding-top">
-        
+        <?php $this->load->view("backend/common/sales_box"); ?>
 
         <div class="container">
-            <?php $this->load->view("backend/common/sales_box"); ?>
         	<h1>Invoice</h1>
         </div>
 
@@ -259,13 +321,33 @@
                         </div>
                     </form>
                 </div>
+                <div class="row col-lg-4">
+                    <table class="table table-bordered">
+                    <tr>
+                        <td style="width: 15%;"><h3>Total: </h3></td>
+                        <td><h3><span id="totalinvoice"></span></h3> <span id="selected_of" class="help-block"></span></td>
+                    </tr>
+                    </table>
+                </div>
+                <div class="form-group col-lg-2 pull-right" style="position: absolute;right: 0;bottom: 0;">
+                    <label for="limit" style="display: inline-block;margin-right: 10px;">Show </label>
+                    <div style="display: inline-block;">
+                        <select name="limit" id="selectlimit" class="form-control" value="<?php echo $this->input->get('limit');?>" >
+                            <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
+                            <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
+                            <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
+                            <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
+                        </select>                        
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="container ">
- 
             <table class="customer-table">
                 <thead>
                     <tr>
+                        <th><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
                         <th width="25%">Invoice No</th>
                         <th width="10%">Price</th>
                         <th width="10%">Payment Method</th>
@@ -277,7 +359,10 @@
                 <tbody>
                     <?php if($result) : ?>
                         <?php foreach($result as $key => $row) : ?>
-                            <tr class="customer-row">
+                            <tr>
+                                <td>
+                                    <input data-id="<?php echo $row->total_price; ?>" type="checkbox" class="tr_invoice_price">
+                                </td>
                                 <td>
                                     <span><?php echo $row->invoice_no; ?></span>
                                 </td>

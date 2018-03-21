@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <i class="icon fa fa-tags fa-4x"></i>
                     <div class="content">
-                        <div class="title"><?php echo $card_info["day"]["current"]["sales"]; ?></div>
+                        <div class="title" style="font-size: 2.8em;"><?php echo $card_info["day"]["current"]["sales"]; ?></div>
                         <div class="sub-title">Today's Sale</div>
                         <span></span>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <i class="icon fa fa-truck fa-4x"></i>
                     <div class="content">
-                        <div class="title"><?php echo $card_info["week"]["current"]["sales"]; ?></div>
+                        <div class="title" style="font-size: 2.8em;"><?php echo $card_info["week"]["current"]["sales"]; ?></div>
                         <div class="sub-title">Weekly Sales</div>
                     </div>
                     <div style="overflow: hidden;margin-top: 10px;">
@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <i class="icon fa fa-check-circle fa-4x"></i>
                     <div class="content">
-                        <div class="title"><?php echo $card_info["month"]["current"]["sales"]; ?></div>
+                        <div class="title" style="font-size: 2.8em;"><?php echo $card_info["month"]["current"]["sales"]; ?></div>
                         <div class="sub-title">Monthly Sales</div>
                     </div>
                     <div style="overflow: hidden;margin-top: 10px;">

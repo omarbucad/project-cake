@@ -154,7 +154,7 @@ class Invoice_model extends CI_Model {
 
     public function get_invoice($count = false , $view_all = false){
         $skip = ($this->input->get("per_page")) ? $this->input->get("per_page") : 0;
-        $limit = ($this->input->get("limit")) ? $this->input->get("limit") : 10;
+        $limit = ($this->input->get("limit") == "all") ? 0 : $this->input->get("limit");
         $sort_by = ($this->input->get("sort_by")) ? $this->input->get("sort_by") : "i.invoice_date";
         $sort = ($this->input->get("sort")) ? $this->input->get("sort") : "DESC";
         
