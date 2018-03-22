@@ -244,6 +244,11 @@
     .header-fixed > tbody > tr > td {
         display: block;
     }
+    .header-fixed > thead{
+        background-color: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
     .header-fixed > tbody > tr:after,
     .header-fixed > thead > tr:after {
         content: ' ';
@@ -263,6 +268,7 @@
         float: left;
         border-bottom: 0;
     }
+    
     .header-fixed > tbody > tr > td:nth-child(3){
         padding-left: 10px;
     }
@@ -383,30 +389,32 @@
                         </div>
                     </form>
                 </div>
-                <div class="row col-lg-4">
-                    <table class="table table-bordered">
-                    <tr>
-                        <td style="width: 15%;"><h3>Total: </h3></td>
-                        <td><h3><span id="totalinvoice"></span></h3> <span id="selected_of" class="help-block"></span></td>
-                    </tr>
-                    </table>
-                </div>
-                <div class="form-group col-lg-2 pull-right" style="position: absolute;right: 0;bottom: 0;">
-                    <label for="limit" style="display: inline-block;margin-right: 10px;">Show </label>
-                    <div style="display: inline-block;">
-                        <select name="limit" id="selectlimit" class="form-control" value="<?php echo $this->input->get('limit');?>" >
-                            <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
-                            <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
-                            <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
-                            <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
-                        </select>                        
-                    </div>
-                </div>
+                
             </div>
         </div>
 
         <div class="container ">
-            <table class=" table header-fixed">
+            <div class="row">
+                <div class="col-lg-12" style="margin-bottom: 0;">
+                    <table class="table" style="background-color: #fff;margin-bottom: 0;" width="100%">
+                    <tr>
+                        <td style="width: 5%;"><h4>Total: </h4></td>
+                        <td style="width: 85%"><h4><span id="totalinvoice" style="margin-right:10px;">RM 0 </span></h4>  <span id="selected_of" class="help-block">0 Invoices Selected</span></td>
+                        <td style="width: 10%;">
+                            <label for="limit" style="margin-right: 10px;"><h4>Show </h4> </label>
+                            <select name="limit" id="selectlimit"> value="<?php echo $this->input->get('limit');?>" >
+                                <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
+                                <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
+                                <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
+                                <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
+                            </select>  
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+
+            <table class="table header-fixed">
                 <thead>
                     <tr>
                         <th style="width: "><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
