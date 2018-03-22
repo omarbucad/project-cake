@@ -18,4 +18,11 @@ class Notifications extends MY_Controller {
 		$this->load->view('backend/master' , $this->data);
 	}
 	
+	public function mark_all_read(){
+
+		$this->db->where("unread" , 0)->update("notifications" , [ "unread" => true ]);
+
+		redirect('app/notifications', "refresh");
+
+	}
 }

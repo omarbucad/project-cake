@@ -1,5 +1,5 @@
  <script type="text/javascript">
-     $(document).on("click" , ".read-notif" , function(){
+    $(document).on("click" , ".read-notif" , function(){
         var href = $(this).data("href");
         var url = '<?php echo site_url("app/dashboard/read_notif"); ?>';
         var id = $(this).data("id");
@@ -12,7 +12,7 @@
                 window.location.href = href;
             }
         });
-     });
+    });
  </script>
  <nav class="navbar navbar-default navbar-fixed-top navbar-top">
     <div class="container-fluid">
@@ -34,7 +34,7 @@
             </button>
             <li><a href="<?php echo site_url(); ?>">Go To Customer Panel</a></li>
             <li class="dropdown danger">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comment"></i> <?php echo $notification_list_count; ?></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ><i class="fa fa-comment"></i> <?php echo $notification_list_count; ?></a>
                 <ul class="dropdown-menu danger  animated fadeInDown" style="width: 450px;">
                     <li class="title">
                         Notification
@@ -51,7 +51,7 @@
                                 <?php endforeach; ?>
                                 <a href="javascript:void(0);">
                                     <li class="list-group-item message">
-                                        <a href="<?php echo site_url('app/notifications/')?>">view all</a>
+                                        <a href="<?php echo site_url('app/notifications/')?>">View All Notifications</a>
                                     </li>
                                 </a>
                             <?php else : ?>

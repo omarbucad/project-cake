@@ -320,7 +320,6 @@ class Invoice extends MY_Controller {
 			);
 		}
 
-
 		download_send_headers('order_' . date("Y-m-d") . ".csv");
 		echo array2csv($export);
 	}
@@ -330,15 +329,12 @@ class Invoice extends MY_Controller {
 		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
 
 		$this->send_email_invoice($invoice_information , FCPATH.$invoice_information->invoice_pdf , true);
-
 		
 	}
 
 	public function get_invoice_info($invoice_id){
 		$invoice_information = $this->invoice->get_invoice_by_id($invoice_id);
 
-
-		//print_r_die(json_encode(["status" => true, "data" => $invoice_information ]));
 		echo json_encode(["status" => true, "data" => $invoice_information ]);
 	}
 
