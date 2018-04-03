@@ -240,6 +240,8 @@ class Users_model extends CI_Model {
             ]);
         }
 
+        $this->change_customer_password($customer_id);
+
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE){

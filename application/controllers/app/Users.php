@@ -126,6 +126,11 @@ class Users extends MY_Controller {
 		$this->form_validation->set_rules('physical[city]'		, 'City'   			, 'trim|required');
 		$this->form_validation->set_rules('physical[state]'		, 'State'   		, 'trim|required');
 
+		if($this->input->post('password')){
+			$this->form_validation->set_rules('password'		  , 'Password'			, 'trim|required|min_length[5]');
+			$this->form_validation->set_rules('confirm_password'  , 'Confirm Password'	, 'trim|required|matches[password]');
+		}
+
 
 		if ($this->form_validation->run() == FALSE){ 
 			$this->data['page_name'] = "Edit Customer";
@@ -231,10 +236,7 @@ class Users extends MY_Controller {
 	}
 
 	public function view_customer_info($customer_id){
-
-		$this->form_validation->set_rules('password'		   , 'Password'			, 'trim|required|min_length[5]');
-		$this->form_validation->set_rules('confirm_password'   , 'Confirm Password'	, 'trim|required|matches[password]');
-		if ($this->form_validation->run() == FALSE){ 
+		
 			$this->data['page_name'] = "Customer Details";
 			$this->data['main_page'] = "backend/page/users/customer_info";
 
@@ -243,20 +245,6 @@ class Users extends MY_Controller {
 			$this->data['customer_order'] = $this->users->get_customer_orders_info($customer_id);
 			
 			$this->load->view('backend/master' , $this->data);
-		}else{
-			if($last_id = $this->users->change_customer_password($customer_id)){
-				$this->session->set_flashdata('status' , 'success');	
-				$this->session->set_flashdata('message' , 'Successfully Changed Password');	
-
-			}else{
-				$this->session->set_flashdata('status' , 'error');
-				$this->session->set_flashdata('message' , 'Something went wrong');	
-
-			}
-
-			redirect("app/users/customer" , 'refresh');
-		}
-
 	}
 
 	public function delete_customer($customer_id){

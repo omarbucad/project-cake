@@ -50,23 +50,7 @@
                                         <p><label>Post Code: </label> <?php echo $customer_address->postcode; ?></p>
                                         <p><label>State: </label> <?php echo $customer_address->state; ?></p>
                                 </div>
-                                <div class="panel-heading">Change Password</div>
-                                <div class="panel-body">
-                                    <form  class="col-lg-6" action="<?php echo site_url("app/users/view_customer_info/$customer_info->customer_id");?>" method="POST">
-  
-                                        <div class="form-group">
-                                            <label for="password">New Password *</label>
-                                            <input type="password" name="password" class="form-control" placeholder="Password" id="password" required="true" autocomplete="off">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="confirm_password">Confirm New Password *</label>
-                                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
-                                        </div>
-                                        <div class="text-left" style="margin-bottom: 20px;">
-                                            <input type="submit" name="submit" class="btn btn-primary" value="Confirm" onclick="return confirm('Are you sure')">
-                                        </div>
-                                    </form>
-                                </div>
+                                
                                 <div class="panel-heading">Orders</div>
                                 <div class="panel-body">
                                     <div class="row">

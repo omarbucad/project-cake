@@ -116,13 +116,6 @@
                                 <label for="phone_number">Phone number *</label>
                                 <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required="true" autocomplete="off" value="<?php echo $customer_info->phone_number;?>">
                             </div>
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control"> value="<?php echo $customer_info->status; ?>">
-                                	<option <?php echo ($customer_info->status == 1) ? "selected" : "" ; ?> value="1">Active</option>
-                                	<option <?php echo ($customer_info->status == 0) ? "selected" : "" ; ?> value="0">Inactive</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -191,6 +184,24 @@
                             <div class="form-group">
                                 <label>State</label>
                                 <input type="text" name="physical[state]" value="<?php echo $customer_address->state; ?>" class="form-control" required="true">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="sec_border_bottom">
+                    <h3>Password</h3>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <p>Change password.</p>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="password">New Password *</label>
+                                <input type="password" name="password" class="form-control" placeholder="Password" id="password" required="true" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm New Password *</label>
+                                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
                             </div>
                         </div>
                     </div>
