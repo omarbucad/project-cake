@@ -49,55 +49,72 @@
                                         <p><label>City: </label> <?php echo $customer_address->city; ?></p>
                                         <p><label>Post Code: </label> <?php echo $customer_address->postcode; ?></p>
                                         <p><label>State: </label> <?php echo $customer_address->state; ?></p>
-                                    </div>
-                                    <div class="panel-heading">Orders</div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                                <a href="#">
-                                                    <div class="card red summary-inline">
-                                                        <div class="card-body">
-                                                            <i class="icon fa fa-tags fa-4x"></i>
-                                                            <div class="content">
-                                                                <div class="title"><?php echo $customer_order["total_orders"]; ?></div>
-                                                                <div class="sub-title">Total Orders</div>
-                                                            </div>
-                                                            <div class="clear-both"></div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                                <a href="#">
-                                                    <div class="card yellow summary-inline">
-                                                        <div class="card-body">
-                                                            <i class="icon fa fa-truck fa-4x" style="transform: scaleX(-1);"></i>
-                                                            <div class="content">
-                                                                <div class="title"><?php echo $customer_order["on_delivery"]; ?></div>
-                                                                <div class="sub-title">On-Delivery</div>
-                                                            </div>
-                                                            <div class="clear-both"></div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                                <a href="#">
-                                                    <div class="card green summary-inline">
-                                                        <div class="card-body">
-                                                            <i class="icon fa fa-check-circle fa-4x"></i>
-                                                            <div class="content">
-                                                                <div class="title"><?php echo $customer_order["delivered"]; ?></div>
-                                                                <div class="sub-title">Delivered</div>
-                                                            </div>
-                                                            <div class="clear-both"></div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-
+                                </div>
+                                <div class="panel-heading">Change Password</div>
+                                <div class="panel-body">
+                                    <form  class="col-lg-6" action="<?php echo site_url("app/users/view_customer_info/$customer_info->customer_id");?>" method="POST">
+  
+                                        <div class="form-group">
+                                            <label for="password">New Password *</label>
+                                            <input type="password" name="password" class="form-control" placeholder="Password" id="password" required="true" autocomplete="off">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="confirm_password">Confirm New Password *</label>
+                                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required="true" autocomplete="off">
+                                        </div>
+                                        <div class="text-left" style="margin-bottom: 20px;">
+                                            <input type="submit" name="submit" class="btn btn-primary" value="Confirm" onclick="return confirm('Are you sure')">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="panel-heading">Orders</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <a href="#">
+                                                <div class="card red summary-inline">
+                                                    <div class="card-body">
+                                                        <i class="icon fa fa-tags fa-4x"></i>
+                                                        <div class="content">
+                                                            <div class="title"><?php echo $customer_order["total_orders"]; ?></div>
+                                                            <div class="sub-title">Total Orders</div>
+                                                        </div>
+                                                        <div class="clear-both"></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <a href="#">
+                                                <div class="card yellow summary-inline">
+                                                    <div class="card-body">
+                                                        <i class="icon fa fa-truck fa-4x" style="transform: scaleX(-1);"></i>
+                                                        <div class="content">
+                                                            <div class="title"><?php echo $customer_order["on_delivery"]; ?></div>
+                                                            <div class="sub-title">On-Delivery</div>
+                                                        </div>
+                                                        <div class="clear-both"></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <a href="#">
+                                                <div class="card green summary-inline">
+                                                    <div class="card-body">
+                                                        <i class="icon fa fa-check-circle fa-4x"></i>
+                                                        <div class="content">
+                                                            <div class="title"><?php echo $customer_order["delivered"]; ?></div>
+                                                            <div class="sub-title">Delivered</div>
+                                                        </div>
+                                                        <div class="clear-both"></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
