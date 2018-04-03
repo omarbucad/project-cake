@@ -236,21 +236,19 @@
     .header-fixed{
         width: 100%;
     }
-    .header-fixed > thead,
     .header-fixed > tbody,
-    .header-fixed > thead > tr,
+    .header-fixed > thead > tr:last-child,
     .header-fixed > tbody > tr,
-    .header-fixed > thead > tr > th,
+    .header-fixed > thead > tr:last-child > th,
     .header-fixed > tbody > tr > td {
         display: block;
     }
     .header-fixed > thead{
-        background-color: #fff;
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    .header-fixed > tbody > tr:after,
-    .header-fixed > thead > tr:after {
+    .header-fixed > tbody > tr:last-child:after,
+    .header-fixed > thead > tr:last-child:after {
         content: ' ';
         display: block;
         visibility: hidden;
@@ -263,7 +261,7 @@
     }
 
     .header-fixed > tbody > tr > td,
-    .header-fixed > thead > tr > th {
+    .header-fixed > thead > tr:last-child > th {
         width: 15%;
         float: left;
         border-bottom: 0;
@@ -283,19 +281,19 @@
     }
 
     .header-fixed > tbody > tr > td:nth-child(1),
-    .header-fixed > thead > tr > th:nth-child(1){
+    .header-fixed > thead > tr:last-child > th:nth-child(1){
         width: 5% !important;
     }
     .header-fixed > tbody > tr > td:nth-child(5),
-    .header-fixed > thead > tr > th:nth-child(5){
+    .header-fixed > thead > tr:last-child > th:nth-child(5){
         width: 15% !important;
     }
     .header-fixed > tbody > tr > td:nth-child(6),
-    .header-fixed > thead > tr > th:nth-child(6){
+    .header-fixed > thead > tr:last-child > th:nth-child(6){
         width: 25% !important;
     }
     .header-fixed > tbody > tr > td:nth-child(7),
-    .header-fixed > thead > tr > th:nth-child(7){
+    .header-fixed > thead > tr:last-child > th:nth-child(7){
         width: 10% !important;
     }
 
@@ -394,30 +392,31 @@
         </div>
 
         <div class="container ">
-            <div class="row">
-                <div class="col-lg-12" style="margin-bottom: 0;">
-                    <table class="table" style="background-color: #fff;margin-bottom: 0;" width="100%">
-                    <tr>
-                        <td style="width: 5%;"><h4>Total: </h4></td>
-                        <td style="width: 85%"><h4><span id="totalinvoice" style="margin-right:10px;">RM 0 </span></h4>  <span id="selected_of" class="help-block">0 Invoices Selected</span></td>
-                        <td style="width: 10%;">
-                            <label for="limit" style="margin-right: 10px;"><h4>Show </h4> </label>
-                            <select name="limit" id="selectlimit"> value="<?php echo $this->input->get('limit');?>" >
-                                <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
-                                <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
-                                <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
-                                <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
-                            </select>  
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
 
-            <table class="table header-fixed">
+            <table class="customer-table">
                 <thead>
                     <tr>
-                        <th style="width: "><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
+                        <th colspan="7">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h4>
+                                        Total: <span id="totalinvoice" style="margin-right:10px;">RM 0 </span><small id="selected_of" class="help-block">0 Invoices Selected</small>
+                                </h4>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <label for="limit" style="margin-right: 10px;"><h4>Show </h4> </label>
+                                    <select name="limit" id="selectlimit"> value="<?php echo $this->input->get('limit');?>" >
+                                        <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
+                                        <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
+                                        <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
+                                        <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
+                                    </select>  
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="10%"><input id="select_all" type="checkbox" class="tr_invoice_all"><label for="select_all"></label></th>
                         <th width="25%">Invoice No</th>
                         <th width="10%">Price</th>
                         <th width="10%">Payment Method</th>
@@ -429,7 +428,7 @@
                 <tbody>
                     <?php if($result) : ?>
                         <?php foreach($result as $key => $row) : ?>
-                            <tr>
+                            <tr class="customer-row">
                                 <td>
                                     <input data-id="<?php echo $row->total_price; ?>" type="checkbox" class="tr_invoice_price">
                                 </td>
@@ -470,7 +469,7 @@
                                 </td>
                             </tr>
                             <tr class="customer-info hidden">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <table class="table table-bordered" style="width:91%;margin:10px auto;">
                                         <thead>
                                             <tr>
