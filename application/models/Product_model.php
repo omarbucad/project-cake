@@ -186,7 +186,7 @@ class Product_model extends CI_Model {
         $this->db->where("p.deleted IS NULL");
 
         if($count){
-            return $this->db->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
+            return $this->db->where("pb.price_book_id" ,  $this->data['session_customer']->price_book_id)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->num_rows();
         }else{
             $result = $this->db->limit($limit , $skip)->where("pb.price_book_id" ,  $this->data['session_customer']->price_book_id)->where("p.status" , 1)->order_by("p.product_position" , "ASC")->get("products p")->result();
         }
