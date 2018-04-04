@@ -216,9 +216,12 @@
     });
 
     $(document).on("change", "#selectlimit", function(){
-        var url = "<?php echo site_url('app/invoice/?limit='); ?>" + $("#selectlimit").find(":selected").val();
+        $('form#search-filter').find('input[type=submit]').click();
+    });
 
-        window.location.assign(url);
+    $(document).on("submit", "#search-filter", function(){
+        $('#limit').attr("value",$("#selectlimit").find(":selected").val());
+        $('form#search-filter').submit();
     });
 
 
@@ -324,9 +327,10 @@
         <div class="card margin-bottom">
             <div class="container">
                 <div class="card-body no-padding-left no-padding-right">
-                    <form action="<?php echo site_url("app/invoice"); ?>" method="GET">
+                    <form action="<?php echo site_url("app/invoice"); ?>" method="GET" id="search-filter">
                         <div class="row">
                             <div class="col-xs-12 col-lg-3">
+                                <input type="hidden" id="limit" name="limit" value="<?php echo $this->input->get('rowlimit');?>">
                                 <div class="form-group">
                                     <label for="s_name">Invoice #</label>
                                     <input type="text" name="invoice_no" value="<?php echo $this->input->get("invoice_no"); ?>" class="form-control" id="s_name" placeholder="Search by Invoice #">
@@ -403,15 +407,6 @@
                                         Total: <span id="totalinvoice" style="margin-right:10px;">RM 0 </span><small id="selected_of" class="help-block">0 Invoices Selected</small>
                                 </h4>
                                 </div>
-                                <div class="col-lg-4 text-right">
-                                    <label for="limit" style="margin-right: 10px;"><h4>Show </h4> </label>
-                                    <select name="limit" id="selectlimit"> value="<?php echo $this->input->get('limit');?>" >
-                                        <option value="all" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
-                                        <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
-                                        <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
-                                        <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
-                                    </select>  
-                                </div>
                             </div>
                         </th>
                     </tr>
@@ -422,7 +417,15 @@
                         <th width="10%">Payment Method</th>
                         <th width="15%">Status</th>
                         <th width="20%">Invoice Date</th>
-                        <th width="10%"></th>
+                        <th width="10%">
+                            <label for="rowlimit" style="margin-right: 10px;"><h4>Show </h4> </label>
+                            <select name="rowlimit" id="selectlimit" value="<?php echo set_value('rowlimit');?>" >
+                                <option value="0" <?php echo ($this->input->get('limit') == "all") ? "selected": ""; ?>>All</option>
+                                <option value="10" <?php echo ($this->input->get('limit') == "10") ? "selected": ""; ?>>10</option>
+                                <option value="25" <?php echo ($this->input->get('limit') == "25") ? "selected": ""; ?>>25</option>
+                                <option value="50" <?php echo ($this->input->get('limit') == "50") ? "selected": ""; ?>>50</option>
+                            </select>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
