@@ -78,7 +78,6 @@
         if($(".panel-pending").parent().hasClass("hidden")){
             $(".panel-pending").parent().removeClass("hidden");
         }
-
     });
 
     $(document).on("click" , "#confirmed-order" , function(){

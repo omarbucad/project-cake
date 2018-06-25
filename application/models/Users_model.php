@@ -276,9 +276,6 @@ class Users_model extends CI_Model {
 
             $this->db->select('image_path, image_name');
             $imageinfo = $this->db->where('user_id', $user_id)->get("users")->row();
-                       
-
-            unlink("./public/upload/user/".$imageinfo->image_path."/".$imageinfo->image_name);
 
             $this->do_upload($user_id);
         }

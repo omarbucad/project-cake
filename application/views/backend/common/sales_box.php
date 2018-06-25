@@ -24,7 +24,7 @@
            <a href="#" id="panel-week">
             <div class="card yellow summary-inline">
                 <div class="card-body">
-                    <i class="icon fa fa-truck fa-4x"></i>
+                    <i class="icon fa fa-tags fa-4x"></i>
                     <div class="content">
                         <div class="title" style="font-size: 2.8em;"><?php echo $card_info["week"]["current"]["sales"]; ?></div>
                         <div class="sub-title">Weekly Sales</div>
@@ -43,7 +43,7 @@
            <a href="#" id="panel-month">
             <div class="card green summary-inline">
                 <div class="card-body">
-                    <i class="icon fa fa-check-circle fa-4x"></i>
+                    <i class="icon fa fa-tags fa-4x"></i>
                     <div class="content">
                         <div class="title" style="font-size: 2.8em;"><?php echo $card_info["month"]["current"]["sales"]; ?></div>
                         <div class="sub-title">Monthly Sales</div>
