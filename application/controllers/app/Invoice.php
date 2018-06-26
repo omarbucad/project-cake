@@ -66,7 +66,7 @@ class Invoice extends MY_Controller {
 		$this->db->select("email , c.customer_id , co.order_number");
 		$email = $this->db->join("customer c", "c.customer_id = co.customer_id")->where("order_id",$order_id)->get("customer_order co")->row();
 
-		$data['order_no'] = $order_id;
+		$data['order_no'] = $email->order_number;
 
 		$this->email->from('no-reply@trackerteer.com', 'Trackerteer Inc');
 		$this->email->to($email->email);
