@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.100.10/project-cake/';
+$config['base_url'] = 'http://192.168.1.117/project-cake/';
 
 /*
 |--------------------------------------------------------------------------
@@ -525,3 +525,11 @@ $config['proxy_ips'] = '';
 
 $config['maintenance_mode'] = FALSE;
 $config['maintenance_ips'] = array('127.0.0.1', '1.1.1.1', '120.29.124.28' , '192.168.1.147');
+
+$config['sess_driver'] = 'database';
+$config['sess_cookie_name'] = 'ci_session';
+$config['sess_expiration'] = 36000;
+$config['sess_save_path'] = 'ci_sessions';
+$config['sess_match_ip'] = TRUE;
+$config['sess_time_to_update'] = 300;
+$config['sess_regenerate_destroy'] = FALSE;

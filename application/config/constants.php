@@ -85,7 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-defined('DOMAIN_IP')      		OR define('DOMAIN_IP', "192.168.1.147");
+defined('DOMAIN_IP')      		OR define('DOMAIN_IP', "192.168.1.117");
 defined('COOKIE_EXPIRE')      	OR define('COOKIE_EXPIRE', 2629746);
 defined('FIREBASE_SERVER_ID')   OR define('FIREBASE_SERVER_ID', 'AAAAA0uvleo:APA91bEq2PPwayxmA8V9vNGTr1UZn-ljm63Qpa3zuXY1-Wt8f8K4YW2jcVEe9bWmTphBJU4Qs1cRuHYbQ-KXlPkVGyirtV1eWKUrObiC5aFWSytYTfB269D7s8EwsXikyZ4190b2lUA6');
 defined('FCM_PATH')  			OR define('FCM_PATH', 'https://fcm.googleapis.com/fcm/send');

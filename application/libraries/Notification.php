@@ -34,7 +34,7 @@ class Notification {
 		if(!$count AND !$all){
 			$this->CI->db->limit(10);
 		}
-
+		$this->CI->db->where("user_id", $this->session->userdata("user")->user_id);
 		$result =  $this->CI->db->order_by("created" , "DESC")->get("notifications")->result();
 
 		foreach($result as $key => $row){

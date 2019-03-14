@@ -169,113 +169,113 @@
                 <h2>Welcome <?php echo $session_data->name; ?></h2>
 
     			<?php $this->load->view("backend/common/sales_box"); ?>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                   <a href="javascript:void(0);" id="pending-order">
-                    <div class="card blue summary-inline">
-                        <div class="card-body">
-                            <i class="icon fa fa-shopping-cart fa-4x"></i>
-                            <div class="content">
-                                <div class="title"><?php echo $total_pending_order; ?></div>
-                                <div class="sub-title">Total Pending Orders</div>
-                                
-                                <span class="pull-right sub"><small>Click to View List</small></span>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                           <a href="javascript:void(0);" id="pending-order">
+                            <div class="card blue summary-inline">
+                                <div class="card-body">
+                                    <i class="icon fa fa-shopping-cart fa-4x"></i>
+                                    <div class="content">
+                                        <div class="title"><?php echo $total_pending_order; ?></div>
+                                        <div class="sub-title">Total Pending Orders</div>
+                                        
+                                        <span class="pull-right sub"><small>Click to View List</small></span>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
                             </div>
-                            <div class="clear-both"></div>
-                        </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                   <a href="javascript:void(0);" id="confirmed-order">
-                    <div class="card red summary-inline">
-                        <div class="card-body">
-                            <i class="icon fa fa-thumbs-up fa-4x"></i>
-                            <div class="content">
-                                <div class="title"><?php echo $total_confirmed_order; ?></div>
-                                <div class="sub-title">Total Confirmed Orders</div>
-                                <span class="pull-right sub"><small>Click to View List</small></span>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                           <a href="javascript:void(0);" id="confirmed-order">
+                            <div class="card red summary-inline">
+                                <div class="card-body">
+                                    <i class="icon fa fa-thumbs-up fa-4x"></i>
+                                    <div class="content">
+                                        <div class="title"><?php echo $total_confirmed_order; ?></div>
+                                        <div class="sub-title">Total Confirmed Orders</div>
+                                        <span class="pull-right sub"><small>Click to View List</small></span>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
                             </div>
-                            <div class="clear-both"></div>
-                        </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-          </div>
+                </div>
 
     			<div class="row">
     				<div class="col-lg-12 col-xs-12">
-	    				<div class="panel panel-info panel-pending" style="display: none;">
-						  	<div class="panel-heading">New Orders</div>
-						  	<div class="panel-body">
-						  		<table class="table">
-						   			<thead>
-						   				<tr>
-						   					<th>Order Number</th>
-						   					<th>Item</th>
-						   					<th>Price</th>
-						   					<th>Price w/ GST</th>
-						   					<th></th>
-						   				</tr>
-						   			</thead>
-						   			<tbody>
-						   				<?php foreach($new_order as $row) : ?>
-						   					<tr class="customer-row">
-						   						<td>
-						   							<a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
-						   							<small class="help-block"><?php echo $row->email; ?></small>
-						   						</td>
-						   						<td>
-						   							<span><?php echo $row->items; ?></span>
-						   						</td>
-						   						<td>
-						   							<span><?php echo $row->total_price; ?></span>
-						   						</td>
-						   						<td>
-						   							<span><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span>
-						   						</td>
-						   						<td>
-						   							<span>
-						   								<a href="<?php echo site_url("app/invoice/order?order_no=$row->order_number"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
-						   								<small><?php echo $row->created; ?></small>
-						   							</span>
-						   						</td>
-						   					</tr>
-						   				<?php endforeach; ?>
-						   			</tbody>	
-						   	  	</table>
-						  	</div>
-						</div>
-	    			</div>
-	    			<div class="col-lg-12 col-xs-12">
-	    				<div class="panel panel-danger panel-confirmed" style="display: none;">
-						   	<div class="panel-heading">Unpaid Invoices</div>
-						   	<div class="panel-body">
-						   		<table class="table">
-						   			<thead>
-						   				<tr>
-						   					<th>Invoice #</th>
-						   					<th>Price</th>
-						   					<th>Date Invoice</th>
-						   					<th></th>
-						   				</tr>
-						   			</thead>
-						   			<tbody>
-										<?php foreach($unpaid_invoice as $row) : ?>
-						   					<tr>
-							   					<td><span><?php echo $row->invoice_no; ?></span></td>
-							   					<td><span><?php echo $row->total_price; ?></span></td>
-							   					<td><span><?php echo $row->invoice_date; ?></span></td>
-							   					<td>
-							   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-href="<?php echo site_url('app/invoice/get_invoice_info/').$row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>
-							   					</td>
-							   				</tr>
-						   				<?php endforeach; ?>
-						   			</tbody>	
-					   			</table>
-						   	</div>
-						</div>
-	    			</div>
+        				<div class="panel panel-info panel-pending" style="display: none;">
+    					  	<div class="panel-heading">New Orders</div>
+    					  	<div class="panel-body">
+    					  		<table class="table">
+    					   			<thead>
+    					   				<tr>
+    					   					<th>Order Number</th>
+    					   					<th>Item</th>
+    					   					<th>Price</th>
+    					   					<th>Price w/ GST</th>
+    					   					<th></th>
+    					   				</tr>
+    					   			</thead>
+    					   			<tbody>
+    					   				<?php foreach($new_order as $row) : ?>
+    					   					<tr class="customer-row">
+    					   						<td>
+    					   							<a href="javascript:void(0);"><?php echo $row->order_number; ?> ( <?php echo $row->display_name; ?> )</a><br>
+    					   							<small class="help-block"><?php echo $row->email; ?></small>
+    					   						</td>
+    					   						<td>
+    					   							<span><?php echo $row->items; ?></span>
+    					   						</td>
+    					   						<td>
+    					   							<span><?php echo $row->total_price; ?></span>
+    					   						</td>
+    					   						<td>
+    					   							<span><?php echo $row->total_price_with_gst; ?> <br><small><?php echo $row->gst_price; ?> @6%</small></span>
+    					   						</td>
+    					   						<td>
+    					   							<span>
+    					   								<a href="<?php echo site_url("app/invoice/order?order_no=$row->order_number"); ?>" class="btn btn-primary btn-xs">Go to Order</a><br>
+    					   								<small><?php echo $row->created; ?></small>
+    					   							</span>
+    					   						</td>
+    					   					</tr>
+    					   				<?php endforeach; ?>
+    					   			</tbody>	
+    					   	  	</table>
+    					  	</div>
+    					</div>
+        			</div>
+        			<div class="col-lg-12 col-xs-12">
+        				<div class="panel panel-danger panel-confirmed" style="display: none;">
+    					   	<div class="panel-heading">Unpaid Invoices</div>
+    					   	<div class="panel-body">
+    					   		<table class="table">
+    					   			<thead>
+    					   				<tr>
+    					   					<th>Invoice #</th>
+    					   					<th>Price</th>
+    					   					<th>Date Invoice</th>
+    					   					<th></th>
+    					   				</tr>
+    					   			</thead>
+    					   			<tbody>
+    									<?php foreach($unpaid_invoice as $row) : ?>
+    					   					<tr>
+    						   					<td><span><?php echo $row->invoice_no; ?></span></td>
+    						   					<td><span><?php echo $row->total_price; ?></span></td>
+    						   					<td><span><?php echo $row->invoice_date; ?></span></td>
+    						   					<td>
+    						   						<a href="javascript:void(0);" class="btn btn-primary btn-xs pay_invoice" data-id="<?php echo $row->invoice_id; ?>" data-href="<?php echo site_url('app/invoice/get_invoice_info/').$row->invoice_id; ?>" data-invoiceno="<?php echo $row->invoice_no; ?>">Invoice Update</a>
+    						   					</td>
+    						   				</tr>
+    					   				<?php endforeach; ?>
+    					   			</tbody>	
+    				   			</table>
+    					   	</div>
+    					</div>
+        			</div>
                     <div class="col-lg-12 col-xs-12">
                         <div class="panel panel-success panel-month" style="display: none;">
                             <div class="panel-heading">Monthly Sales <span class="pull-right"><?php echo $card_info["month"]["current"]["date"]; ?></span></div>
