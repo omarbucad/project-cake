@@ -49,7 +49,6 @@ class Product extends MY_Controller {
 			$result = $this->product->get_product_by_id($product_id);
 
 			
-
 			if($result){
 				$price_book = $this->db->where([
 	                "price_book_id" =>  $this->data['session_customer']->price_book_id ,
@@ -60,6 +59,7 @@ class Product extends MY_Controller {
 			}
 
 			$result->qty = $qty;
+			$result->price = custom_money_format($result->price_raw);
 
 			$data['price'] += ($result->price_raw * $result->qty);
 

@@ -76,7 +76,11 @@
                                 <td>
                                     <div class="row">
                                         <div class="col-xs-6 col-lg-4 no-margin-bottom">
-                                            <img src="<?php echo site_url("thumbs/images/user/$row->image_path/80/80/$row->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
+                                            <?php if($row->image_name != ''): ?>
+                                                <img src="<?php echo site_url("thumbs/images/user/$row->image_path/80/80/$row->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
+                                            <?php else: ?>
+                                                <img src="<?php echo site_url("public/img/person-placeholder.jpg"); ?>" class="img img-responsive thumbnail no-margin-bottom">
+                                            <?php endif; ?>
                                         </div>
                                         <div class="col-xs-6 col-lg-8 no-margin-bottom">
                                             <a href="<?php echo site_url("app/users/view_user_info/$row->user_id");?>"><?php echo $row->username; ?> ( <?php echo $row->name; ?> )</a><br>

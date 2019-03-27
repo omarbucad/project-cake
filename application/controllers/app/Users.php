@@ -248,7 +248,7 @@ class Users extends MY_Controller {
 	}
 
 	public function delete_customer($customer_id){
-		$deleted = $this->users->delete_customer($customer_id);
+		$deleted = $this->users->delete_customer($this->hash->decrypt($customer_id));
 		if($deleted){
 			$this->session->set_flashdata('status' , 'success');	
 			$this->session->set_flashdata('message' , 'Successfully Deleted Customer');
@@ -258,7 +258,7 @@ class Users extends MY_Controller {
 	}
 
 	public function delete_user($user_id){
-		$deleted = $this->users->delete_user($user_id);
+		$deleted = $this->users->delete_user($this->hash->decrypt($user_id));
 		if($deleted){
 			$this->session->set_flashdata('status' , 'success');	
 			$this->session->set_flashdata('message' , 'Successfully Deleted User');

@@ -224,7 +224,7 @@
             <td class="text-right"><span class="total_gst">1</span></td>
           </tr>
           <tr>
-            <td >Total price w/ GST</td>
+            <td >Total price w/ SST</td>
             <td class="text-right"><span class="total_price_with_gst">1</span></td>
           </tr>
         </table>

@@ -6,7 +6,6 @@ class Login extends MY_Controller {
        parent::__construct();
 
        $this->load->model("Product_model" , "product");
-       $this->load->library('email');
        $this->data['shop_list'] = $this->product->get_category();
     }
 

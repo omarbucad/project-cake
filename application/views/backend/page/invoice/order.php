@@ -218,7 +218,7 @@
                         <th width="20%">Name</th>
                         <th width="10%">Items</th>
                         <th width="10%">Price</th>
-                        <th width="10%">Price w/ GST</th>
+                        <th width="10%">Price w/ SST</th>
                         <th width="10%">Status</th>
                         <th width="15%">Created</th>
                         <th width="15%"></th>
@@ -297,7 +297,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td></td>
-                                                    <td>GST 6%</td>
+                                                    <td>SST 6%</td>
                                                     <td><?php echo $row->gst_price; ?></td>
                                                 </tr>
                                                 <tr>

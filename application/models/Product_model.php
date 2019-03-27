@@ -219,11 +219,16 @@ class Product_model extends CI_Model {
     }
 
     public function get_product_by_id($product_id){
-        $result = $this->db->where("product_id" , $product_id)->where("status" , 1)->get("products")->row();
+        $pb = (isset($this->data['session_customer'])) ? $this->data['session_customer']->price_book_id : 1;
+        $this->db->join("price_book_products pb" , "pb.product_id = p.product_id");
+        $this->db->where("pb.price_book_id" ,  $pb );
+        $result = $this->db->where("p.product_id" , $product_id)->where("p.status" , 1)->get("products p")->row();
 
-        $result->images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
-        $result->price_raw = $result->price;
-        $result->price = custom_money_format($result->price);
+        if($result){
+            $result->images = $this->db->where("product_id" , $result->product_id)->order_by("primary_image" , "DESC")->get("products_images")->result();
+            $result->price_raw = $result->price;
+            $result->price = custom_money_format($result->price);
+        }
 
         return $result;
     }
