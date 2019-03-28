@@ -59,9 +59,11 @@
                         <div class="col-xs-12 col-lg-4">
                             <div class="form-group">
                                 <label for="">Profile Image</label>
+                                <?php if($user_info->image_name != '') :?>
                                 <div class="preview-image">
                                     <img src="<?php echo site_url("thumbs/images/user/$user_info->image_path/150/150/$user_info->image_name"); ?>" class="img img-responsive thumbnail no-margin-bottom">
                                 </div>
+                                <?php endif; ?>
                                 <input type="file" name="file" id="profile_image" class="btn btn-default">
                             </div>
                         </div>
